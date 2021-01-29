@@ -1,7 +1,8 @@
-package org.kurodev.command.commands;
+package org.kurodev.command.admin;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.command.standard.Command;
 
 /**
  * @author kuro
@@ -13,7 +14,7 @@ public abstract class AdminCommand extends Command {
 
     @Override
     public boolean check(String command, @NotNull GuildMessageReceivedEvent event) {
-        boolean check1 = super.check(command, event);
-        return invokerIsAdmin(event) && check1;
+        boolean preCheck = super.check(command, event);
+        return invokerIsAdmin(event) && preCheck;
     }
 }
