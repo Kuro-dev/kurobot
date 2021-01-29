@@ -1,17 +1,17 @@
-package org.kurodev.command.commands.impl;
+package org.kurodev.command.standard.impl;
 
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
-import org.kurodev.command.commands.Command;
+import org.kurodev.command.admin.AdminCommand;
 import org.kurodev.conf.Setting;
 
 /**
  * @author kuro
  **/
-public class InfoCommand extends Command {
+public class InfoCommand extends AdminCommand {
     public InfoCommand() {
         super("info");
     }
@@ -21,7 +21,8 @@ public class InfoCommand extends Command {
     public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) {
         MessageAction msg = channel.sendMessage("These are the settings:\n");
         for (Setting value : Setting.values()) {
-            msg.append(value.getKey()).append("=").append(Main.getSettings().getSetting(value)).append("\n");
+            if (!"token".equals(value.getKey()))
+                msg.append(value.getKey()).append("=").append(Main.getSettings().getSetting(value)).append("\n");
         }
         msg.queue();
     }
