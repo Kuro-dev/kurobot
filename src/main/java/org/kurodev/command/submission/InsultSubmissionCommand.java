@@ -45,7 +45,7 @@ public class InsultSubmissionCommand extends SubmissionCommand {
         final String author = event.getAuthor().getAsTag();
         Path path = this.path.resolve(author + "-submissions.txt");
         channel.sendTyping().queue();
-        MessageAction msg = channel.sendMessage("");
+        MessageAction msg = channel.sendMessage("Processing:\n");
         if (match.find()) {
             if (!Files.exists(path)) {
                 Files.createFile(path);
@@ -53,15 +53,15 @@ public class InsultSubmissionCommand extends SubmissionCommand {
             String insult = match.group(0);
             msg.append("Thank you for your submission\n");
             if (checkIfInsultExists(insult)) {
-                msg.append("It appears that this insult is either already existing or has been submitted before :)");
+                msg.append("It appears that this insult is either already existing or has been submitted before :)").queue();
                 return;
             }
             OutputStream out = Files.newOutputStream(path, StandardOpenOption.APPEND);
             out.write((insult + System.lineSeparator()).replaceAll("\"", "").getBytes(StandardCharsets.UTF_8));
             out.close();
-            msg.append("Successfully submitted insult for review :)\nHopefully it will be added!").queue();
+            msg.append("Successfully submitted insult for review :)\nHopefully it will be added!");
         } else {
-            msg.append("Please make sure to type your insult in \"\" for me to recognize it :)").queue();
+            msg.append("Please make sure to type your insult in \"\" for me to recognize it :)");
         }
         //actually sending the message now
         msg.queue();
