@@ -1,5 +1,6 @@
 package org.kurodev.events;
 
+import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -34,11 +35,15 @@ public class InsultHandler {
     }
 
     public void execute(GuildMessageReceivedEvent event) {
-        TextChannel channel = event.getChannel();
         Member member = event.getGuild().getMember(event.getAuthor());
+        execute(event, member);
+    }
+
+    public void execute(GuildMessageReceivedEvent event, IMentionable mention) {
+        TextChannel channel = event.getChannel();
         String insult = getRandomInsult();
-        if (member != null) {
-            channel.sendMessage(member.getAsMention() + " " + insult.trim()).mention(member).queue();
+        if (mention != null) {
+            channel.sendMessage(mention.getAsMention() + " " + insult.trim()).mention(mention).queue();
         } else {
             channel.sendMessage(insult).queue();
         }
@@ -46,7 +51,11 @@ public class InsultHandler {
 
     private String getRandomInsult() {
         if (insults.size() == 0)
-            return "this would be an insult";
+            return "No insults found, they have either not been added yet or the bot is currently being worked on";
         return insults.get(new Random().nextInt(insults.size()));
+    }
+
+    public List<String> getInsults() {
+        return insults;
     }
 }
