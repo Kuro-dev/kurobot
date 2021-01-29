@@ -1,4 +1,4 @@
-package org.kurodev.command.commands;
+package org.kurodev.command.standard;
 
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -27,6 +27,18 @@ public abstract class Command {
 
     public boolean check(String command, @NotNull GuildMessageReceivedEvent event) {
         return this.command.equalsIgnoreCase(command);
+    }
+
+    /**
+     * @throws Exception if the preparation fails meaning the command will not at all be usable.
+     *                   Thus will be removed from the available commands list to avoid exceptions
+     */
+    public void prepare() throws Exception {
+
+    }
+
+    public String getDescription() {
+        return "No description given";
     }
 
     protected boolean invokerIsAdmin(GuildMessageReceivedEvent event) {
