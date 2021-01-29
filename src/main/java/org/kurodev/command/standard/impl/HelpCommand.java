@@ -1,17 +1,18 @@
-package org.kurodev.command.commands.impl;
+package org.kurodev.command.standard.impl;
 
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.command.commands.AdminCommand;
-import org.kurodev.command.commands.Command;
+import org.kurodev.command.admin.AdminCommand;
+import org.kurodev.command.standard.Command;
 
 import java.util.List;
 
 /**
  * @author kuro
  **/
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class HelpCommand extends Command {
     private final List<Command> commands;
 
@@ -25,14 +26,15 @@ public class HelpCommand extends Command {
         channel.sendTyping().complete();
         MessageAction msg = channel.sendMessage("you should really seek counselling\n");
         msg.append("But here are all the known commands:\n");
-        if (invokerIsAdmin(event))
-            commands.forEach(command -> {
-                msg.append("\t -").append(command.getCommand()).append("\n");
-            });
-        else
-            commands.stream().filter(command -> !(command instanceof AdminCommand)).forEach(command -> {
-                msg.append(command.getCommand()).append("\n");
-            });
-        msg.queue();
+        commands.stream().filter(command -> !(command instanceof AdminCommand)).forEach(command ->
+                msg.append(command.getCommand()).append("\n"));
+
+        if (invokerIsAdmin(event)) {
+            msg.append("-------------------\n").append("Admin commands:\n");
+            commands.stream().filter(command -> (command instanceof AdminCommand)).forEach(command ->
+                    msg.append(command.getCommand()).append("\n"));
+        }
+        msg.append("-------------------\n");
+        msg.append("Please remember to use \"!k *command*\" to execute the command.").queue();
     }
 }
