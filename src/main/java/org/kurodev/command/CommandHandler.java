@@ -3,8 +3,14 @@ package org.kurodev.command;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.command.commands.Command;
-import org.kurodev.command.commands.impl.*;
+import org.kurodev.command.admin.ExitCommand;
+import org.kurodev.command.standard.Command;
+import org.kurodev.command.standard.impl.HelpCommand;
+import org.kurodev.command.standard.impl.InfoCommand;
+import org.kurodev.command.standard.impl.InsultCommand;
+import org.kurodev.command.standard.impl.MemeCommand;
+import org.kurodev.command.submission.InsultSubmissionCommand;
+import org.kurodev.command.submission.MemeSubmissionCommand;
 import org.kurodev.events.InsultHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,18 +29,34 @@ public class CommandHandler {
 
     public CommandHandler(InsultHandler insults) {
         this.insults = insults;
+    }
+
+    public void prepare() {
+        logger.info("initializing commands");
         commands.add(new HelpCommand(commands));
         commands.add(new MemeCommand());
         commands.add(new InfoCommand());
         commands.add(new ExitCommand());
         commands.add(new InsultCommand(insults));
+        commands.add(new MemeSubmissionCommand());
+        commands.add(new InsultSubmissionCommand(insults));
+
+        for (Command command : commands) {
+            try {
+                command.prepare();
+            } catch (Exception e) {
+                logger.info("Failed to initialize command \"" + command.getCommand() + "\"", e);
+                commands.remove(command);
+            }
+        }
+        logger.info("initializing commands - DONE");
     }
 
     public void handle(String command, @NotNull GuildMessageReceivedEvent event, String[] args) {
         TextChannel channel = event.getChannel();
         channel.sendTyping().complete();
         for (Command com : commands) {
-            if (com.check(command,event)) {
+            if (com.check(command, event)) {
                 try {
                     com.execute(channel, args, event);
                 } catch (IOException e) {
