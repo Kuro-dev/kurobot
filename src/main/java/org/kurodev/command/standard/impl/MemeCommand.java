@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.command.standard.Command;
-import org.kurodev.conf.Setting;
+import org.kurodev.config.Setting;
 
 import java.io.IOException;
 import java.nio.file.Files;

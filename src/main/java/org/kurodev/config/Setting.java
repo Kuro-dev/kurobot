@@ -1,4 +1,4 @@
-package org.kurodev.conf;
+package org.kurodev.config;
 
 /**
  * @author kuro

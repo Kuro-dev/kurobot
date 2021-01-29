@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.command.admin.AdminCommand;
-import org.kurodev.conf.Setting;
+import org.kurodev.config.Setting;
 
 /**
  * @author kuro

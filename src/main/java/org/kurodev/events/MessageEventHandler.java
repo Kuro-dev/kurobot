@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.UserIDs;
 import org.kurodev.command.CommandHandler;
-import org.kurodev.conf.Setting;
+import org.kurodev.config.Setting;
 
 import java.util.Arrays;
 import java.util.Random;
