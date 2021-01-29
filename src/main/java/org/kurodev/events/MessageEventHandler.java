@@ -15,10 +15,10 @@ import java.util.Random;
 /**
  * @author kuro
  **/
-public class MessageEvent extends ListenerAdapter {
+public class MessageEventHandler extends ListenerAdapter {
     public static final int INSULT_CHANCE = Integer.parseInt(Main.getSettings().getSetting(Setting.INSULT_CHANCE));
     private final InsultHandler insults = new InsultHandler();
-    private final CommandHandler handler = new CommandHandler(insults);
+    private final CommandHandler commandHandler = new CommandHandler(insults);
 
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
@@ -32,7 +32,7 @@ public class MessageEvent extends ListenerAdapter {
             if (split.length > 1) {
                 String command = split[1];
                 String[] args = Arrays.copyOfRange(split, 2, split.length);
-                handler.handle(command, event, args);
+                commandHandler.handle(command, event, args);
             }
         } else if (event.getAuthor().getId().equals(UserIDs.Mau.getId())) {
             insults.execute(event);
@@ -47,5 +47,9 @@ public class MessageEvent extends ListenerAdapter {
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         super.onReady(event);
+    }
+
+    public void initialize() {
+        commandHandler.prepare();
     }
 }
