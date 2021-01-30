@@ -21,7 +21,7 @@ import java.nio.file.Paths;
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     private static final Path SETTINGS_FILE = Paths.get("./settings.properties");
-    private static final MySettings SETTINGS = new MySettings();
+    public static final MySettings SETTINGS = new MySettings();
 
     public static void main(String[] args) throws LoginException, InterruptedException, IOException {
         loadSettings();
@@ -60,9 +60,5 @@ public class Main {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static MySettings getSettings() {
-        return SETTINGS;
     }
 }

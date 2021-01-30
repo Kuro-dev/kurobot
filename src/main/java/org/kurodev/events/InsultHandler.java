@@ -19,7 +19,7 @@ import java.util.Random;
  * @author kuro
  **/
 public class InsultHandler {
-    private static final Path FILE = Paths.get(Main.getSettings().getSetting(Setting.INSULT_FILE));
+    private static final Path FILE = Paths.get(Main.SETTINGS.getSetting(Setting.INSULT_FILE));
     private final List<String> insults;
 
     public InsultHandler() {

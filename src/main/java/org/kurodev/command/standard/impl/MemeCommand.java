@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * @author kuro
  **/
 public class MemeCommand extends Command {
-    Path memeFolder = Paths.get(Main.getSettings().getSetting(Setting.MEME_FOLDER));
+    Path memeFolder = Paths.get(Main.SETTINGS.getSetting(Setting.MEME_FOLDER));
 
     public MemeCommand() {
         super("Meme");

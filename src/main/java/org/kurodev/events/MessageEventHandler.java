@@ -16,7 +16,7 @@ import java.util.Random;
  * @author kuro
  **/
 public class MessageEventHandler extends ListenerAdapter {
-    public static final int INSULT_CHANCE = Integer.parseInt(Main.getSettings().getSetting(Setting.INSULT_CHANCE));
+    public static final int INSULT_CHANCE = Integer.parseInt(Main.SETTINGS.getSetting(Setting.INSULT_CHANCE));
     private final InsultHandler insults = new InsultHandler();
     private final CommandHandler commandHandler = new CommandHandler(insults);
 

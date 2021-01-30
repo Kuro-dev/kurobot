@@ -18,7 +18,7 @@ import java.nio.file.Paths;
  **/
 public class ForceAddMemeCommand extends ForceAddFileCommand {
     public ForceAddMemeCommand() {
-        super("Meme", Paths.get(Main.getSettings().getSetting(Setting.MEME_FOLDER)));
+        super("Meme", Paths.get(Main.SETTINGS.getSetting(Setting.MEME_FOLDER)));
     }
 
     @Override

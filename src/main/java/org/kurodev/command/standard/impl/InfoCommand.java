@@ -22,7 +22,7 @@ public class InfoCommand extends AdminCommand {
         MessageAction msg = channel.sendMessage("These are the settings:\n");
         for (Setting value : Setting.values()) {
             if (!"token".equals(value.getKey()))
-                msg.append(value.getKey()).append("=").append(Main.getSettings().getSetting(value)).append("\n");
+                msg.append(value.getKey()).append("=").append(Main.SETTINGS.getSetting(value)).append("\n");
         }
         msg.queue();
     }

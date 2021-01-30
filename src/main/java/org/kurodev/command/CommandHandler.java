@@ -3,6 +3,7 @@ package org.kurodev.command;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.command.admin.CheckSubmissionsCommand;
 import org.kurodev.command.admin.ExitCommand;
 import org.kurodev.command.admin.force.ForceAddInsultCommand;
 import org.kurodev.command.admin.force.ForceAddMemeCommand;
@@ -44,6 +45,8 @@ public class CommandHandler {
         commands.add(new InsultSubmissionCommand(insults));
         commands.add(new ForceAddMemeCommand());
         commands.add(new ForceAddInsultCommand(insults));
+        commands.add(new CheckSubmissionsCommand());
+
         for (Command command : commands) {
             try {
                 command.prepare();

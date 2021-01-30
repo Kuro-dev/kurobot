@@ -26,7 +26,7 @@ public class ForceAddInsultCommand extends ForceAddFileCommand {
     private final Pattern pattern = Pattern.compile("\".+\"");
 
     public ForceAddInsultCommand(InsultHandler insultHandler) {
-        super("Insult", Paths.get(Main.getSettings().getSetting(Setting.INSULT_FILE)));
+        super("Insult", Paths.get(Main.SETTINGS.getSetting(Setting.INSULT_FILE)));
         this.insultHandler = insultHandler;
     }
 

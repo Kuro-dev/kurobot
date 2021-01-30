@@ -4,6 +4,8 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.Main;
+import org.kurodev.config.Setting;
 import org.kurodev.events.InsultHandler;
 
 import java.io.IOException;
@@ -25,7 +27,7 @@ public class InsultSubmissionCommand extends SubmissionCommand {
     private final InsultHandler handler;
 
     public InsultSubmissionCommand(InsultHandler handler) {
-        this(Paths.get("./insultSubmissions"), handler);
+        this(Paths.get(Main.SETTINGS.getSetting(Setting.INSULT_SUBMISSIONS)), handler);
     }
 
     /**
