@@ -10,22 +10,18 @@ import java.nio.file.Path;
  **/
 public abstract class SubmissionCommand extends Command {
     protected final Path path;
-    private final boolean isFile;
 
-    /**
-     * @param path Destination path for every submission of this type
-     */
-    public SubmissionCommand(String submissionType, Path path, boolean isFile) {
-        super("submit" + submissionType);
+
+    protected SubmissionCommand(String command, Path path) {
+        super("Submit"+command);
         this.path = path;
-        this.isFile = isFile;
     }
 
     @Override
     public void prepare() throws Exception {
         if (!Files.exists(path)) {
-            if (isFile) {
-                logger.info("Creating File: " + path.getFileName());
+            if (path.getFileName().toString().matches(".+\\..+")) {
+                logger.info("Creating File: " + path);
                 Files.createDirectories(path.getParent());
                 Files.createFile(path);
             } else {

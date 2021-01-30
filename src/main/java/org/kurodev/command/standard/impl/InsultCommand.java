@@ -16,7 +16,7 @@ public class InsultCommand extends Command {
     private final InsultHandler insults;
 
     public InsultCommand(InsultHandler insults) {
-        super("insult");
+        super("Insult");
         this.insults = insults;
     }
 

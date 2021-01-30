@@ -17,7 +17,7 @@ public class HelpCommand extends Command {
     private final List<Command> commands;
 
     public HelpCommand(List<Command> commands) {
-        super("help");
+        super("Help");
         this.commands = commands;
     }
 

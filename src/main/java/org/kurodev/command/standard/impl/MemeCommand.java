@@ -21,7 +21,7 @@ public class MemeCommand extends Command {
     Path memeFolder = Paths.get(Main.getSettings().getSetting(Setting.MEME_FOLDER));
 
     public MemeCommand() {
-        super("meme");
+        super("Meme");
     }
 
     @Override

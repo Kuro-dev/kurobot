@@ -4,6 +4,8 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.command.admin.ExitCommand;
+import org.kurodev.command.admin.force.ForceAddInsultCommand;
+import org.kurodev.command.admin.force.ForceAddMemeCommand;
 import org.kurodev.command.standard.Command;
 import org.kurodev.command.standard.impl.HelpCommand;
 import org.kurodev.command.standard.impl.InfoCommand;
@@ -40,7 +42,8 @@ public class CommandHandler {
         commands.add(new InsultCommand(insults));
         commands.add(new MemeSubmissionCommand());
         commands.add(new InsultSubmissionCommand(insults));
-
+        commands.add(new ForceAddMemeCommand());
+        commands.add(new ForceAddInsultCommand(insults));
         for (Command command : commands) {
             try {
                 command.prepare();
@@ -68,7 +71,7 @@ public class CommandHandler {
                 return;
             }
         }
-        channel.sendMessage("command is unknown, try using !k help").queue();
+        channel.sendMessage("Command is unknown, try using !k help").queue();
         event.getMessage().addReaction("🤷‍♂️").queue();
     }
 }

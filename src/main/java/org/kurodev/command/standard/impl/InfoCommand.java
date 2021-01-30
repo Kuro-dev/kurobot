@@ -13,7 +13,7 @@ import org.kurodev.config.Setting;
  **/
 public class InfoCommand extends AdminCommand {
     public InfoCommand() {
-        super("info");
+        super("Info");
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
