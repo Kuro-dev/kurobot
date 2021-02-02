@@ -1,5 +1,6 @@
 package org.kurodev.command.standard.impl;
 
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -28,6 +29,7 @@ public class InsultCommand extends Command {
         } else {
             insults.execute(event);
         }
+        event.getMessage().delete().queue();
     }
 
     private boolean containsMention(GuildMessageReceivedEvent event) {
