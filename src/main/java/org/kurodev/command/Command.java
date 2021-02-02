@@ -1,4 +1,4 @@
-package org.kurodev.command.standard;
+package org.kurodev.command;
 
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;

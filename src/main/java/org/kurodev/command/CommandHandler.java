@@ -7,11 +7,10 @@ import org.kurodev.command.admin.CheckSubmissionsCommand;
 import org.kurodev.command.admin.ExitCommand;
 import org.kurodev.command.admin.force.ForceAddInsultCommand;
 import org.kurodev.command.admin.force.ForceAddMemeCommand;
-import org.kurodev.command.standard.Command;
-import org.kurodev.command.standard.impl.HelpCommand;
-import org.kurodev.command.standard.impl.InfoCommand;
-import org.kurodev.command.standard.impl.InsultCommand;
-import org.kurodev.command.standard.impl.MemeCommand;
+import org.kurodev.command.standard.HelpCommand;
+import org.kurodev.command.standard.InfoCommand;
+import org.kurodev.command.standard.InsultCommand;
+import org.kurodev.command.standard.MemeCommand;
 import org.kurodev.command.submission.InsultSubmissionCommand;
 import org.kurodev.command.submission.MemeSubmissionCommand;
 import org.kurodev.events.InsultHandler;
@@ -67,9 +66,7 @@ public class CommandHandler {
                     com.execute(channel, args, event);
                 } catch (IOException e) {
                     channel.sendMessage("something went wrong: " + e.getMessage()).queue();
-                    for (StackTraceElement stackTraceElement : e.getStackTrace()) {
-                        logger.debug(stackTraceElement.toString());
-                    }
+                    logger.debug("Commandhandler#handle() exception logged", e);
                 }
                 return;
             }

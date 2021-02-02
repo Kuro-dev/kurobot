@@ -1,6 +1,6 @@
 package org.kurodev.command.submission;
 
-import org.kurodev.command.standard.Command;
+import org.kurodev.command.Command;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
