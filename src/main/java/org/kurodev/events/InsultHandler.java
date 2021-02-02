@@ -43,9 +43,19 @@ public class InsultHandler {
         TextChannel channel = event.getChannel();
         String insult = getRandomInsult();
         if (mention != null) {
-            channel.sendMessage(mention.getAsMention() + " " + insult.trim()).mention(mention).queue();
+            if (mention.getId().equals(Main.getJDA().getSelfUser().getId())) {
+                channel.sendMessage(mention.getAsMention() + " is awesome you dick").queue();
+            } else {
+                channel.sendMessage(mention.getAsMention() + " " + insult.trim()).mention(mention).queue();
+            }
         } else {
             channel.sendMessage(insult).queue();
+        }
+    }
+
+    public void execute(GuildMessageReceivedEvent event, List<IMentionable> mentions) {
+        for (IMentionable mention : mentions) {
+            execute(event, mention);
         }
     }
 

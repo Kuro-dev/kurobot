@@ -24,9 +24,9 @@ public class InsultCommand extends Command {
     public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) throws IOException {
         if (containsMention(event)) {
             //TODO target every mention given
-            insults.execute(event, event.getMessage().getMentions().get(0));
+            insults.execute(event, event.getMessage().getMentions());
         } else {
-            insults.execute(event);
+            insults.execute(event, event.getAuthor());
         }
         event.getMessage().delete().queue();
     }

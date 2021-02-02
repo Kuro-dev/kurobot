@@ -4,8 +4,8 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.command.admin.AdminCommand;
 import org.kurodev.command.Command;
+import org.kurodev.command.admin.AdminCommand;
 
 import java.util.List;
 
@@ -21,6 +21,7 @@ public class HelpCommand extends Command {
         this.commands = commands;
     }
 
+    //TODO add formatting using ``` text ``` formatting and make it display a table
     @Override
     public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) {
         channel.sendTyping().complete();

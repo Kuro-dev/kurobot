@@ -34,12 +34,20 @@ public class MemeCommand extends Command {
 
     @Override
     public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) throws IOException {
-        channel.sendMessage("There you go").complete();
-        channel.sendFile(getRandomImage().toFile()).complete();
+        Path image = getRandomImage();
+        if (image != null) {
+            channel.sendMessage("There you go, enjoy the meme ").append(event.getAuthor().getAsMention()).append(" :)\n").addFile(image.toFile()).queue();
+            event.getMessage().delete().queue();
+        } else
+            channel.sendMessage("No memes found").queue();
     }
 
     private Path getRandomImage() throws IOException {
         final long files = Files.list(memeFolder).filter(Files::isRegularFile).count();
-        return Files.list(memeFolder).filter(Files::isRegularFile).collect(Collectors.toList()).get(new Random().nextInt(Math.toIntExact(files)));
+        if (files > 0)
+            return Files.list(memeFolder).filter(Files::isRegularFile).collect(Collectors.toList()).get(new Random().nextInt(Math.toIntExact(files)));
+        else {
+            return null;
+        }
     }
 }

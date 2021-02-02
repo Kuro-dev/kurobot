@@ -19,9 +19,14 @@ import java.nio.file.Paths;
  * @author kuro
  **/
 public class Main {
+    public static final MySettings SETTINGS = new MySettings();
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     private static final Path SETTINGS_FILE = Paths.get("./settings.properties");
-    public static final MySettings SETTINGS = new MySettings();
+    private static JDA JDA;
+
+    public static JDA getJDA() {
+        return JDA;
+    }
 
     public static void main(String[] args) throws LoginException, InterruptedException, IOException {
         loadSettings();
@@ -29,12 +34,12 @@ public class Main {
     }
 
     private static void startBot() throws InterruptedException, LoginException {
-        JDA jda = JDABuilder.createDefault(SETTINGS.getSetting(Setting.TOKEN)).build();
+        JDA = JDABuilder.createDefault(SETTINGS.getSetting(Setting.TOKEN)).build();
         MessageEventHandler event = new MessageEventHandler();
         event.initialize();
-        jda.addEventListener(event);
-        jda.awaitReady();
-        jda.getPresence().setActivity(Activity.of(Activity.ActivityType.LISTENING,"!k help"));
+        JDA.addEventListener(event);
+        JDA.awaitReady();
+        JDA.getPresence().setActivity(Activity.of(Activity.ActivityType.LISTENING, "!k help"));
     }
 
     private static void loadSettings() throws IOException {
