@@ -6,18 +6,18 @@ package org.kurodev;
  **/
 public enum UserIDs {
     //Admin
-    KURO("223878679061725185"),
+    KURO(223878679061725185L),
     //some guy I just want to insult everytime he writes something.
-    MAU("290501224455995392"),
+    MAU(290501224455995392L),
     ;
 
-    private final String id;
+    private final long id;
 
-    UserIDs(String id) {
+    UserIDs(long id) {
         this.id = id;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 }

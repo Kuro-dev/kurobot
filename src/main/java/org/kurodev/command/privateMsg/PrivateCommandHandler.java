@@ -3,6 +3,7 @@ package org.kurodev.command.privateMsg;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.command.privateMsg.console.ConsoleCommandHandler;
 import org.kurodev.command.privateMsg.standard.ArchCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
