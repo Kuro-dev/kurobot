@@ -37,7 +37,7 @@ public class MessageEventHandler extends ListenerAdapter {
                 String[] args = Arrays.copyOfRange(split, 2, split.length);
                 commandHandler.handle(command, event, args);
             }
-        } else if (event.getAuthor().getId().equals(UserIDs.Mau.getId())) {
+        } else if (event.getAuthor().getId().equals(UserIDs.MAU.getId())) {
             insults.execute(event);
         } else {
             boolean chance = new Random().nextInt(INSULT_CHANCE) == 0;
@@ -49,7 +49,10 @@ public class MessageEventHandler extends ListenerAdapter {
 
     @Override
     public void onPrivateMessageReceived(@NotNull PrivateMessageReceivedEvent event) {
-
+        if (event.getAuthor().isBot()) {
+            return;
+        }
+        privateCommandHandler.handle(event);
     }
 
     @Override
@@ -59,5 +62,6 @@ public class MessageEventHandler extends ListenerAdapter {
 
     public void initialize() {
         commandHandler.prepare();
+        privateCommandHandler.prepare();
     }
 }

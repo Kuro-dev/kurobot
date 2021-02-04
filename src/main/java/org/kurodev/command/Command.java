@@ -38,6 +38,6 @@ public interface Command {
     }
 
     default boolean invokerIsAdmin(User user) {
-        return user.getId().equals(UserIDs.kuro.getId());
+        return user.getId().equals(UserIDs.KURO.getId());
     }
 }

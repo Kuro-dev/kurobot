@@ -6,9 +6,9 @@ package org.kurodev;
  **/
 public enum UserIDs {
     //Admin
-    kuro("223878679061725185"),
+    KURO("223878679061725185"),
     //some guy I just want to insult everytime he writes something.
-    Mau("290501224455995392"),
+    MAU("290501224455995392"),
     ;
 
     private final String id;
