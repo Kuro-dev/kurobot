@@ -1,4 +1,4 @@
-package org.kurodev.command.privateMsg;
+package org.kurodev.command.privateMsg.console;
 
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
@@ -7,13 +7,9 @@ import org.kurodev.command.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.concurrent.Executors;
-import java.util.function.Consumer;
 
 /**
  * @author kuro
@@ -22,18 +18,18 @@ import java.util.function.Consumer;
 public class ConsoleCommandHandler implements Command {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final boolean isWindows;
-    private ProcessBuilder processBuilder;
+    private TimedConsole console;
+    ProcessBuilder processBuilder;
 
     public ConsoleCommandHandler() {
-        isWindows = System.getProperty("os.name")
-                .toLowerCase().startsWith("windows");
+        isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
     }
 
     @Override
     public void prepare() {
         processBuilder = new ProcessBuilder();
         processBuilder.directory(Paths.get("./").toFile());
-
+        console = new TimedConsole(processBuilder);
     }
 
     public void handle(String command, PrivateChannel channel, PrivateMessageReceivedEvent event) {
@@ -56,7 +52,6 @@ public class ConsoleCommandHandler implements Command {
             channel.sendMessage("Something went wrong, please check logs").queue();
             logger.error("Failed to build process", e);
         }
-        System.out.println("After: " + processBuilder.directory().toPath().toAbsolutePath());
     }
 
     @Override
@@ -70,24 +65,3 @@ public class ConsoleCommandHandler implements Command {
     }
 }
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
-class MyStreamReader implements Runnable, Consumer<String> {
-    private final MessageAction msg;
-    private final InputStream inputStream;
-
-    public MyStreamReader(InputStream inputStream, MessageAction msg) {
-        this.inputStream = inputStream;
-        this.msg = msg;
-    }
-
-    @Override
-    public void run() {
-        new BufferedReader(new InputStreamReader(inputStream)).lines()
-                .forEach(this);
-    }
-
-    @Override
-    public void accept(String s) {
-        msg.append(s).append("\n");
-    }
-}

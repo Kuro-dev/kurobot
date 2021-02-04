@@ -16,8 +16,12 @@ public class MyStreamReader implements Runnable, Consumer<String> {
     private final InputStream inputStream;
     private MessageAction msg;
 
-    public MyStreamReader(InputStream inputStream) {
+    public MyStreamReader(InputStream inputStream, MessageAction msg) {
         this.inputStream = inputStream;
+        this.msg = msg;
+    }
+    public MyStreamReader(InputStream inputStream) {
+       this(inputStream,null);
     }
 
     public void setMsg(@NotNull MessageAction msg) {
