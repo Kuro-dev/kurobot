@@ -1,10 +1,10 @@
-package org.kurodev.command.standard;
+package org.kurodev.command.guild.standard;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.command.Command;
+import org.kurodev.command.guild.GuildCommand;
 import org.kurodev.events.InsultHandler;
 
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * @author kuro
  **/
-public class InsultCommand extends Command {
+public class InsultCommand extends GuildCommand {
     private final InsultHandler insults;
 
     public InsultCommand(InsultHandler insults) {

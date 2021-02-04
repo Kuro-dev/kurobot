@@ -1,10 +1,10 @@
-package org.kurodev.command.standard;
+package org.kurodev.command.guild.standard;
 
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
-import org.kurodev.command.Command;
+import org.kurodev.command.guild.GuildCommand;
 import org.kurodev.config.Setting;
 
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 /**
  * @author kuro
  **/
-public class MemeCommand extends Command {
+public class MemeCommand extends GuildCommand {
     Path memeFolder = Paths.get(Main.SETTINGS.getSetting(Setting.MEME_FOLDER));
 
     public MemeCommand() {

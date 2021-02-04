@@ -1,6 +1,7 @@
-package org.kurodev.command.submission;
+package org.kurodev.command.guild.force;
 
-import org.kurodev.command.Command;
+import net.dv8tion.jda.api.entities.TextChannel;
+import org.kurodev.command.guild.admin.AdminCommand;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,14 +9,14 @@ import java.nio.file.Path;
 /**
  * @author kuro
  **/
-public abstract class SubmissionCommand extends Command {
+public abstract class ForceAddFileCommand extends AdminCommand {
     protected final Path path;
 
-
-    protected SubmissionCommand(String command, Path path) {
-        super("Submit"+command);
+    public ForceAddFileCommand(String command,Path path) {
+        super("Force-add-"+command);
         this.path = path;
     }
+
 
     @Override
     public void prepare() throws Exception {
@@ -28,5 +29,9 @@ public abstract class SubmissionCommand extends Command {
                 Files.createDirectories(path);
             }
         }
+    }
+
+    protected void onSuccess(TextChannel channel) {
+        channel.sendMessage("Successfully added file to database").queue();
     }
 }

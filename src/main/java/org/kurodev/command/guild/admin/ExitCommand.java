@@ -1,4 +1,4 @@
-package org.kurodev.command.admin;
+package org.kurodev.command.guild.admin;
 
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;

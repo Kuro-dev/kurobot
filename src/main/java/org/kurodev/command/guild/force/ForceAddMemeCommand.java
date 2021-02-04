@@ -1,4 +1,4 @@
-package org.kurodev.command.admin.force;
+package org.kurodev.command.guild.force;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;

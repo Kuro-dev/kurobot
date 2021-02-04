@@ -1,4 +1,4 @@
-package org.kurodev.command.submission;
+package org.kurodev.command.guild.submission;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;

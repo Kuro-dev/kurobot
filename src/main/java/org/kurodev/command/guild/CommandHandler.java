@@ -1,18 +1,18 @@
-package org.kurodev.command;
+package org.kurodev.command.guild;
 
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.command.admin.CheckSubmissionsCommand;
-import org.kurodev.command.admin.ExitCommand;
-import org.kurodev.command.admin.force.ForceAddInsultCommand;
-import org.kurodev.command.admin.force.ForceAddMemeCommand;
-import org.kurodev.command.standard.HelpCommand;
-import org.kurodev.command.standard.InfoCommand;
-import org.kurodev.command.standard.InsultCommand;
-import org.kurodev.command.standard.MemeCommand;
-import org.kurodev.command.submission.InsultSubmissionCommand;
-import org.kurodev.command.submission.MemeSubmissionCommand;
+import org.kurodev.command.guild.admin.CheckSubmissionsCommand;
+import org.kurodev.command.guild.admin.ExitCommand;
+import org.kurodev.command.guild.force.ForceAddInsultCommand;
+import org.kurodev.command.guild.force.ForceAddMemeCommand;
+import org.kurodev.command.guild.standard.HelpCommand;
+import org.kurodev.command.guild.standard.InfoCommand;
+import org.kurodev.command.guild.standard.InsultCommand;
+import org.kurodev.command.guild.standard.MemeCommand;
+import org.kurodev.command.guild.submission.InsultSubmissionCommand;
+import org.kurodev.command.guild.submission.MemeSubmissionCommand;
 import org.kurodev.events.InsultHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ import java.util.List;
  **/
 public class CommandHandler {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final List<Command> commands = new ArrayList<>();
+    private final List<GuildCommand> commands = new ArrayList<>();
     private final InsultHandler insults;
 
     public CommandHandler(InsultHandler insults) {
@@ -46,7 +46,7 @@ public class CommandHandler {
         commands.add(new ForceAddInsultCommand(insults));
         commands.add(new CheckSubmissionsCommand());
 
-        for (Command command : commands) {
+        for (GuildCommand command : commands) {
             try {
                 command.prepare();
             } catch (Exception e) {
@@ -60,12 +60,12 @@ public class CommandHandler {
     public void handle(String command, @NotNull GuildMessageReceivedEvent event, String[] args) {
         TextChannel channel = event.getChannel();
         channel.sendTyping().complete();
-        for (Command com : commands) {
+        for (GuildCommand com : commands) {
             if (com.check(command, event)) {
                 try {
                     com.execute(channel, args, event);
                 } catch (IOException e) {
-                    channel.sendMessage("something went wrong: " + e.getMessage()).queue();
+                    logger.debug(this.getClass().getSimpleName() +"#handle() exception logged", e);
                     logger.debug("Commandhandler#handle() exception logged", e);
                 }
                 return;

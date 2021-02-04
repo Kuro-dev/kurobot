@@ -1,11 +1,11 @@
-package org.kurodev.command.standard;
+package org.kurodev.command.guild.standard;
 
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
-import org.kurodev.command.admin.AdminCommand;
+import org.kurodev.command.guild.admin.AdminCommand;
 import org.kurodev.config.Setting;
 
 /**
