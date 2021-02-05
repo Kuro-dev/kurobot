@@ -63,7 +63,7 @@ public class PrivateCommandHandler {
             }
         } else {
             //Found out it is not a bot command
-            console.handle(event.getMessage().getContentDisplay(), event.getChannel(), event);
+            console.handle(event.getMessage().getContentDisplay(), event.getChannel());
         }
     }
 

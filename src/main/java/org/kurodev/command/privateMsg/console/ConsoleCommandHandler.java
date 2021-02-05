@@ -1,7 +1,6 @@
 package org.kurodev.command.privateMsg.console;
 
 import net.dv8tion.jda.api.entities.PrivateChannel;
-import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.kurodev.command.Command;
 import org.slf4j.Logger;
@@ -18,8 +17,8 @@ import java.util.concurrent.Executors;
 public class ConsoleCommandHandler implements Command {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final boolean isWindows;
-    private TimedConsole console;
     ProcessBuilder processBuilder;
+    private TimedConsole console;
 
     public ConsoleCommandHandler() {
         isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
@@ -32,11 +31,13 @@ public class ConsoleCommandHandler implements Command {
         console = new TimedConsole(processBuilder);
     }
 
-    public void handle(String command, PrivateChannel channel, PrivateMessageReceivedEvent event) {
+    //TODO: break up message if exceeding 2000 characters
+    public void handle(String command, PrivateChannel channel) {
+        String formattedCommand = command.replaceAll("\n|\r", "&&");
         if (isWindows) {
-            processBuilder.command("cmd.exe", "/c", command);
+            processBuilder.command("cmd.exe", "/c", formattedCommand);
         } else {
-            processBuilder.command("sh", "-c", command);
+            processBuilder.command("sh", "-c", formattedCommand);
         }
         try {
             MessageAction msg = channel.sendMessage("```");
