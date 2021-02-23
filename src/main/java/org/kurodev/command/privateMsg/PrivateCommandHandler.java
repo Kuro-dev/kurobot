@@ -1,8 +1,10 @@
 package org.kurodev.command.privateMsg;
 
 import net.dv8tion.jda.api.entities.PrivateChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.UserIDs;
 import org.kurodev.command.privateMsg.console.ConsoleCommandHandler;
 import org.kurodev.command.privateMsg.standard.ArchCommand;
 import org.slf4j.Logger;
@@ -68,8 +70,17 @@ public class PrivateCommandHandler {
             }
         } else {
             channel.sendMessage("you're not admin").queue();
+            User kuro = UserIDs.KURO.getUser();
+            if (kuro != null) {
+                kuro.openPrivateChannel().flatMap(pChannel -> pChannel
+                        .sendMessage("```\nSomeone tried to access the private commands.\n")
+                        .append(event.getAuthor().getAsTag()).append(":\n\"")
+                        .append(event.getMessage().getContentDisplay()).append("\"```"))
+                        .queue();
+            } else {
+                System.err.println("kuro was null");
+            }
         }
-
     }
 
 }
