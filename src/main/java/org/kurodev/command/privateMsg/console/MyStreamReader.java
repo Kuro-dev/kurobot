@@ -1,6 +1,5 @@
 package org.kurodev.command.privateMsg.console;
 
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
@@ -14,17 +13,14 @@ import java.util.function.Consumer;
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class MyStreamReader implements Runnable, Consumer<String> {
     private final InputStream inputStream;
-    private MessageAction msg;
+    private StringBuilder msg;
 
-    public MyStreamReader(InputStream inputStream, MessageAction msg) {
+    public MyStreamReader(InputStream inputStream, StringBuilder msg) {
         this.inputStream = inputStream;
         this.msg = msg;
     }
-    public MyStreamReader(InputStream inputStream) {
-       this(inputStream,null);
-    }
 
-    public void setMsg(@NotNull MessageAction msg) {
+    public void setMsg(@NotNull StringBuilder msg) {
         this.msg = msg;
     }
 

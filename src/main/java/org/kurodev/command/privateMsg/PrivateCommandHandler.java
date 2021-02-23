@@ -19,7 +19,7 @@ import java.util.List;
 public class PrivateCommandHandler {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<PrivateCommand> commands = new ArrayList<>();
-    ConsoleCommandHandler console = new ConsoleCommandHandler();
+    private final ConsoleCommandHandler console = new ConsoleCommandHandler();
 
     public void prepare() {
         logger.info("initializing commands");
@@ -40,31 +40,36 @@ public class PrivateCommandHandler {
     public void handle(@NotNull PrivateMessageReceivedEvent event) {
         PrivateChannel channel = event.getChannel();
         channel.sendTyping().queue();
-        String message = event.getMessage().getContentDisplay();
-        boolean isBotCommand = message.startsWith("!k") || message.startsWith("!K");
-        if (isBotCommand) {
-            String[] split = message.split(" ");
-            if (split.length > 1) {
-                String command = split[1];
-                String[] args = Arrays.copyOfRange(split, 2, split.length);
+        if (console.invokerIsAdmin(event)) {
+            String message = event.getMessage().getContentDisplay();
+            boolean isBotCommand = message.startsWith("!k") || message.startsWith("!K");
+            if (isBotCommand) {
+                String[] split = message.split(" ");
+                if (split.length > 1) {
+                    String command = split[1];
+                    String[] args = Arrays.copyOfRange(split, 2, split.length);
 
-                for (PrivateCommand com : commands) {
-                    if (com.check(command, event)) {
-                        try {
-                            com.execute(channel, args, event);
-                        } catch (IOException e) {
-                            channel.sendMessage("something went wrong: " + e.getMessage()).queue();
-                            logger.debug(this.getClass().getSimpleName() + "#handle() exception logged", e);
+                    for (PrivateCommand com : commands) {
+                        if (com.check(command, event)) {
+                            try {
+                                com.execute(channel, args, event);
+                            } catch (IOException e) {
+                                channel.sendMessage("something went wrong: " + e.getMessage()).queue();
+                                logger.debug(this.getClass().getSimpleName() + "#handle() exception logged", e);
+                            }
+                            return;
                         }
-                        return;
                     }
+                    channel.sendMessage("Command not recognized: ").append(command).queue();
                 }
-                channel.sendMessage("Command not recognized: ").append(command).queue();
+            } else {
+                //Found out it is not a bot command
+                console.handle(event.getMessage().getContentDisplay(), event.getChannel());
             }
         } else {
-            //Found out it is not a bot command
-            console.handle(event.getMessage().getContentDisplay(), event.getChannel());
+            channel.sendMessage("you're not admin").queue();
         }
+
     }
 
 }

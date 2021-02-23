@@ -1,13 +1,14 @@
 package org.kurodev.command.privateMsg.console;
 
 import net.dv8tion.jda.api.entities.PrivateChannel;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.kurodev.command.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 
 /**
@@ -18,17 +19,30 @@ public class ConsoleCommandHandler implements Command {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final boolean isWindows;
     ProcessBuilder processBuilder;
-    private TimedConsole console;
 
     public ConsoleCommandHandler() {
         isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
+    }
+
+    private static List<String> partitionString(String string, final int partitionSize) {
+        List<String> parts = new ArrayList<>();
+        StringBuilder part = new StringBuilder(2000);
+        final int newLine = "\n".length();
+        string.lines().forEachOrdered(s -> {
+            if (part.length() + s.length() + newLine >= partitionSize) {
+                parts.add(part.toString());
+                part.delete(0, part.length());
+            }
+            part.append(s).append("\n");
+        });
+        parts.add(part.toString());
+        return parts;
     }
 
     @Override
     public void prepare() {
         processBuilder = new ProcessBuilder();
         processBuilder.directory(Paths.get("./").toFile());
-        console = new TimedConsole(processBuilder);
     }
 
     //TODO: break up message if exceeding 2000 characters
@@ -39,20 +53,29 @@ public class ConsoleCommandHandler implements Command {
         } else {
             processBuilder.command("sh", "-c", formattedCommand);
         }
+
         try {
-            MessageAction msg = channel.sendMessage("```");
+            StringBuilder response = new StringBuilder();
             Process process = this.processBuilder.start();
-            MyStreamReader gobbler = new MyStreamReader(process.getInputStream(), msg);
+            MyStreamReader gobbler = new MyStreamReader(process.getInputStream(), response);
             Executors.newSingleThreadExecutor().submit(gobbler);
             int exitCode = process.waitFor();
             if (exitCode != 0) {
-                msg.append("Unknown or faulty command");
+                response.append("Unknown or faulty command, exit code: ").append(exitCode);
             }
-            msg.append("\n```ExitCode: ").append(String.valueOf(exitCode)).append("\n").queue();
+            sendResponse(channel, response.toString(), exitCode);
         } catch (IOException | InterruptedException e) {
             channel.sendMessage("Something went wrong, please check logs").queue();
             logger.error("Failed to build process", e);
         }
+    }
+
+    private void sendResponse(PrivateChannel channel, String response, int exitCode) {
+        List<String> brokenDownResponse = partitionString(response, 1990);
+        for (String string : brokenDownResponse) {
+            channel.sendMessage("```\n").append(string).append("```").queue();
+        }
+        channel.sendMessage("ExitCode: ").append(String.valueOf(exitCode)).append("\n").queue();
     }
 
     @Override
