@@ -1,7 +1,12 @@
 package org.kurodev;
 
+import net.dv8tion.jda.api.entities.User;
+
+import javax.annotation.Nullable;
+
 /**
  * A list of important or special userIDs for use in JDA
+ *
  * @author kuro
  **/
 public enum UserIDs {
@@ -19,5 +24,10 @@ public enum UserIDs {
 
     public long getId() {
         return id;
+    }
+
+    @Nullable
+    public User getUser() {
+        return Main.getJDA().getUserById(id);
     }
 }
