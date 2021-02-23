@@ -13,7 +13,7 @@ public abstract class SubmissionCommand extends GuildCommand {
 
 
     protected SubmissionCommand(String command, Path path) {
-        super("Submit"+command);
+        super("Submit" + command);
         this.path = path;
     }
 

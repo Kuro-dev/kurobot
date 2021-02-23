@@ -65,7 +65,7 @@ public class CommandHandler {
                 try {
                     com.execute(channel, args, event);
                 } catch (IOException e) {
-                    logger.debug(this.getClass().getSimpleName() +"#handle() exception logged", e);
+                    logger.debug(this.getClass().getSimpleName() + "#handle() exception logged", e);
                     logger.debug("Commandhandler#handle() exception logged", e);
                 }
                 return;

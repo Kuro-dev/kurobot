@@ -1,7 +1,6 @@
 package org.kurodev.command.privateMsg;
 
 import net.dv8tion.jda.api.entities.PrivateChannel;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.command.Command;

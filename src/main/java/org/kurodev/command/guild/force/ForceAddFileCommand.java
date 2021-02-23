@@ -12,8 +12,8 @@ import java.nio.file.Path;
 public abstract class ForceAddFileCommand extends AdminCommand {
     protected final Path path;
 
-    public ForceAddFileCommand(String command,Path path) {
-        super("Force-add-"+command);
+    public ForceAddFileCommand(String command, Path path) {
+        super("Force-add-" + command);
         this.path = path;
     }
 
