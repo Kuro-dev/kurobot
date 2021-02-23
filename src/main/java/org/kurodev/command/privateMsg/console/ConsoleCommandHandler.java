@@ -45,7 +45,6 @@ public class ConsoleCommandHandler implements Command {
         processBuilder.directory(Paths.get("./").toFile());
     }
 
-    //TODO: break up message if exceeding 2000 characters
     public void handle(String command, PrivateChannel channel) {
         String formattedCommand = command.replaceAll("\n|\r", "&&");
         if (isWindows) {
