@@ -4,7 +4,7 @@ package org.kurodev.config;
  * @author kuro
  **/
 public enum Setting {
-    MEME_FOLDER("meme.folder", ""),
+    MEME_FOLDER("meme.folder", "./memes"),
     INSULT_FILE("insult.file", "./insults.txt"),
     INSULT_CHANCE("insult.chance", "1000"),
     TOKEN("token", ""),

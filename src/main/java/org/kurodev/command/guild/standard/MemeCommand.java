@@ -42,6 +42,11 @@ public class MemeCommand extends GuildCommand {
             channel.sendMessage("No memes found").queue();
     }
 
+    @Override
+    public String getDescription() {
+        return "sends a random meme from the meme folder";
+    }
+
     private Path getRandomImage() throws IOException {
         final long files = Files.list(memeFolder).filter(Files::isRegularFile).count();
         if (files > 0)

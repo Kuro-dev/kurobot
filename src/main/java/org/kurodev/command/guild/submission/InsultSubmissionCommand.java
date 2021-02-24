@@ -101,4 +101,9 @@ public class InsultSubmissionCommand extends SubmissionCommand {
 
     }
 
+    @Override
+    public String getDescription() {
+        return "usage: Type your insult in \"your insult here\"";
+    }
+
 }

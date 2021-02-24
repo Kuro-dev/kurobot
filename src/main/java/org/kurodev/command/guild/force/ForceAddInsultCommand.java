@@ -64,4 +64,8 @@ public class ForceAddInsultCommand extends ForceAddFileCommand {
         }
         return false;
     }
+    @Override
+    public String getDescription() {
+        return "used to add an insult into the official database";
+    }
 }

@@ -28,6 +28,6 @@ public enum UserIDs {
 
     @Nullable
     public User getUser() {
-        return Main.getJDA().getUserById(id);
+        return Main.getJDA().retrieveUserById(id).complete();
     }
 }

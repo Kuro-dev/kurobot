@@ -20,4 +20,9 @@ public class ExitCommand extends AdminCommand {
         channel.sendMessage("Shutting down bot").queue();
         System.exit(0);
     }
+
+    @Override
+    public String getDescription() {
+        return "shuts down the bot";
+    }
 }

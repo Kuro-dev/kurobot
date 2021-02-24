@@ -45,4 +45,8 @@ public class ForceAddMemeCommand extends ForceAddFileCommand {
             }
         }
     }
+    @Override
+    public String getDescription() {
+        return "used to add a meme into the official database";
+    }
 }

@@ -26,4 +26,9 @@ public class InfoCommand extends AdminCommand {
         }
         msg.queue();
     }
+
+    @Override
+    public String getDescription() {
+        return "Returns the current settings configuration of the bot";
+    }
 }

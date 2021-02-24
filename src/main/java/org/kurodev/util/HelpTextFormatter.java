@@ -19,14 +19,14 @@ public class HelpTextFormatter {
         final StringBuilder out = new StringBuilder("```List of commands:\n");
         final String delimiter = "-".repeat(pufferLength - PUFFER);
 
-        out.append(delimiter).append("Normal Commands").append(delimiter).append("\n");
-        commands.stream().filter(Command::needsAdmin).forEach(command -> {
+        out.append(delimiter).append("Commands").append(delimiter).append("\n");
+        commands.stream().filter(command -> !command.needsAdmin()).forEach(command -> {
             String string = command.getCommand();
             out.append(string).append(createPuffer(string, pufferLength)).append("- ").append(command.getDescription()).append("\n");
         });
 
-        out.append(delimiter).append("Admin Commands-").append(delimiter).append("\n");
-        commands.stream().filter(command -> !command.needsAdmin()).forEach(command -> {
+        out.append(delimiter).append("Admin Commands").append(delimiter).append("\n");
+        commands.stream().filter(Command::needsAdmin).forEach(command -> {
             String string = command.getCommand();
             out.append(string).append(createPuffer(string, pufferLength)).append("- ").append(command.getDescription()).append("\n");
         });

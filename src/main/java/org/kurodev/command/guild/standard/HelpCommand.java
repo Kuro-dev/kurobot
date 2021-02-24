@@ -26,7 +26,10 @@ public class HelpCommand extends GuildCommand {
     public void prepare() throws Exception {
         response = HelpTextFormatter.format(commands);
     }
-
+    @Override
+    public String getDescription() {
+        return "lists all available commands";
+    }
     //TODO add formatting using ``` text ``` formatting and make it display a table
     @Override
     public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) {

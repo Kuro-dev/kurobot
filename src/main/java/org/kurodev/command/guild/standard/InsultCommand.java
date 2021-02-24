@@ -34,4 +34,9 @@ public class InsultCommand extends GuildCommand {
     private boolean containsMention(GuildMessageReceivedEvent event) {
         return !event.getMessage().getMentions(Message.MentionType.USER).isEmpty();
     }
+
+    @Override
+    public String getDescription() {
+        return "used to insult the invoker or the person @mentioned after the command";
+    }
 }

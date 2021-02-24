@@ -31,10 +31,10 @@ public class CheckSubmissionsCommand extends AdminCommand {
         int memeFiles = readFiles(memeSubmissions);
         int insultFiles = readFiles(insultSubmissions);
         int insultLines = readInsultLines();
-        msg.append(String.format("Meme Files: %d\n", memeFiles));
+        msg.append(String.format("```\nMeme Files: %d\n", memeFiles));
         msg.append(String.format("Insult Files: %d, insult lines: %d\n", insultFiles, insultLines));
         int total = memeFiles + insultFiles, absoluteTotal = total + insultLines;
-        msg.append(String.format("Total: %d (%d)", total, absoluteTotal));
+        msg.append(String.format("Total Submissions: %d (%d)\n```", total, absoluteTotal));
         msg.queue();
     }
 
@@ -45,7 +45,7 @@ public class CheckSubmissionsCommand extends AdminCommand {
 
     private int readInsultLines() {
         try {
-            return (int) Files.walk(insultSubmissions).filter(Files::isRegularFile).mapToInt(value -> {
+            return Files.walk(insultSubmissions).filter(Files::isRegularFile).mapToInt(value -> {
                 try {
                     int ret = Files.readAllLines(value).size();
                     return ret;
@@ -58,5 +58,10 @@ public class CheckSubmissionsCommand extends AdminCommand {
             logger.error("failed to retrieve files from submissions", e);
             return 0;
         }
+    }
+
+    @Override
+    public String getDescription() {
+        return "displays information about current submissions.";
     }
 }
