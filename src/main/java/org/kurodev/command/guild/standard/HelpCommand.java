@@ -26,17 +26,23 @@ public class HelpCommand extends GuildCommand {
     public void prepare() throws Exception {
         response = HelpTextFormatter.format(commands, false);
     }
+
     @Override
     public String getDescription() {
-        return "lists all available commands";
+        return "Lists all available commands. Possible arguments: -admin";
     }
-    //TODO add formatting using ``` text ``` formatting and make it display a table
+
     @Override
     public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) {
         channel.sendTyping().complete();
-        if (invokerIsAdmin(event)){
-            channel.sendMessage(HelpTextFormatter.format(commands,true)).queue();
-        }else{
+        if (argsContain("-admin", args)) {
+            if (invokerIsAdmin(event)) {
+                channel.sendMessage(HelpTextFormatter.format(commands, true)).queue();
+            } else {
+                channel.sendMessage("nice try, but you're not an admin ;)")
+                        .append("\nhere are the commands YOU can use:\n").append(response).queue();
+            }
+        } else {
             channel.sendMessage(response).queue();
         }
     }

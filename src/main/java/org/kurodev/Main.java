@@ -43,7 +43,7 @@ public class Main {
         JDA.getPresence().setActivity(Activity.of(Activity.ActivityType.LISTENING, "!k help"));
     }
 
-    private static void loadSettings() throws IOException {
+    public static void loadSettings() throws IOException {
         if (Files.exists(SETTINGS_FILE)) {
             logger.info("---------LOADING SETTINGS---------");
             SETTINGS.load(Files.newInputStream(SETTINGS_FILE));

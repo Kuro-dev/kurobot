@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.kurodev.command.guild.admin.CheckSubmissionsCommand;
 import org.kurodev.command.guild.admin.ExitCommand;
 import org.kurodev.command.guild.admin.InfoCommand;
+import org.kurodev.command.guild.admin.ReloadSettingsCommand;
 import org.kurodev.command.guild.force.ForceAddInsultCommand;
 import org.kurodev.command.guild.force.ForceAddMemeCommand;
 import org.kurodev.command.guild.standard.HelpCommand;
@@ -25,12 +26,12 @@ import java.util.List;
 /**
  * @author kuro
  **/
-public class CommandHandler {
+public class GuildCommandHandler {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<GuildCommand> commands = new ArrayList<>();
     private final InsultHandler insults;
 
-    public CommandHandler(InsultHandler insults) {
+    public GuildCommandHandler(InsultHandler insults) {
         this.insults = insults;
     }
 
@@ -47,6 +48,7 @@ public class CommandHandler {
         commands.add(new ForceAddInsultCommand(insults));
         commands.add(new CheckSubmissionsCommand());
         commands.add(new InspireCommand());
+        commands.add(new ReloadSettingsCommand());
 
         for (GuildCommand command : commands) {
             try {

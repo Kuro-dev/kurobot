@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>Kuro-Bot</artifactId>
-    <version>1.31</version>
+    <version>1.32</version>
 
 
     <properties>

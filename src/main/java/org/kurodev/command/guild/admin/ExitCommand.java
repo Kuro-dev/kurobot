@@ -3,6 +3,7 @@ package org.kurodev.command.guild.admin;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.Main;
 
 import java.io.IOException;
 
@@ -18,7 +19,7 @@ public class ExitCommand extends AdminCommand {
     @Override
     public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) throws IOException {
         channel.sendMessage("Shutting down bot").queue();
-        System.exit(0);
+        Main.getJDA().shutdown();
     }
 
     @Override
