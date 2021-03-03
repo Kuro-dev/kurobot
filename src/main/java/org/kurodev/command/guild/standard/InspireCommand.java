@@ -3,7 +3,9 @@ package org.kurodev.command.guild.standard;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.Main;
 import org.kurodev.command.guild.GuildCommand;
+import org.kurodev.config.Setting;
 import org.kurodev.util.UrlRequest;
 
 import java.io.IOException;
@@ -32,7 +34,8 @@ public class InspireCommand extends GuildCommand {
         String response = request.get(URL, PARAMS);
         if (response != null) {
             channel.sendMessage(response).queue();
-            event.getMessage().delete().queue();
+            if (Main.SETTINGS.getSettingBool(Setting.DELETE_COMMAND_MESSAGE))
+                event.getMessage().delete().queue();
         } else {
             channel.sendMessage("Something went wrong when requesting the quote\n" +
                     "if this keeps happening please contact the creator of the bot." +

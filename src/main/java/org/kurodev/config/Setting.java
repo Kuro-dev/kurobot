@@ -5,6 +5,7 @@ package org.kurodev.config;
  **/
 public enum Setting {
     ALLOW_ADMIN_CONTACT("allow.admin.contact", "true"),
+    DELETE_COMMAND_MESSAGE("delete.command.message", "false"),
     /**
      * Specifies whether or not bot messages should be deletable using the trash can reaction or not.
      */

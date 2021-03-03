@@ -38,7 +38,8 @@ public class MemeCommand extends GuildCommand {
             Path image = getRandomImage();
             if (image != null) {
                 channel.sendMessage("There you go, enjoy :)").addFile(image.toFile()).queue();
-                event.getMessage().delete().queue();
+                if (Main.SETTINGS.getSettingBool(Setting.DELETE_COMMAND_MESSAGE))
+                    event.getMessage().delete().queue();
             } else {
                 channel.sendMessage("No memes found :(").queue();
             }
