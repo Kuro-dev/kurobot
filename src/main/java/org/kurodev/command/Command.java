@@ -36,8 +36,8 @@ public interface Command {
     default boolean invokerIsAdmin(GuildMessageReceivedEvent event) {
         return invokerIsAdmin(event.getAuthor());
     }
-
     default boolean invokerIsAdmin(User user) {
         return user.getIdLong() == (UserIDs.KURO.getId());
     }
+
 }

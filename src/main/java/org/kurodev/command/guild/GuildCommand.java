@@ -29,5 +29,4 @@ public abstract class GuildCommand implements Command {
     }
 
     public abstract void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) throws IOException;
-
 }

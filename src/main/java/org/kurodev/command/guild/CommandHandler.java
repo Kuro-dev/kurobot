@@ -9,6 +9,7 @@ import org.kurodev.command.guild.admin.InfoCommand;
 import org.kurodev.command.guild.force.ForceAddInsultCommand;
 import org.kurodev.command.guild.force.ForceAddMemeCommand;
 import org.kurodev.command.guild.standard.HelpCommand;
+import org.kurodev.command.guild.standard.InspireCommand;
 import org.kurodev.command.guild.standard.InsultCommand;
 import org.kurodev.command.guild.standard.MemeCommand;
 import org.kurodev.command.guild.submission.InsultSubmissionCommand;
@@ -45,6 +46,7 @@ public class CommandHandler {
         commands.add(new ForceAddMemeCommand());
         commands.add(new ForceAddInsultCommand(insults));
         commands.add(new CheckSubmissionsCommand());
+        commands.add(new InspireCommand());
 
         for (GuildCommand command : commands) {
             try {

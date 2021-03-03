@@ -52,7 +52,7 @@ public class PrivateCommandHandler {
                     String[] args = Arrays.copyOfRange(split, 2, split.length);
 
                     for (PrivateCommand com : commands) {
-                        if (com.check(command, event)) {
+                        if (com.check(command)) {
                             try {
                                 com.execute(channel, args, event);
                             } catch (IOException e) {

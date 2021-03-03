@@ -24,9 +24,10 @@ public abstract class PrivateCommand implements Command {
         return command;
     }
 
-    public boolean check(String command, @NotNull PrivateMessageReceivedEvent event) {
+    public boolean check(String command) {
         return this.command.equalsIgnoreCase(command);
     }
 
     public abstract void execute(PrivateChannel channel, String[] args, @NotNull PrivateMessageReceivedEvent event) throws IOException;
+
 }

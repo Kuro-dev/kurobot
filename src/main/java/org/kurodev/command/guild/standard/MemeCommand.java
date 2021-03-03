@@ -34,12 +34,17 @@ public class MemeCommand extends GuildCommand {
 
     @Override
     public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) throws IOException {
-        Path image = getRandomImage();
-        if (image != null) {
-            channel.sendMessage("There you go, enjoy the meme ").append(event.getAuthor().getAsMention()).append(" :)\n").addFile(image.toFile()).queue();
-            event.getMessage().delete().queue();
-        } else
-            channel.sendMessage("No memes found").queue();
+        if (event.getChannel().isNSFW()) {
+            Path image = getRandomImage();
+            if (image != null) {
+                channel.sendMessage("There you go, enjoy :)").addFile(image.toFile()).queue();
+                event.getMessage().delete().queue();
+            } else {
+                channel.sendMessage("No memes found :(").queue();
+            }
+        } else {
+            channel.sendMessage("you may want to be in a NSFW channel for this...").queue();
+        }
     }
 
     @Override
