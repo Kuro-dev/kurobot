@@ -31,6 +31,7 @@ public class InspireCommand extends GuildCommand {
     public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) throws IOException {
         String response = request.get(URL, PARAMS);
         channel.sendMessage(response).queue();
+        event.getMessage().delete().queue();
     }
 
     @Override
