@@ -26,7 +26,7 @@ public class HelpCommand extends PrivateCommand {
 
     @Override
     public void prepare() throws Exception {
-        response = HelpTextFormatter.format(commands);
+        response = HelpTextFormatter.format(commands, true);
     }
 
     @Override

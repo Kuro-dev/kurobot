@@ -24,7 +24,7 @@ public class HelpCommand extends GuildCommand {
 
     @Override
     public void prepare() throws Exception {
-        response = HelpTextFormatter.format(commands);
+        response = HelpTextFormatter.format(commands, false);
     }
     @Override
     public String getDescription() {
@@ -34,6 +34,10 @@ public class HelpCommand extends GuildCommand {
     @Override
     public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) {
         channel.sendTyping().complete();
-        channel.sendMessage(response).queue();
+        if (invokerIsAdmin(event)){
+            channel.sendMessage(HelpTextFormatter.format(commands,true)).queue();
+        }else{
+            channel.sendMessage(response).queue();
+        }
     }
 }

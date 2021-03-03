@@ -14,7 +14,7 @@ import java.util.List;
 public class HelpTextFormatter {
     private static final int PUFFER = 5;
 
-    public static String format(List<? extends Command> commands) {
+    public static String format(List<? extends Command> commands, boolean isAdmin) {
         final int pufferLength = commands.stream().mapToInt(value -> value.getCommand().length()).max().orElse(-1) + PUFFER;
         final StringBuilder out = new StringBuilder("```List of commands:\n");
         final String delimiter = "-".repeat(pufferLength - PUFFER);
@@ -24,13 +24,13 @@ public class HelpTextFormatter {
             String string = command.getCommand();
             out.append(string).append(createPuffer(string, pufferLength)).append("- ").append(command.getDescription()).append("\n");
         });
-
-        out.append(delimiter).append("Admin Commands").append(delimiter).append("\n");
-        commands.stream().filter(Command::needsAdmin).forEach(command -> {
-            String string = command.getCommand();
-            out.append(string).append(createPuffer(string, pufferLength)).append("- ").append(command.getDescription()).append("\n");
+        if (isAdmin){
+            out.append(delimiter).append("Admin Commands").append(delimiter).append("\n");
+            commands.stream().filter(Command::needsAdmin).forEach(command -> {
+                String string = command.getCommand();
+                    out.append(string).append(createPuffer(string, pufferLength)).append("- ").append(command.getDescription()).append("\n");
         });
-
+        }
         BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(out.toString().getBytes(StandardCharsets.UTF_8))));
         int length = reader.lines().mapToInt(String::length).max().orElse(-1);
         out.append("-".repeat(length)).append("\n");
