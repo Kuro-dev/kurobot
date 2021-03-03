@@ -1,4 +1,3 @@
-import org.junit.AfterClass;
 import org.junit.Test;
 import org.kurodev.command.Command;
 
@@ -8,10 +7,6 @@ import static org.junit.Assert.*;
  * @author kuro
  **/
 public class TestCommands {
-    @AfterClass
-    public static void shutdownVM() {
-        System.exit(0); //for some reason the program doesn't exit on its own
-    }
 
     @Test
     public void argsContainsIdentifiesExistingArguments() {
@@ -45,7 +40,7 @@ public class TestCommands {
         assertFalse(com.argsContain("someValue", args));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void argsContainsThrowsNullPointerWhenNoKeyWordGiven() {
         Command com = new DebugCommand();
         String[] args = new String[3];

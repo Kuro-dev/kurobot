@@ -3,7 +3,6 @@ package org.kurodev.command;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
-import org.jetbrains.annotations.NotNull;
 import org.kurodev.UserIDs;
 
 /**
@@ -31,9 +30,9 @@ public interface Command {
      * @param args    the args given in the command
      * @return <code>true</code> if the given keyword exists in the arguments. <code>false</code> otherwise
      * (case insensitive)
-     * @throws IllegalArgumentException if keyword is <code>null</code>
+     * @throws NullPointerException if keyword is <code>null</code>
      */
-    default boolean argsContain(@NotNull String keyword, String[] args) {
+    default boolean argsContain( String keyword, String[] args) {
         return argIndex(keyword, args) >= 0;
     }
 
@@ -43,7 +42,7 @@ public interface Command {
      * @return the index of the argument. -1 if not found
      * @throws IllegalArgumentException if keyword is <code>null</code>
      */
-    default int argIndex(@NotNull String keyword, String[] args) {
+    default int argIndex( String keyword, String[] args) {
         for (int i = 0, argsLength = args.length; i < argsLength; i++) {
             if (keyword.equalsIgnoreCase(args[i])) {
                 return i;
