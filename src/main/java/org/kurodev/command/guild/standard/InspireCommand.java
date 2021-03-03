@@ -32,4 +32,9 @@ public class InspireCommand extends GuildCommand {
         String response = request.get(URL, PARAMS);
         channel.sendMessage(response).queue();
     }
+
+    @Override
+    public String getDescription() {
+        return "will generate a random \"inspirational\" quote and post it in the channel";
+    }
 }
