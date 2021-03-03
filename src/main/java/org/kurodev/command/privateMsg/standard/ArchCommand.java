@@ -19,4 +19,9 @@ public class ArchCommand extends PrivateCommand {
     public void execute(PrivateChannel channel, String[] args, @NotNull PrivateMessageReceivedEvent event) throws IOException {
         channel.sendMessage(System.getProperty("os.name")).queue();
     }
+
+    @Override
+    public String getDescription() {
+        return "returns the operating system running on the bot";
+    }
 }

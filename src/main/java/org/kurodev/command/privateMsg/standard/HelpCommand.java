@@ -29,6 +29,11 @@ public class HelpCommand extends PrivateCommand {
         response = HelpTextFormatter.format(commands);
     }
 
+    @Override
+    public String getDescription() {
+        return "displays help";
+    }
+
     //TODO add formatting using ``` text ``` formatting and make it display a table
     @Override
     public void execute(PrivateChannel channel, String[] args, @NotNull PrivateMessageReceivedEvent event) throws IOException {

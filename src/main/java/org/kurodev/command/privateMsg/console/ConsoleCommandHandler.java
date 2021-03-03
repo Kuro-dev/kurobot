@@ -83,6 +83,11 @@ public class ConsoleCommandHandler implements Command {
     }
 
     @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
     public boolean needsAdmin() {
         return true;
     }

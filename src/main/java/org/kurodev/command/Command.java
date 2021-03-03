@@ -25,9 +25,7 @@ public interface Command {
         return "";
     }
 
-    default String getDescription() {
-        return "No description given";
-    }
+    String getDescription();
 
     default boolean invokerIsAdmin(PrivateMessageReceivedEvent event) {
         return invokerIsAdmin(event.getAuthor());
@@ -36,6 +34,7 @@ public interface Command {
     default boolean invokerIsAdmin(GuildMessageReceivedEvent event) {
         return invokerIsAdmin(event.getAuthor());
     }
+
     default boolean invokerIsAdmin(User user) {
         return user.getIdLong() == (UserIDs.KURO.getId());
     }
