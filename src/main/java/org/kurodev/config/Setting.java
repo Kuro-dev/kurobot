@@ -4,13 +4,17 @@ package org.kurodev.config;
  * @author kuro
  **/
 public enum Setting {
-    MEME_FOLDER("meme.folder", "./memes"),
-    INSULT_FILE("insult.file", "./insults.txt"),
+    ALLOW_ADMIN_CONTACT("allow.admin.contact", "true"),
+    /**
+     * Specifies whether or not bot messages should be deletable using the trash can reaction or not.
+     */
+    INCLUDE_DELETE_OPTION("include.delete.option", "true"),
     INSULT_CHANCE("insult.chance", "1000"),
-    TOKEN("token", ""),
+    INSULT_FILE("insult.file", "./insults.txt"),
     INSULT_SUBMISSIONS("submission.insults", "./insultSubmissions"),
+    MEME_FOLDER("meme.folder", "./memes"),
     MEME_SUBMISSIONS("submission.memes", "./memeSubmissions"),
-    ALLOW_ADMIN_CONTACT("allow.admin.contact","true")
+    TOKEN("token", ""),
     ;
 
     private final String key;
