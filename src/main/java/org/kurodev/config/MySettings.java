@@ -23,4 +23,8 @@ public class MySettings extends Properties {
             this.setProperty(value.getKey(), value.getDefaultVal());
         }
     }
+
+    public boolean getSettingBool(Setting setting) {
+        return Boolean.parseBoolean(getSetting(setting));
+    }
 }

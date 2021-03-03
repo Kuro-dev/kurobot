@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
-import net.dv8tion.jda.api.exceptions.RateLimitedException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
@@ -64,12 +63,12 @@ public class MessageEventHandler extends ListenerAdapter {
         if (!event.getUser().isBot()) {
             if (event.getReactionEmote().getAsReactionCode().equals(DELETE_REACTION)) {
                 try {
-                    Message msg = event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete(true);
+                    Message msg = event.getChannel().retrieveMessageById(event.getMessageIdLong()).complete();
                     if (messageAuthorIsThisBot(msg.getAuthor())) {
                         msg.delete().queue();
                     }
-                } catch (RateLimitedException e) {
-                    System.err.println("Discord bot sent too many requests, " + e.getMessage());
+                } catch (Exception e) {
+                    System.err.println("MessageEventHandler encountered a problem: " + e.getMessage());
                 }
             }
         }

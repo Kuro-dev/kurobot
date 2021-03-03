@@ -4,9 +4,11 @@ import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.Main;
 import org.kurodev.UserIDs;
 import org.kurodev.command.privateMsg.console.ConsoleCommandHandler;
 import org.kurodev.command.privateMsg.standard.ArchCommand;
+import org.kurodev.config.Setting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,16 +71,18 @@ public class PrivateCommandHandler {
                 console.handle(event.getMessage().getContentDisplay(), event.getChannel());
             }
         } else {
-            channel.sendMessage("you're not admin").queue();
             User kuro = UserIDs.KURO.getUser();
-            if (kuro != null) {
+            if (kuro != null && Main.SETTINGS.getSettingBool(Setting.ALLOW_ADMIN_CONTACT)) {
+                channel.sendMessage("Sent to the creator, thank you :)")
+                        .append("It is possible that they will contact you. " +
+                                "If a Kuro#3582 adds you, that's me :)").queue();
                 kuro.openPrivateChannel().flatMap(pChannel -> pChannel
-                        .sendMessage("```\nSomeone tried to access the private commands.\n")
-                        .append(event.getAuthor().getAsTag()).append(":\n\"")
-                        .append(event.getMessage().getContentDisplay()).append("\"```"))
+                        .sendMessage("\nSomeone sent a message to the bot.\n")
+                        .append(event.getAuthor().getAsTag()).append(":\n```")
+                        .append(event.getMessage().getContentDisplay()).append("```"))
                         .queue();
             } else {
-                System.err.println("kuro was null");
+                logger.error("Kuro was null");
             }
         }
     }

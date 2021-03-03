@@ -10,6 +10,7 @@ public enum Setting {
     TOKEN("token", ""),
     INSULT_SUBMISSIONS("submission.insults", "./insultSubmissions"),
     MEME_SUBMISSIONS("submission.memes", "./memeSubmissions"),
+    ALLOW_ADMIN_CONTACT("allow.admin.contact","true")
     ;
 
     private final String key;

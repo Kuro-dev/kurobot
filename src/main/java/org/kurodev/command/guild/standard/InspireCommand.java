@@ -30,8 +30,14 @@ public class InspireCommand extends GuildCommand {
     @Override
     public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) throws IOException {
         String response = request.get(URL, PARAMS);
-        channel.sendMessage(response).queue();
-        event.getMessage().delete().queue();
+        if (response != null) {
+            channel.sendMessage(response).queue();
+            event.getMessage().delete().queue();
+        } else {
+            channel.sendMessage("Something went wrong when requesting the quote\n" +
+                    "if this keeps happening please contact the creator of the bot." +
+                    " (you can do so by sending a DM to Kuro-bot :)").queue();
+        }
     }
 
     @Override

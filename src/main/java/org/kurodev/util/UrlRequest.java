@@ -51,7 +51,7 @@ public class UrlRequest {
         return client;
     }
 
-    private String get(HttpURLConnection client) throws IOException {
+    private String get(HttpURLConnection client) {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()))) {
             StringBuilder response = new StringBuilder();
             String line;
@@ -60,15 +60,17 @@ public class UrlRequest {
             }
             return response.toString();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
+        return null;
     }
 
     public String get(String url, Map<String, String> parameters) {
         try {
             return get(getHttpsClient(url, parameters));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
+        return null;
     }
 }

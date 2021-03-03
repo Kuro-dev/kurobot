@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -61,7 +62,10 @@ public class Main {
                 Files.createDirectories(SETTINGS_FILE.getParent());
                 Files.createFile(SETTINGS_FILE);
             }
-            SETTINGS.store(Files.newOutputStream(SETTINGS_FILE), "Bot settings file");
+            OutputStream ous = Files.newOutputStream(SETTINGS_FILE);
+            SETTINGS.store(ous, "Bot settings file");
+            ous.flush();
+            ous.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

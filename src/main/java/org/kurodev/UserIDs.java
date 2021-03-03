@@ -28,6 +28,10 @@ public enum UserIDs {
 
     @Nullable
     public User getUser() {
-        return Main.getJDA().retrieveUserById(id).complete();
+        User out = Main.getJDA().getUserById(id); //attempt to find in cache
+        if (out == null) {
+            out = Main.getJDA().retrieveUserById(id).complete(); //retrieve from discord DB
+        }
+        return out;
     }
 }
