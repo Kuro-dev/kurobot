@@ -15,7 +15,7 @@ import org.kurodev.command.guild.standard.InsultCommand;
 import org.kurodev.command.guild.standard.MemeCommand;
 import org.kurodev.command.guild.submission.InsultSubmissionCommand;
 import org.kurodev.command.guild.submission.MemeSubmissionCommand;
-import org.kurodev.command.guild.voice.HemanCommand;
+import org.kurodev.command.guild.voice.soundboard.HemanCommand;
 import org.kurodev.command.guild.voice.LeaveCommand;
 import org.kurodev.events.InsultHandler;
 import org.slf4j.Logger;

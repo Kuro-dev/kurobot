@@ -1,15 +1,18 @@
-package org.kurodev.command.guild.voice;
+package org.kurodev.command.guild.voice.soundboard;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.command.guild.voice.VoiceCommand;
+import org.kurodev.util.cache.Cache;
 import org.kurodev.util.UrlRequest;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Type;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -23,6 +26,8 @@ public class HemanCommand extends VoiceCommand {
     static {
         searchParams.put("", "");
     }
+
+    private final Cache<List<JsonFile>> fileCache = new Cache<>(3, TimeUnit.DAYS);
 
     public HemanCommand() {
         super("heman", Permission.VOICE_CONNECT);
@@ -40,12 +45,11 @@ public class HemanCommand extends VoiceCommand {
 
     @Override
     protected void executeInternally(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) {
+        if (fileCache.isDirty()) {
+            updateCache();
+        }
         if (argsContain("-list", args)) {
-            String list = new UrlRequest().get(LIST_REQUEST_URL, searchParams);
-            if (list != null)
-                channel.sendMessage("Here is a list of all commands:\n").append(list).queue();
-            else
-                channel.sendMessage("Something went wrong when fetching list :(").queue();
+            channel.sendMessage("Here is a full list:\n").append(createList()).queue();
         }
         if (args.length > 0) {
             List<String> sounds = fillList(args);
@@ -60,6 +64,22 @@ public class HemanCommand extends VoiceCommand {
         } else {
             channel.sendMessage("argument `sound` required").queue();
         }
+    }
+
+    private String createList() {
+        StringBuilder out = new StringBuilder("```");
+        for (JsonFile jsonFile : fileCache.getCachedItem()) {
+            out.append(jsonFile.getSlug()).append("\n");
+        }
+        return out.append("```").toString();
+    }
+
+    private void updateCache() {
+        String jsonList = new UrlRequest().get(LIST_REQUEST_URL, searchParams);
+        Type listType = new TypeToken<ArrayList<JsonFile>>() {
+        }.getType();
+        List<JsonFile> files = new Gson().fromJson(jsonList, listType);
+        fileCache.update(files);
     }
 
     private List<String> fillList(String[] args) {
