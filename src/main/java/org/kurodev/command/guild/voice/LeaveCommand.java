@@ -5,8 +5,6 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-
 /**
  * @author kuro
  **/
@@ -21,7 +19,7 @@ public class LeaveCommand extends VoiceCommand {
     }
 
     @Override
-    public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) throws IOException {
+    protected void executeInternally(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) {
         channel.sendMessage("Disconnecting").queue();
         event.getGuild().getAudioManager().closeAudioConnection();
     }
