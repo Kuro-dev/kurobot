@@ -1,5 +1,6 @@
 package org.kurodev.util;
 
+import javax.annotation.Nullable;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -70,6 +71,7 @@ public class UrlRequest {
         return null;
     }
 
+    @Nullable
     public String get(String url, Map<String, String> parameters) {
         try {
             return get(getHttpsClient(url, parameters));

@@ -12,19 +12,12 @@ import java.util.List;
 /**
  * @author kuro
  **/
-@SuppressWarnings("ResultOfMethodCallIgnored")
 public class HelpCommand extends GuildCommand {
     private final List<? extends Command> commands;
-    private String response;
 
     public HelpCommand(List<? extends Command> commands) {
         super("Help");
         this.commands = commands;
-    }
-
-    @Override
-    public void prepare() throws Exception {
-        response = HelpTextFormatter.format(commands, false);
     }
 
     @Override
@@ -35,15 +28,16 @@ public class HelpCommand extends GuildCommand {
     @Override
     public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) {
         channel.sendTyping().complete();
+        boolean isAdminInvoked = false;
+        boolean showUnlisted = argsContain("-all", args);
         if (argsContain("-admin", args)) {
             if (invokerIsAdmin(event)) {
-                channel.sendMessage(HelpTextFormatter.format(commands, true)).queue();
+                isAdminInvoked = true;
             } else {
                 channel.sendMessage("nice try, but you're not an admin ;)")
-                        .append("\nhere are the commands YOU can use:\n").append(response).queue();
+                        .append("\nhere are the commands YOU can use:\n").queue();
             }
-        } else {
-            channel.sendMessage(response).queue();
         }
+        channel.sendMessage(HelpTextFormatter.format(commands, isAdminInvoked, showUnlisted)).queue();
     }
 }

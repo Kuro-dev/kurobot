@@ -21,9 +21,7 @@ public interface Command {
         return false;
     }
 
-    default String getCommand() {
-        return "";
-    }
+    String getCommand();
 
     /**
      * @param keyword The argument to look for
@@ -32,7 +30,7 @@ public interface Command {
      * (case insensitive)
      * @throws NullPointerException if keyword is <code>null</code>
      */
-    default boolean argsContain( String keyword, String[] args) {
+    default boolean argsContain(String keyword, String[] args) {
         return argIndex(keyword, args) >= 0;
     }
 
@@ -42,13 +40,17 @@ public interface Command {
      * @return the index of the argument. -1 if not found
      * @throws IllegalArgumentException if keyword is <code>null</code>
      */
-    default int argIndex( String keyword, String[] args) {
+    default int argIndex(String keyword, String[] args) {
         for (int i = 0, argsLength = args.length; i < argsLength; i++) {
             if (keyword.equalsIgnoreCase(args[i])) {
                 return i;
             }
         }
         return -1;
+    }
+
+    default boolean isListed() {
+        return true;
     }
 
     String getDescription();

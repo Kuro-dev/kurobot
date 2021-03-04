@@ -5,6 +5,11 @@ import org.kurodev.command.Command;
  **/
 public class DebugCommand implements Command {
     @Override
+    public String getCommand() {
+        return "null";
+    }
+
+    @Override
     public String getDescription() {
         return "i am a debug command :)";
     }

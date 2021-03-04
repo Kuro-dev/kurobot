@@ -71,7 +71,7 @@ public abstract class VoiceCommand extends GuildCommand {
 
     protected abstract void executeInternally(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event);
 
-    protected void loadURL(@NotNull GuildMessageReceivedEvent event, String url) throws ExecutionException, InterruptedException {
+    protected void loadURL(String url) throws ExecutionException, InterruptedException {
         playerManager.loadItem(url, resultHandler).get();
     }
 }
