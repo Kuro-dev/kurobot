@@ -7,11 +7,12 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.command.guild.voice.VoiceCommand;
-import org.kurodev.util.cache.Cache;
 import org.kurodev.util.UrlRequest;
+import org.kurodev.util.cache.Cache;
 
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,7 @@ public class HemanCommand extends VoiceCommand {
         searchParams.put("", "");
     }
 
-    private final Cache<List<JsonFile>> fileCache = new Cache<>(3, TimeUnit.DAYS);
+    private final Cache<List<JsonFile>> cache = new Cache<>(3, TimeUnit.DAYS);
 
     public HemanCommand() {
         super("heman", Permission.VOICE_CONNECT);
@@ -45,20 +46,25 @@ public class HemanCommand extends VoiceCommand {
 
     @Override
     protected void executeInternally(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) {
-        if (fileCache.isDirty()) {
+        if (cache.isDirty()) {
             updateCache();
         }
         if (argsContain("-list", args)) {
             channel.sendMessage("Here is a full list:\n").append(createList()).queue();
         }
         if (args.length > 0) {
-            List<String> sounds = fillList(args);
-            for (String sound : sounds) {
-                try {
-                    loadURL(URL + sound);
-                } catch (Exception e) {
-                    logger.error("A (potentially ignorable) error occurred:", e);
-                    channel.sendMessage("Failed to find requested sound: " + sound).queue();
+            List<JsonFile> list = cache.getCachedItem();
+            for (String arg : args) {
+                for (JsonFile jsonFile : list) {
+                    if (jsonFile.getSlug().equalsIgnoreCase(arg)) {
+                        try {
+                            loadURL(jsonFile.getUrl());
+                        } catch (ExecutionException | InterruptedException e) {
+                            logger.error("A (potentially ignorable) error occurred:", e);
+                            logger.error("File location: {}", jsonFile.getUrl());
+                            channel.sendMessage("Failed to find requested sound: " + jsonFile.getSlug()).queue();
+                        }
+                    }
                 }
             }
         } else {
@@ -68,7 +74,7 @@ public class HemanCommand extends VoiceCommand {
 
     private String createList() {
         StringBuilder out = new StringBuilder("```");
-        for (JsonFile jsonFile : fileCache.getCachedItem()) {
+        for (JsonFile jsonFile : cache.getCachedItem()) {
             out.append(jsonFile.getSlug()).append("\n");
         }
         return out.append("```").toString();
@@ -79,7 +85,7 @@ public class HemanCommand extends VoiceCommand {
         Type listType = new TypeToken<ArrayList<JsonFile>>() {
         }.getType();
         List<JsonFile> files = new Gson().fromJson(jsonList, listType);
-        fileCache.update(files);
+        cache.update(files);
     }
 
     private List<String> fillList(String[] args) {
