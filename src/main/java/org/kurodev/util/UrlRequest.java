@@ -16,11 +16,16 @@ import java.util.stream.Collectors;
  * @author kuro
  **/
 public class UrlRequest {
+    public HttpsURLConnection getHttpsClient(String url) throws Exception {
+        return getHttpsClient(url, null);
+    }
 
-    private HttpsURLConnection getHttpsClient(String url, Map<String, String> parameters) throws Exception {
-        String paramString = parameters.entrySet().stream().map(e -> e.getKey() + "=" + e.getValue()).collect(Collectors.joining("&"));
-        if (!paramString.isEmpty()) {
-            url += "?" + paramString;
+    public HttpsURLConnection getHttpsClient(String url, Map<String, String> parameters) throws Exception {
+        if (parameters != null) {
+            String paramString = parameters.entrySet().stream().map(e -> e.getKey() + "=" + e.getValue()).collect(Collectors.joining("&"));
+            if (!paramString.isEmpty()) {
+                url += "?" + paramString;
+            }
         }
         // Security section START
         TrustManager[] trustAllCerts = new TrustManager[]{

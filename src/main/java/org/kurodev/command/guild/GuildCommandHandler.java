@@ -15,6 +15,8 @@ import org.kurodev.command.guild.standard.InsultCommand;
 import org.kurodev.command.guild.standard.MemeCommand;
 import org.kurodev.command.guild.submission.InsultSubmissionCommand;
 import org.kurodev.command.guild.submission.MemeSubmissionCommand;
+import org.kurodev.command.guild.voice.HemanCommand;
+import org.kurodev.command.guild.voice.LeaveCommand;
 import org.kurodev.events.InsultHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +51,8 @@ public class GuildCommandHandler {
         commands.add(new CheckSubmissionsCommand());
         commands.add(new InspireCommand());
         commands.add(new ReloadSettingsCommand());
+        commands.add(new HemanCommand());
+        commands.add(new LeaveCommand());
 
         for (GuildCommand command : commands) {
             try {
