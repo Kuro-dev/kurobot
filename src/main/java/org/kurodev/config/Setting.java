@@ -16,7 +16,7 @@ public enum Setting {
     MEME_FOLDER("meme.folder", "./memes"),
     MEME_SUBMISSIONS("submission.memes", "./memeSubmissions"),
     TOKEN("token", ""),
-    ;
+    RPS_Outcomes_File("rps.outcomes", "./RPSOutcomes.json");
 
     private final String key;
     private final String defaultVal;

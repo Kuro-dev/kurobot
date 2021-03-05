@@ -65,4 +65,5 @@ public class TestCommands {
         list.remove(1);
         assertTrue(com.argsContain(args, list, false));
     }
+
 }

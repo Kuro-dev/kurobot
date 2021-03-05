@@ -8,15 +8,15 @@ import java.util.Objects;
  * @author kuro
  **/
 public class RPSCondition {
-    private final List<RPSCondition> winsAgainst = new ArrayList<>();
     private final String name;
+    private final List<String> winsAgainst = new ArrayList<>();
 
     public RPSCondition(String name) {
 
         this.name = name;
     }
 
-    public List<RPSCondition> getWinsAgainst() {
+    public List<String> getWinsAgainst() {
         return winsAgainst;
     }
 
@@ -25,9 +25,9 @@ public class RPSCondition {
     }
 
     public Outcome check(RPSCondition other) {
-        if (this.winsAgainst.contains(other)) {
+        if (this.winsAgainst.contains(other.name)) {
             return Outcome.WIN;
-        } else if (other.winsAgainst.contains(this)) {
+        } else if (other.winsAgainst.contains(this.name)) {
             return Outcome.LOSE;
         }
         return Outcome.DRAW;
@@ -54,6 +54,6 @@ public class RPSCondition {
     }
 
     public void beats(RPSCondition loses) {
-        winsAgainst.add(loses);
+        winsAgainst.add(loses.name);
     }
 }

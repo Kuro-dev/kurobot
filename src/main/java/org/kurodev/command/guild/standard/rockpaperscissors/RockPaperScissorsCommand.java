@@ -1,12 +1,22 @@
 package org.kurodev.command.guild.standard.rockpaperscissors;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.Main;
 import org.kurodev.command.guild.GuildCommand;
+import org.kurodev.config.Setting;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -40,6 +50,24 @@ public class RockPaperScissorsCommand extends GuildCommand {
     }
 
     @Override
+    public void prepare() throws Exception {
+        final Path file = Paths.get(Main.SETTINGS.getSetting(Setting.RPS_Outcomes_File));
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        if (!Files.exists(file)) {
+            logger.info("creating {}", file.getFileName());
+            String json = gson.toJson(CONDITION_LIST);
+            Files.writeString(file, json);
+            logger.info("creating {} - DONE", file.getFileName());
+        } else {
+            Type listType = new TypeToken<ArrayList<RPSCondition>>() {
+            }.getType();
+            List<RPSCondition> list = gson.fromJson(new InputStreamReader(Files.newInputStream(file)), listType);
+            CONDITION_LIST.clear();
+            CONDITION_LIST.addAll(list);
+        }
+    }
+
+    @Override
     public String getDescription() {
         return "it's just a simple rock paper scissors game. argument: -list to see all possible choices";
     }
@@ -70,9 +98,9 @@ public class RockPaperScissorsCommand extends GuildCommand {
                     outcome = "its a draw";
                     break;
             }
-            channel.sendMessage("My choice: " + botChoice.getName()).append("\n")
-                    .append("your choice: ").append(String.valueOf(playerChoice.getName()))
-                    .append("\nresult: ").append(outcome).queue();
+            channel.sendMessage("My choice: `" + botChoice.getName()).append("`\n")
+                    .append("your choice: `").append(String.valueOf(playerChoice.getName()))
+                    .append("`\nresult: `").append(outcome).append("`").queue();
         }
     }
 

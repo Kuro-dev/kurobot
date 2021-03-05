@@ -60,7 +60,7 @@ public class GuildCommandHandler {
             try {
                 command.prepare();
             } catch (Exception e) {
-                logger.info("Failed to initialize command \"" + command.getCommand() + "\"", e);
+                logger.error("Failed to initialize command \"" + command.getCommand() + "\"", e);
                 commands.remove(command);
             }
         }
