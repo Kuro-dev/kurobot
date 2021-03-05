@@ -1,6 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
-import org.kurodev.util.cache.Cache;
+import org.kurodev.discord.util.cache.Cache;
 
 import java.util.concurrent.TimeUnit;
 

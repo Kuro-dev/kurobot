@@ -1,4 +1,4 @@
-import org.kurodev.command.Command;
+import org.kurodev.discord.command.Command;
 
 /**
  * @author kuro

@@ -3,9 +3,9 @@ package org.kurodev;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
-import org.kurodev.config.MySettings;
-import org.kurodev.config.Setting;
-import org.kurodev.events.MessageEventHandler;
+import org.kurodev.discord.config.MySettings;
+import org.kurodev.discord.config.Setting;
+import org.kurodev.discord.events.MessageEventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

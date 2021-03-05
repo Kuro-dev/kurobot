@@ -1,8 +1,7 @@
 import org.junit.Test;
-import org.kurodev.command.Command;
+import org.kurodev.discord.command.Command;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;

@@ -1,8 +1,8 @@
 package util;
 
 import org.junit.Test;
-import org.kurodev.command.guild.standard.rockpaperscissors.Outcome;
-import org.kurodev.command.guild.standard.rockpaperscissors.RPSCondition;
+import org.kurodev.discord.command.guild.standard.rockpaperscissors.Outcome;
+import org.kurodev.discord.command.guild.standard.rockpaperscissors.RPSCondition;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,5 +21,17 @@ public class unitTests {
         assertEquals(Outcome.LOSE, scissors.check(rock));
         assertEquals(Outcome.WIN, scissors.check(paper));
         assertEquals(Outcome.DRAW, scissors.check(scissors));
+    }
+
+    @Test
+    public void rpsCheckShouldBeDrawIfTwoConditionsBeatEachOther() {
+        RPSCondition rock = new RPSCondition("rock");
+        RPSCondition paper = new RPSCondition("paper");
+        assertEquals(Outcome.DRAW, rock.check(paper));
+        assertEquals(Outcome.DRAW, paper.check(rock));
+        rock.beats(paper);
+        paper.beats(rock);
+        assertEquals(Outcome.DRAW, rock.check(paper));
+        assertEquals(Outcome.DRAW, paper.check(rock));
     }
 }
