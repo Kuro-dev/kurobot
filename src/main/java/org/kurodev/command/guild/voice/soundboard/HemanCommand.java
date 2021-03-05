@@ -82,7 +82,7 @@ public class HemanCommand extends VoiceCommand {
         if (cache.isDirty()){
             updateCache();
         }
-        StringBuilder out = new StringBuilder("```");
+        StringBuilder out = new StringBuilder("```\n");
         for (JsonFile jsonFile : cache.getCachedItem()) {
             out.append(jsonFile.getSlug()).append("\n");
         }
@@ -95,9 +95,5 @@ public class HemanCommand extends VoiceCommand {
         }.getType();
         List<JsonFile> files = new Gson().fromJson(jsonList, listType);
         cache.update(files);
-    }
-
-    private List<String> fillList(String[] args) {
-        return Arrays.stream(args).map(arg -> arg + ".mp3").collect(Collectors.toList());
     }
 }

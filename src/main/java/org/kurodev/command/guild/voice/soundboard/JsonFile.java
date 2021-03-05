@@ -31,5 +31,15 @@ public class JsonFile {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "JsonFile{" +
+                "slug='" + slug + '\'' +
+                ", title='" + title + '\'' +
+                ", url='" + url + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
 
