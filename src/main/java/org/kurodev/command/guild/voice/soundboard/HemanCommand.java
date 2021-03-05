@@ -15,7 +15,6 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * @author kuro
@@ -46,7 +45,7 @@ public class HemanCommand extends VoiceCommand {
 
     @Override
     public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) throws IOException {
-        if (argsContain("-list", args)) {
+        if (argsContain(args, "-list")) {
             channel.sendMessage("Here is a full list:\n").append(createList()).queue();
         } else {
             super.execute(channel, args, event);

@@ -29,8 +29,8 @@ public class HelpCommand extends GuildCommand {
     public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) {
         channel.sendTyping().complete();
         boolean isAdminInvoked = false;
-        boolean showUnlisted = argsContain("-all", args);
-        if (argsContain("-admin", args)) {
+        boolean showUnlisted = argsContain(args, "-all");
+        if (argsContain(args, "-admin")) {
             if (invokerIsAdmin(event)) {
                 isAdminInvoked = true;
             } else {

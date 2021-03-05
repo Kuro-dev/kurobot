@@ -13,6 +13,7 @@ import org.kurodev.command.guild.standard.HelpCommand;
 import org.kurodev.command.guild.standard.InspireCommand;
 import org.kurodev.command.guild.standard.InsultCommand;
 import org.kurodev.command.guild.standard.MemeCommand;
+import org.kurodev.command.guild.standard.rockpaperscissors.RockPaperScissorsCommand;
 import org.kurodev.command.guild.submission.InsultSubmissionCommand;
 import org.kurodev.command.guild.submission.MemeSubmissionCommand;
 import org.kurodev.command.guild.voice.soundboard.HemanCommand;
@@ -53,6 +54,7 @@ public class GuildCommandHandler {
         commands.add(new ReloadSettingsCommand());
         commands.add(new HemanCommand());
         commands.add(new LeaveCommand());
+        commands.add(new RockPaperScissorsCommand());
 
         for (GuildCommand command : commands) {
             try {
