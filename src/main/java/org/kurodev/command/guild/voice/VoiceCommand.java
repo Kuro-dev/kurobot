@@ -41,6 +41,9 @@ public abstract class VoiceCommand extends GuildCommand {
         AudioSourceManagers.registerRemoteSources(playerManager);
     }
 
+    /**
+     * @return the connected voice channel in that guild. Null if not connected to any
+     */
     protected VoiceChannel getVoiceChannel(@NotNull GuildMessageReceivedEvent event) {
         User author = event.getAuthor();
         for (VoiceChannel channel : event.getGuild().getVoiceChannels()) {

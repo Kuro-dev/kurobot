@@ -15,12 +15,16 @@ public class LeaveCommand extends VoiceCommand {
 
     @Override
     public String getDescription() {
-        return "just makes the bot leave the connected channel";
+        return "just makes the bot leave the voice channel";
     }
 
     @Override
     protected void executeInternally(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) {
-        channel.sendMessage("Disconnecting").queue();
-        event.getGuild().getAudioManager().closeAudioConnection();
+        if (getVoiceChannel(event)==null) {
+            channel.sendMessage("Not connected to any voice channels").queue();
+        }else{
+            channel.sendMessage("Disconnecting").queue();
+            event.getGuild().getAudioManager().closeAudioConnection();
+        }
     }
 }

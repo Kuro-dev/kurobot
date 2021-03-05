@@ -10,6 +10,7 @@ import org.kurodev.command.guild.voice.VoiceCommand;
 import org.kurodev.util.UrlRequest;
 import org.kurodev.util.cache.Cache;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -20,8 +21,7 @@ import java.util.stream.Collectors;
  * @author kuro
  **/
 public class HemanCommand extends VoiceCommand {
-    private static final String URL = "https://hemann-soundboard.hamsterlabs.de/audio/";
-    private static final String LIST_REQUEST_URL = "";
+    private static final String LIST_REQUEST_URL = "https://hemann-soundboard.hamsterlabs.de/api/files";
     private static final Map<String, String> searchParams = new HashMap<>();
 
     static {
@@ -45,12 +45,18 @@ public class HemanCommand extends VoiceCommand {
     }
 
     @Override
+    public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) throws IOException {
+        if (argsContain("-list", args)) {
+            channel.sendMessage("Here is a full list:\n").append(createList()).queue();
+        } else {
+            super.execute(channel, args, event);
+        }
+    }
+
+    @Override
     protected void executeInternally(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) {
         if (cache.isDirty()) {
             updateCache();
-        }
-        if (argsContain("-list", args)) {
-            channel.sendMessage("Here is a full list:\n").append(createList()).queue();
         }
         if (args.length > 0) {
             List<JsonFile> list = cache.getCachedItem();
@@ -73,6 +79,9 @@ public class HemanCommand extends VoiceCommand {
     }
 
     private String createList() {
+        if (cache.isDirty()){
+            updateCache();
+        }
         StringBuilder out = new StringBuilder("```");
         for (JsonFile jsonFile : cache.getCachedItem()) {
             out.append(jsonFile.getSlug()).append("\n");
