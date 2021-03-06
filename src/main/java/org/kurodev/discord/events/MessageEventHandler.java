@@ -33,8 +33,8 @@ public class MessageEventHandler extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
-        if (event.getAuthor().isBot() && Main.SETTINGS.getSettingBool(Setting.INCLUDE_DELETE_OPTION)) {
-            if (messageAuthorIsThisBot(event.getAuthor())) {
+        if (event.getAuthor().isBot()) {
+            if (messageAuthorIsThisBot(event.getAuthor()) && Main.SETTINGS.getSettingBool(Setting.INCLUDE_DELETE_OPTION)) {
                 event.getMessage().addReaction(DELETE_REACTION).queue();
             }
             return;
