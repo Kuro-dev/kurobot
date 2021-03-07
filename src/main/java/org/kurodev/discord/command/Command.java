@@ -52,14 +52,17 @@ public interface Command {
         return -1;
     }
 
+    @Deprecated(forRemoval = true)
     default boolean argsContain(String[] args, String[] list, boolean acceptAny) {
         return argsContain(args, Arrays.asList(list), acceptAny);
     }
 
+    @Deprecated(forRemoval = true)
     default boolean argsContain(String[] args, String[] list) {
         return argsContain(args, Arrays.asList(list), true);
     }
 
+    @Deprecated(forRemoval = true)
     default boolean argsContain(String[] args, List<String> list) {
         return argsContain(args, list, true);
     }

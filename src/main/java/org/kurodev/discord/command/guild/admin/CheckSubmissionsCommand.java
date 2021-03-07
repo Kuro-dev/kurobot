@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
+import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.config.Setting;
 
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class CheckSubmissionsCommand extends AdminCommand {
     }
 
     @Override
-    public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) throws IOException {
+    public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
         MessageAction msg = channel.sendMessage("Submission statistics:\n");
         int memeFiles = readFiles(memeSubmissions);
         int insultFiles = readFiles(insultSubmissions);

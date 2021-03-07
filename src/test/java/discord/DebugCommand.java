@@ -1,3 +1,5 @@
+package discord;
+
 import org.kurodev.discord.command.Command;
 
 /**

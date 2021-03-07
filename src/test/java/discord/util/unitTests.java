@@ -1,4 +1,4 @@
-package util;
+package discord.util;
 
 import org.junit.Test;
 import org.kurodev.discord.command.guild.standard.rockpaperscissors.Outcome;

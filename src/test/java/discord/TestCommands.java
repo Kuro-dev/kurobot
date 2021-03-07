@@ -1,3 +1,5 @@
+package discord;
+
 import org.junit.Test;
 import org.kurodev.discord.command.Command;
 
@@ -43,13 +45,6 @@ public class TestCommands {
         assertFalse(com.argsContain(args, "someValue"));
     }
 
-    @Test(expected = NullPointerException.class)
-    public void argsContainsThrowsNullPointerWhenNoKeyWordGiven() {
-        Command com = new DebugCommand();
-        String[] args = new String[3];
-        com.argsContain(null, args);
-    }
-
     @Test()
     public void argsContainsWithList() {
         Command com = new DebugCommand();
@@ -65,4 +60,11 @@ public class TestCommands {
         assertTrue(com.argsContain(args, list, false));
     }
 
+    @Test
+    public void getArgumentsShouldFetchArgumentsCorrectly() {
+        DebugGuildCommand command = new DebugGuildCommand();
+        String args = command.getArguments();
+        System.out.println(args);
+        assertFalse(args.isBlank());
+    }
 }

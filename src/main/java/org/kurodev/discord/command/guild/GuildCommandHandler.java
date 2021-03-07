@@ -3,6 +3,7 @@ package org.kurodev.discord.command.guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.admin.CheckSubmissionsCommand;
 import org.kurodev.discord.command.guild.admin.ExitCommand;
 import org.kurodev.discord.command.guild.admin.InfoCommand;
@@ -73,7 +74,7 @@ public class GuildCommandHandler {
         for (GuildCommand com : commands) {
             if (com.check(command, event)) {
                 try {
-                    com.execute(channel, args, event);
+                    com.execute(channel, Argument.parse(args), event);
                 } catch (IOException e) {
                     logger.debug(this.getClass().getSimpleName() + "#handle() exception logged", e);
                     logger.debug("Commandhandler#handle() exception logged", e);

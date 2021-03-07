@@ -6,9 +6,11 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.voice.VoiceCommand;
 import org.kurodev.discord.util.UrlRequest;
 import org.kurodev.discord.util.cache.Cache;
+import org.kurodev.discord.util.cache.SelfUpdatingCache;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -25,12 +27,13 @@ import java.util.concurrent.TimeUnit;
 public class HemanCommand extends VoiceCommand {
     private static final String LIST_REQUEST_URL = "https://hemann-soundboard.hamsterlabs.de/api/files";
     private static final Map<String, String> searchParams = new HashMap<>();
+    private static final String SHOW_ARGUMENTS = "--list";
 
     static {
         searchParams.put("", "");
     }
 
-    private final Cache<List<JsonFile>> cache = new Cache<>(3, TimeUnit.DAYS);
+    private final Cache<List<JsonFile>> cache = new SelfUpdatingCache<>(3, TimeUnit.DAYS, this::updateCache);
 
     public HemanCommand() {
         super("heman", Permission.VOICE_CONNECT);
@@ -47,8 +50,8 @@ public class HemanCommand extends VoiceCommand {
     }
 
     @Override
-    public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) throws IOException {
-        if (argsContain(args, "-list")) {
+    public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
+        if (args.getOpt(SHOW_ARGUMENTS)) {
             channel.sendMessage("Here is a full list:\n").append(createList()).queue();
         } else {
             super.execute(channel, args, event);
@@ -56,13 +59,14 @@ public class HemanCommand extends VoiceCommand {
     }
 
     @Override
-    protected void executeInternally(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) {
+    protected void executeInternally(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) {
         if (cache.isDirty()) {
             updateCache();
         }
-        if (args.length > 0) {
+        List<String> otherArgs = args.getOtherArgs();
+        if (otherArgs.size() > 0) {
             List<JsonFile> list = cache.getCachedItem();
-            for (String arg : args) {
+            for (String arg : otherArgs) {
                 for (JsonFile jsonFile : list) {
                     if (jsonFile.getSlug().equalsIgnoreCase(arg)) {
                         try {
@@ -81,9 +85,6 @@ public class HemanCommand extends VoiceCommand {
     }
 
     private String createList() {
-        if (cache.isDirty()){
-            updateCache();
-        }
         StringBuilder out = new StringBuilder("```\n");
         for (JsonFile jsonFile : cache.getCachedItem()) {
             out.append(jsonFile.getSlug()).append("\n");
@@ -91,11 +92,10 @@ public class HemanCommand extends VoiceCommand {
         return out.append("```").toString();
     }
 
-    private void updateCache() {
+    private List<JsonFile> updateCache() {
         String jsonList = new UrlRequest().get(LIST_REQUEST_URL, searchParams);
         Type listType = new TypeToken<ArrayList<JsonFile>>() {
         }.getType();
-        List<JsonFile> files = new Gson().fromJson(jsonList, listType);
-        cache.update(files);
+        return new Gson().fromJson(jsonList, listType);
     }
 }

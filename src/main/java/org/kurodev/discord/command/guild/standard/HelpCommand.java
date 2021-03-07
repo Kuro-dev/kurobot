@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.discord.command.Command;
+import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.GuildCommand;
 import org.kurodev.discord.util.HelpTextFormatter;
 
@@ -13,6 +14,8 @@ import java.util.List;
  * @author kuro
  **/
 public class HelpCommand extends GuildCommand {
+    private static final String SHOW_ALL = "--all";
+    private static final String SHOW_ADMIN_COMMANDS = "--admin";
     private final List<? extends Command> commands;
 
     public HelpCommand(List<? extends Command> commands) {
@@ -26,11 +29,11 @@ public class HelpCommand extends GuildCommand {
     }
 
     @Override
-    public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) {
+    public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) {
         channel.sendTyping().complete();
         boolean isAdminInvoked = false;
-        boolean showUnlisted = argsContain(args, "-all");
-        if (argsContain(args, "-admin")) {
+        boolean showUnlisted = args.getOpt(SHOW_ALL);
+        if (args.getOpt(SHOW_ADMIN_COMMANDS)) {
             if (invokerIsAdmin(event)) {
                 isAdminInvoked = true;
             } else {

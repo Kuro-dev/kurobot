@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
+import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.GuildCommand;
 import org.kurodev.discord.config.Setting;
 
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
  **/
 public class RockPaperScissorsCommand extends GuildCommand {
     private static final List<RPSCondition> CONDITION_LIST = new ArrayList<>();
+    private static final String SHOW_OPTIONS = "--list";
 
     static {
         RPSCondition rock = addCondition("rock");
@@ -73,8 +75,8 @@ public class RockPaperScissorsCommand extends GuildCommand {
     }
 
     @Override
-    public void execute(TextChannel channel, String[] args, @NotNull GuildMessageReceivedEvent event) throws IOException {
-        if (argsContain(args, "-list")) {
+    public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
+        if (args.getOpt(SHOW_OPTIONS)) {
             MessageAction action = channel.sendMessage("here are all choices:\n```\n");
             for (String conditionName : getConditionNames()) {
                 action.append(conditionName).append("\n");
@@ -82,10 +84,10 @@ public class RockPaperScissorsCommand extends GuildCommand {
             action.append("```").queue();
             return;
         }
-        if (argsContain(args, getConditionNames())) {
+        if (args.containsAny(getConditionNames())) {
             RPSCondition botChoice = getRandomRps();
-            int argIndex = 0;
-            RPSCondition playerChoice = find(args[argIndex]);
+            int playerChoiceIndex = 0;
+            RPSCondition playerChoice = find(args.getOtherArgs().get(playerChoiceIndex));
             String outcome = "";
             switch (botChoice.check(playerChoice)) {
                 case WIN:
