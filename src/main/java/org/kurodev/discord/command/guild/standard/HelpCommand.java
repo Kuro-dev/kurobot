@@ -52,11 +52,14 @@ public class HelpCommand extends GuildCommand {
             return;
         }
         boolean showUnlisted = args.getOpt(SHOW_ALL);
-        if (args.getOpt(SHOW_ADMIN_COMMANDS)) {
-            channel.sendMessage("nice try, but you're not an admin ;)")
-                    .append("\nhere are the commands YOU can use:\n").queue();
+        boolean showAdmin = args.getOpt(SHOW_ADMIN_COMMANDS);
+        if (showAdmin) {
+            if (!isAdminInvoked) {
+                channel.sendMessage("nice try, but you're not an admin ;)")
+                        .append("\nhere are the commands you CAN use:\n").queue();
+            }
         }
-        channel.sendMessage(HelpTextFormatter.format(commands, isAdminInvoked, showUnlisted)).queue();
+        channel.sendMessage(HelpTextFormatter.format(commands, isAdminInvoked && showAdmin, showUnlisted)).queue();
     }
 
     private Command find(String name) {
