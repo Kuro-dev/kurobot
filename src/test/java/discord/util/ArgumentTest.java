@@ -51,4 +51,15 @@ public class ArgumentTest {
         assertFalse(arg.hasErrors());
         assertEquals(0, arg.getOtherArgs().size());
     }
+
+    @Test
+    public void edgecase() {
+        String[] args = {"-", "--", "-test"};
+        Argument arg = Argument.parse(args);
+        assertTrue(arg.hasErrors());
+        assertEquals(3, arg.getErrors().size());
+        assertEquals(ErrorCode.ARGUMENT_TOO_SHORT, arg.getErrors().get(0).getCode());
+        assertEquals(ErrorCode.ARGUMENT_TOO_SHORT, arg.getErrors().get(1).getCode());
+        assertEquals(ErrorCode.OPTION_SYNTAX_ERROR, arg.getErrors().get(2).getCode());
+    }
 }

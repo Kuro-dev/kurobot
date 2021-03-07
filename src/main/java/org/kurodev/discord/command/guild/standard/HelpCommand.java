@@ -2,6 +2,7 @@ package org.kurodev.discord.command.guild.standard;
 
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.discord.command.Command;
 import org.kurodev.discord.command.argument.Argument;
@@ -25,22 +26,40 @@ public class HelpCommand extends GuildCommand {
 
     @Override
     public String getDescription() {
-        return "Lists all available commands. Possible arguments: -admin";
+        return "Lists all available commands. use !k help *command* for additional info";
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) {
-        channel.sendTyping().complete();
-        boolean isAdminInvoked = false;
+        boolean isAdminInvoked = invokerIsAdmin(event);
+        if (args.hasOtherArgs()) {
+            for (String otherArg : args.getOtherArgs()) {
+                Command com = find(otherArg);
+                if (com != null) {
+                    MessageAction action = channel.sendMessage(com.getCommand()).append(" - `").append(com.getDescription()).append("`");
+                    if (com instanceof GuildCommand) {
+                        GuildCommand guildCommand = (GuildCommand) com;
+                        String possibleArgs = guildCommand.getArguments();
+                        if (!possibleArgs.isBlank())
+                            action.append("\nArguments:\n```\n").append(possibleArgs).append("\n```");
+                    }
+                    action.queue();
+                } else {
+                    channel.sendMessage("Command unknown: ").append(otherArg).queue();
+                }
+            }
+            return;
+        }
         boolean showUnlisted = args.getOpt(SHOW_ALL);
         if (args.getOpt(SHOW_ADMIN_COMMANDS)) {
-            if (invokerIsAdmin(event)) {
-                isAdminInvoked = true;
-            } else {
-                channel.sendMessage("nice try, but you're not an admin ;)")
-                        .append("\nhere are the commands YOU can use:\n").queue();
-            }
+            channel.sendMessage("nice try, but you're not an admin ;)")
+                    .append("\nhere are the commands YOU can use:\n").queue();
         }
         channel.sendMessage(HelpTextFormatter.format(commands, isAdminInvoked, showUnlisted)).queue();
+    }
+
+    private Command find(String name) {
+        return commands.stream().filter(command -> command.getCommand().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 }

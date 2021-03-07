@@ -41,9 +41,11 @@ public class Argument {
                 } else {
                     if (args.length - 1 == i || args[i + 1].startsWith("-"))
                         errors.add(new Error(ErrorCode.OPTION_SYNTAX_ERROR, args[i]));
-                    // -opt
-                    optsList.add(new Option(args[i], args[i + 1]));
-                    i++;
+                    else {
+                        // -opt
+                        optsList.add(new Option(args[i], args[i + 1]));
+                        i++;
+                    }
                 }
             } else {// arg
                 argsList.add(args[i]);
@@ -83,7 +85,7 @@ public class Argument {
     public String getErrorsAsString() {
         StringBuilder out = new StringBuilder();
         for (Error error : errors) {
-            out.append(String.format("Error %d (%s):\nReason:%s\ncause:%s\n", error.code.ordinal(), error.code.name(), error.code.reason, error.cause));
+            out.append(String.format("```Error code: %d (%s):\nReason: %s\ncaused by argument:\"%s\"\n```", error.code.ordinal(), error.code.name(), error.code.reason, error.cause));
         }
         return out.toString();
     }
@@ -94,6 +96,10 @@ public class Argument {
 
     public boolean containsAny(List<String> conditionNames) {
         return otherArgs.stream().anyMatch(conditionNames::contains);
+    }
+
+    public boolean hasOtherArgs() {
+        return otherArgs.size() > 0;
     }
 
     static class Option {

@@ -5,10 +5,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.discord.command.argument.Argument;
+import org.kurodev.discord.command.guild.CommandArgument;
 import org.kurodev.discord.command.guild.GuildCommand;
 import org.kurodev.discord.config.Setting;
 
@@ -28,6 +28,9 @@ import java.util.stream.Collectors;
  **/
 public class RockPaperScissorsCommand extends GuildCommand {
     private static final List<RPSCondition> CONDITION_LIST = new ArrayList<>();
+    @CommandArgument(mandatory = true, meaning = "your choice for this round of the game")
+    private static final String CHOICE = "choice";
+    @CommandArgument(meaning = "Displays a list of all possible choices for the game")
     private static final String SHOW_OPTIONS = "--list";
 
     static {
@@ -71,20 +74,16 @@ public class RockPaperScissorsCommand extends GuildCommand {
 
     @Override
     public String getDescription() {
-        return "it's just a simple rock paper scissors game. argument: -list to see all possible choices";
+        return "it's just a simple rock paper scissors game.";
     }
 
     @Override
     public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
-        if (args.getOpt(SHOW_OPTIONS)) {
-            MessageAction action = channel.sendMessage("here are all choices:\n```\n");
-            for (String conditionName : getConditionNames()) {
-                action.append(conditionName).append("\n");
-            }
-            action.append("```").queue();
-            return;
-        }
-        if (args.containsAny(getConditionNames())) {
+        if (args.getOtherArgs().isEmpty()) {
+            channel.sendMessage("Argument required\n").append(writeOptionString()).queue();
+        } else if (args.getOpt(SHOW_OPTIONS)) {
+            channel.sendMessage(writeOptionString()).queue();
+        } else if (args.containsAny(getConditionNames())) {
             RPSCondition botChoice = getRandomRps();
             int playerChoiceIndex = 0;
             RPSCondition playerChoice = find(args.getOtherArgs().get(playerChoiceIndex));
@@ -104,6 +103,14 @@ public class RockPaperScissorsCommand extends GuildCommand {
                     .append("your choice: `").append(String.valueOf(playerChoice.getName()))
                     .append("`\nresult: `").append(outcome).append("`").queue();
         }
+    }
+
+    private String writeOptionString() {
+        StringBuilder msg = new StringBuilder("here are all choices:\n```\n");
+        for (String conditionName : getConditionNames()) {
+            msg.append(conditionName).append("\n");
+        }
+        return msg.append("```").toString();
     }
 
     private RPSCondition getRandomRps() {

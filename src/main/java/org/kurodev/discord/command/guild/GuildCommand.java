@@ -40,8 +40,9 @@ public abstract class GuildCommand implements Command {
                 try {
                     declaredField.setAccessible(true);
                     String name = declaredField.get(this).toString();
-                    String meaning = declaredField.getAnnotation(CommandArgument.class).meaning();
-                    builder.append(name).append(" = ").append(meaning).append("\n");
+                    CommandArgument argument = declaredField.getAnnotation(CommandArgument.class);
+                    String mandatory = argument.mandatory() ? " (Mandatory)" : "";
+                    builder.append(name).append(mandatory).append(" = ").append(argument.meaning()).append("\n");
                     declaredField.setAccessible(false);
                 } catch (IllegalAccessException e) {
                     //should never be thrown

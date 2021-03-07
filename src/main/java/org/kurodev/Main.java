@@ -39,7 +39,9 @@ public class Main {
         MessageEventHandler event = new MessageEventHandler();
         event.initialize();
         JDA.addEventListener(event);
+        logger.info("Connecting to Discord");
         JDA.awaitReady();
+        logger.info("Connecting to Discord - DONE");
         JDA.getPresence().setActivity(Activity.of(Activity.ActivityType.LISTENING, "!k help"));
     }
 

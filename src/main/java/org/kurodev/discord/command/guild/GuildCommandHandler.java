@@ -68,13 +68,18 @@ public class GuildCommandHandler {
         logger.info("initializing commands - DONE");
     }
 
-    public void handle(String command, @NotNull GuildMessageReceivedEvent event, String[] args) {
+    public void handle(String command, @NotNull GuildMessageReceivedEvent event, String[] strArgs) {
         TextChannel channel = event.getChannel();
         channel.sendTyping().complete();
         for (GuildCommand com : commands) {
             if (com.check(command, event)) {
                 try {
-                    com.execute(channel, Argument.parse(args), event);
+                    Argument args = Argument.parse(strArgs);
+                    if (args.hasErrors()) {
+                        channel.sendMessage("Oops, something went wrong\n").append(args.getErrorsAsString()).queue();
+                    } else {
+                        com.execute(channel, args, event);
+                    }
                 } catch (IOException e) {
                     logger.debug(this.getClass().getSimpleName() + "#handle() exception logged", e);
                     logger.debug("Commandhandler#handle() exception logged", e);

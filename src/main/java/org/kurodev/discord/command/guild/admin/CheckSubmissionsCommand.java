@@ -48,8 +48,7 @@ public class CheckSubmissionsCommand extends AdminCommand {
         try {
             return Files.walk(insultSubmissions).filter(Files::isRegularFile).mapToInt(value -> {
                 try {
-                    int ret = Files.readAllLines(value).size();
-                    return ret;
+                    return Files.readAllLines(value).size();
                 } catch (IOException e) {
                     logger.error("Could not read file: " + value, e);
                     return 0;

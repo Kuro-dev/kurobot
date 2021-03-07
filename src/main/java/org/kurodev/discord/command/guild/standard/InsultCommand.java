@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.discord.command.argument.Argument;
+import org.kurodev.discord.command.guild.CommandArgument;
 import org.kurodev.discord.command.guild.GuildCommand;
 import org.kurodev.discord.events.InsultHandler;
 
@@ -15,6 +16,8 @@ import java.io.IOException;
  **/
 public class InsultCommand extends GuildCommand {
     private final InsultHandler insults;
+    @CommandArgument(meaning = "used to make the bot insult the mentioned member")
+    private static final String mention = "@Mention";
 
     public InsultCommand(InsultHandler insults) {
         super("Insult");
