@@ -11,6 +11,7 @@ import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.CommandArgument;
 import org.kurodev.discord.command.guild.GuildCommand;
 import org.kurodev.discord.config.Setting;
+import org.kurodev.discord.util.MarkDown;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
 public class RockPaperScissorsCommand extends GuildCommand {
     private static final List<RPSCondition> CONDITION_LIST = new ArrayList<>();
     @CommandArgument(mandatory = true, meaning = "your choice for this round of the game")
-    private static final String CHOICE = "choice";
+    private static final String CHOICE = "choice"; //yes this is never used, still, please don't delete it.
     @CommandArgument(meaning = "Displays a list of all possible choices for the game")
     private static final String SHOW_OPTIONS = "--list";
 
@@ -79,10 +80,10 @@ public class RockPaperScissorsCommand extends GuildCommand {
 
     @Override
     public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
-        if (args.getOtherArgs().isEmpty()) {
+        if (args.getOpt(SHOW_OPTIONS)) {
+            channel.sendMessage(MarkDown.CODE_BLOCK.wrap(writeOptionString())).queue();
+        } else if (args.getOtherArgs().isEmpty()) {
             channel.sendMessage("Argument required\n").append(writeOptionString()).queue();
-        } else if (args.getOpt(SHOW_OPTIONS)) {
-            channel.sendMessage(writeOptionString()).queue();
         } else if (args.containsAny(getConditionNames())) {
             RPSCondition botChoice = getRandomRps();
             int playerChoiceIndex = 0;
@@ -106,11 +107,13 @@ public class RockPaperScissorsCommand extends GuildCommand {
     }
 
     private String writeOptionString() {
-        StringBuilder msg = new StringBuilder("here are all choices:\n```\n");
-        for (String conditionName : getConditionNames()) {
-            msg.append(conditionName).append("\n");
+        StringBuilder msg = new StringBuilder("Here are all choices:\n");
+        List<String> conditionNames = getConditionNames();
+        for (int i = 0; i < conditionNames.size(); i++) {
+            String conditionName = conditionNames.get(i);
+            msg.append(i + 1).append(")\t").append(conditionName).append("\n");
         }
-        return msg.append("```").toString();
+        return msg.toString();
     }
 
     private RPSCondition getRandomRps() {

@@ -16,7 +16,7 @@ public class HelpTextFormatter {
 
     public static String format(List<? extends Command> commands, boolean isAdmin, boolean showUnlisted) {
         final int pufferLength = commands.stream().mapToInt(value -> value.getCommand().length()).max().orElse(-1) + PUFFER;
-        final StringBuilder out = new StringBuilder("```List of commands:\n");
+        final StringBuilder out = new StringBuilder("List of commands:\n");
         final String delimiter = "-".repeat(pufferLength - PUFFER);
 
         out.append(delimiter).append("Commands").append(delimiter).append("\n");
@@ -34,8 +34,8 @@ public class HelpTextFormatter {
         BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(out.toString().getBytes(StandardCharsets.UTF_8))));
         int length = reader.lines().mapToInt(String::length).max().orElse(-1);
         out.append("-".repeat(length)).append("\n");
-        out.append("Please remember to use \"!k *command*\" to execute the command.\n").append("```");
-        return out.toString();
+        out.append("Please remember to use \"!k *command*\" to execute the command.\n");
+        return MarkDown.CODE_BLOCK.wrap(out.toString());
     }
 
     private static String createPuffer(String str, int length) {

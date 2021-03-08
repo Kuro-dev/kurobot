@@ -9,38 +9,35 @@ public enum MarkDown {
     BOLD("**"),
     UNDERLINE("__"),
     STRIKETHROUGH("~~"),
-    QUOTE("> ", false, ">>>"),
-    CODE_BLOCK("`", "```\n");
+    QUOTE("> ", false),
+    CODE("`"),
+    CODE_BLOCK("```\n"),
+    ;
 
     private final String markdown;
     private final boolean bothSides;
-    private final boolean supportBlock;
-    private final String blockOption;
 
     MarkDown(String s) {
         this(s, true);
     }
 
-    MarkDown(String s, String blockOption) {
-        this(s, true, blockOption);
-    }
-
-    MarkDown(String s, boolean bothSides, String blockOption) {
-        this.markdown = s;
-        this.bothSides = bothSides;
-        supportBlock = blockOption == null || blockOption.isBlank();
-        this.blockOption = blockOption;
-    }
 
     MarkDown(String s, boolean bothSides) {
-        this(s, bothSides, null);
+        this.markdown = s;
+        this.bothSides = bothSides;
     }
 
-    public String wrap(String content, boolean isTextBlock) {
-        if (isTextBlock && supportBlock) {
-            return blockOption + content + (bothSides ? blockOption : "");
+    public String wrap(String content) {
+        boolean isTextBlock = content.contains("\n") || content.contains("\r");
+        if (isTextBlock && this == QUOTE) {
+            StringBuilder builder = new StringBuilder();
+            for (String line : content.split("\n|\r")) {
+                builder.append(markdown).append(line).append(bothSides ? markdown : "").append("\n");
+            }
+            return builder.toString();
+        } else {
+            return markdown + content + (bothSides ? markdown : "");
         }
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 
 }
