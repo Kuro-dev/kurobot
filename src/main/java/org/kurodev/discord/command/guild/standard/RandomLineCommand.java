@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.GuildCommand;
-import org.kurodev.discord.events.TextSampleHandler;
+import org.kurodev.discord.util.TextSampleHandler;
 
 import java.io.IOException;
 

@@ -10,16 +10,13 @@ import org.kurodev.discord.command.guild.admin.InfoCommand;
 import org.kurodev.discord.command.guild.admin.ReloadSettingsCommand;
 import org.kurodev.discord.command.guild.force.ForceAddInsultCommand;
 import org.kurodev.discord.command.guild.force.ForceAddMemeCommand;
-import org.kurodev.discord.command.guild.standard.HelpCommand;
-import org.kurodev.discord.command.guild.standard.InspireCommand;
-import org.kurodev.discord.command.guild.standard.MemeCommand;
-import org.kurodev.discord.command.guild.standard.RandomLineCommand;
+import org.kurodev.discord.command.guild.standard.*;
 import org.kurodev.discord.command.guild.standard.rockpaperscissors.RockPaperScissorsCommand;
 import org.kurodev.discord.command.guild.submission.InsultSubmissionCommand;
 import org.kurodev.discord.command.guild.submission.MemeSubmissionCommand;
 import org.kurodev.discord.command.guild.voice.LeaveCommand;
 import org.kurodev.discord.command.guild.voice.soundboard.HemanCommand;
-import org.kurodev.discord.events.TextSampleHandler;
+import org.kurodev.discord.util.TextSampleHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,6 +53,7 @@ public class GuildCommandHandler {
         commands.add(new HemanCommand());
         commands.add(new LeaveCommand());
         commands.add(new RockPaperScissorsCommand());
+        commands.add(new VersionCommand());
 
         for (GuildCommand command : commands) {
             try {

@@ -1,4 +1,4 @@
-package org.kurodev.discord.events;
+package org.kurodev.discord;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
@@ -9,10 +9,10 @@ import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
-import org.kurodev.discord.UserIDs;
 import org.kurodev.discord.command.guild.GuildCommandHandler;
 import org.kurodev.discord.command.privateMsg.PrivateCommandHandler;
 import org.kurodev.discord.config.Setting;
+import org.kurodev.discord.util.TextSampleHandler;
 
 import java.nio.file.Paths;
 import java.util.Arrays;

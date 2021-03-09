@@ -1,4 +1,4 @@
-package org.kurodev.discord.events;
+package org.kurodev.discord.util;
 
 import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Member;
