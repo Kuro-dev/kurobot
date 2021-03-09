@@ -11,7 +11,7 @@ import org.kurodev.discord.command.guild.admin.ReloadSettingsCommand;
 import org.kurodev.discord.command.guild.force.ForceAddInsultCommand;
 import org.kurodev.discord.command.guild.force.ForceAddMemeCommand;
 import org.kurodev.discord.command.guild.standard.*;
-import org.kurodev.discord.command.guild.standard.rockpaperscissors.RockPaperScissorsCommand;
+import org.kurodev.discord.command.guild.standard.rps.RockPaperScissorsCommand;
 import org.kurodev.discord.command.guild.submission.InsultSubmissionCommand;
 import org.kurodev.discord.command.guild.submission.MemeSubmissionCommand;
 import org.kurodev.discord.command.guild.voice.LeaveCommand;

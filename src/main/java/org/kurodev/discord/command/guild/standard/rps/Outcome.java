@@ -1,4 +1,4 @@
-package org.kurodev.discord.command.guild.standard.rockpaperscissors;
+package org.kurodev.discord.command.guild.standard.rps;
 
 /**
  * @author kuro
