@@ -29,6 +29,10 @@ public interface Command {
 
     String getDescription();
 
+    default boolean supportsMention() {
+        return false;
+    }
+
     default boolean invokerIsAdmin(PrivateMessageReceivedEvent event) {
         return invokerIsAdmin(event.getAuthor());
     }

@@ -12,14 +12,14 @@ import org.kurodev.discord.command.guild.force.ForceAddInsultCommand;
 import org.kurodev.discord.command.guild.force.ForceAddMemeCommand;
 import org.kurodev.discord.command.guild.standard.HelpCommand;
 import org.kurodev.discord.command.guild.standard.InspireCommand;
-import org.kurodev.discord.command.guild.standard.InsultCommand;
 import org.kurodev.discord.command.guild.standard.MemeCommand;
+import org.kurodev.discord.command.guild.standard.RandomLineCommand;
 import org.kurodev.discord.command.guild.standard.rockpaperscissors.RockPaperScissorsCommand;
 import org.kurodev.discord.command.guild.submission.InsultSubmissionCommand;
 import org.kurodev.discord.command.guild.submission.MemeSubmissionCommand;
 import org.kurodev.discord.command.guild.voice.LeaveCommand;
 import org.kurodev.discord.command.guild.voice.soundboard.HemanCommand;
-import org.kurodev.discord.events.InsultHandler;
+import org.kurodev.discord.events.TextSampleHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,9 +33,9 @@ import java.util.List;
 public class GuildCommandHandler {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<GuildCommand> commands = new ArrayList<>();
-    private final InsultHandler insults;
+    private final TextSampleHandler insults;
 
-    public GuildCommandHandler(InsultHandler insults) {
+    public GuildCommandHandler(TextSampleHandler insults) {
         this.insults = insults;
     }
 
@@ -45,11 +45,11 @@ public class GuildCommandHandler {
         commands.add(new MemeCommand());
         commands.add(new InfoCommand());
         commands.add(new ExitCommand());
-        commands.add(new InsultCommand(insults));
-        commands.add(new MemeSubmissionCommand());
+        commands.add(new RandomLineCommand("insult", insults));
         commands.add(new InsultSubmissionCommand(insults));
-        commands.add(new ForceAddMemeCommand());
         commands.add(new ForceAddInsultCommand(insults));
+        commands.add(new MemeSubmissionCommand());
+        commands.add(new ForceAddMemeCommand());
         commands.add(new CheckSubmissionsCommand());
         commands.add(new InspireCommand());
         commands.add(new ReloadSettingsCommand());

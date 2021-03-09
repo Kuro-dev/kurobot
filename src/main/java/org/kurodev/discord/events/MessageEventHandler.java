@@ -14,6 +14,7 @@ import org.kurodev.discord.command.guild.GuildCommandHandler;
 import org.kurodev.discord.command.privateMsg.PrivateCommandHandler;
 import org.kurodev.discord.config.Setting;
 
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -23,7 +24,7 @@ import java.util.Random;
 public class MessageEventHandler extends ListenerAdapter {
     public static final String DELETE_REACTION = "🗑";
     public static final int INSULT_CHANCE = Integer.parseInt(Main.SETTINGS.getSetting(Setting.INSULT_CHANCE));
-    private final InsultHandler insults = new InsultHandler();
+    private final TextSampleHandler insults = new TextSampleHandler(Paths.get(Main.SETTINGS.getSetting(Setting.INSULT_FILE)));
     private final GuildCommandHandler guildCommandHandler = new GuildCommandHandler(insults);
     private final PrivateCommandHandler privateCommandHandler = new PrivateCommandHandler();
 

@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.config.Setting;
-import org.kurodev.discord.events.InsultHandler;
+import org.kurodev.discord.events.TextSampleHandler;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -25,9 +25,9 @@ import java.util.regex.Pattern;
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class InsultSubmissionCommand extends SubmissionCommand {
     private final Pattern pattern = Pattern.compile("\".+\"");
-    private final InsultHandler handler;
+    private final TextSampleHandler handler;
 
-    public InsultSubmissionCommand(InsultHandler handler) {
+    public InsultSubmissionCommand(TextSampleHandler handler) {
         this(Paths.get(Main.SETTINGS.getSetting(Setting.INSULT_SUBMISSIONS)), handler);
     }
 
@@ -35,7 +35,7 @@ public class InsultSubmissionCommand extends SubmissionCommand {
      * @param path    Destination path for every submission of this type
      * @param handler
      */
-    public InsultSubmissionCommand(Path path, InsultHandler handler) {
+    public InsultSubmissionCommand(Path path, TextSampleHandler handler) {
         super("Insult", path);
         this.handler = handler;
     }

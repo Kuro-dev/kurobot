@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.config.Setting;
-import org.kurodev.discord.events.InsultHandler;
+import org.kurodev.discord.events.TextSampleHandler;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -22,10 +22,10 @@ import java.util.regex.Pattern;
  * @author kuro
  **/
 public class ForceAddInsultCommand extends ForceAddFileCommand {
-    private final InsultHandler insultHandler;
+    private final TextSampleHandler insultHandler;
     private final Pattern pattern = Pattern.compile("\".+\"");
 
-    public ForceAddInsultCommand(InsultHandler insultHandler) {
+    public ForceAddInsultCommand(TextSampleHandler insultHandler) {
         super("Insult", Paths.get(Main.SETTINGS.getSetting(Setting.INSULT_FILE)));
         this.insultHandler = insultHandler;
     }

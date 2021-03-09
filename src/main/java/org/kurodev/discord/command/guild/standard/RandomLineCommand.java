@@ -27,6 +27,11 @@ public class RandomLineCommand extends GuildCommand {
     }
 
     @Override
+    public boolean supportsMention() {
+        return true;
+    }
+
+    @Override
     public void prepare() throws Exception {
         insults.prepare();
     }

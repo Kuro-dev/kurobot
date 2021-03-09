@@ -38,6 +38,7 @@ public class HelpCommand extends GuildCommand {
                 Command com = find(otherArg);
                 if (com != null) {
                     MessageAction action = channel.sendMessage(com.getCommand()).append(" - `").append(com.getDescription()).append("`");
+                    action.append("Supports @mentions: ").append(String.valueOf(com.supportsMention()));
                     if (com instanceof GuildCommand) {
                         GuildCommand guildCommand = (GuildCommand) com;
                         String possibleArgs = guildCommand.getArguments();
