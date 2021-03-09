@@ -14,7 +14,7 @@ import java.io.IOException;
  * @author kuro
  **/
 public class RandomLineCommand extends GuildCommand {
-    private final TextSampleHandler insults;
+    private final TextSampleHandler samples;
 
 
     /**
@@ -23,7 +23,7 @@ public class RandomLineCommand extends GuildCommand {
      */
     public RandomLineCommand(String command, TextSampleHandler samples) {
         super(command);
-        this.insults = samples;
+        this.samples = samples;
     }
 
     @Override
@@ -33,16 +33,18 @@ public class RandomLineCommand extends GuildCommand {
 
     @Override
     public void prepare() throws Exception {
-        insults.prepare();
+        logger.info("Preparing samples");
+        samples.prepare();
+        logger.info("Preparing samples - DONE");
     }
 
     @Override
     public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
         if (containsMention(event)) {
             //TODO target every mention given
-            insults.execute(event, event.getMessage().getMentions());
+            samples.execute(event, event.getMessage().getMentions());
         } else {
-            insults.execute(event, event.getAuthor());
+            samples.execute(event, event.getAuthor());
         }
         event.getMessage().delete().queue();
     }

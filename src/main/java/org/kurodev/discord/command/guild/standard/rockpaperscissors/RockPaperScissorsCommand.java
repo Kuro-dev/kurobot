@@ -57,6 +57,7 @@ public class RockPaperScissorsCommand extends GuildCommand {
 
     @Override
     public void prepare() throws Exception {
+        logger.info("Checking files");
         final Path file = Paths.get(Main.SETTINGS.getSetting(Setting.RPS_Outcomes_File));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         if (!Files.exists(file)) {
@@ -65,11 +66,13 @@ public class RockPaperScissorsCommand extends GuildCommand {
             Files.writeString(file, json);
             logger.info("creating {} - DONE", file.getFileName());
         } else {
+            logger.info("Parsing RPSCondition data");
             Type listType = new TypeToken<ArrayList<RPSCondition>>() {
             }.getType();
             List<RPSCondition> list = gson.fromJson(new InputStreamReader(Files.newInputStream(file)), listType);
             CONDITION_LIST.clear();
             CONDITION_LIST.addAll(list);
+            logger.info("Parsing RPSCondition data - DONE");
         }
     }
 

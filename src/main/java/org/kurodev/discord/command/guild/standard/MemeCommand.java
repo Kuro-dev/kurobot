@@ -27,6 +27,7 @@ public class MemeCommand extends GuildCommand {
 
     @Override
     public void prepare() throws Exception {
+        super.prepare();
         if (!Files.exists(memeFolder)) {
             logger.info("Creating Meme Folder");
             Files.createDirectories(memeFolder);

@@ -19,6 +19,7 @@ public abstract class SubmissionCommand extends GuildCommand {
 
     @Override
     public void prepare() throws Exception {
+        logger.info("Loading files");
         if (!Files.exists(path)) {
             if (path.getFileName().toString().matches(".+\\..+")) {
                 logger.info("Creating File: " + path);
