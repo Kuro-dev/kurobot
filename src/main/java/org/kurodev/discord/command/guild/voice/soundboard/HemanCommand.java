@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.CommandArgument;
 import org.kurodev.discord.command.guild.voice.VoiceCommand;
+import org.kurodev.discord.util.MarkDown;
 import org.kurodev.discord.util.UrlRequest;
 import org.kurodev.discord.util.cache.Cache;
 import org.kurodev.discord.util.cache.SelfUpdatingCache;
@@ -89,7 +90,7 @@ public class HemanCommand extends VoiceCommand {
                 }
             }
         } else {
-            channel.sendMessage("argument `sound` required").queue();
+            channel.sendMessage("argument ").append(MarkDown.CODE.wrap("sound")).append(" required").queue();
         }
     }
 
