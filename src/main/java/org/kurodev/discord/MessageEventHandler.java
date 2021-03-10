@@ -49,14 +49,16 @@ public class MessageEventHandler extends ListenerAdapter {
                 String[] args = Arrays.copyOfRange(split, 2, split.length);
                 guildCommandHandler.handle(command, event, args);
             }
-        } else if (event.getAuthor().getIdLong() == UserIDs.MAU.getId()) {
-            insults.execute(event);
-        } else {
-            boolean chance = new Random().nextInt(INSULT_CHANCE) == 0;
-            if (chance) {
-                insults.execute(event);
-            }
         }
+        if (guildCommandHandler.handleQuests(event))
+            if (event.getAuthor().getIdLong() == UserIDs.MAU.getId()) {
+                insults.execute(event);
+            } else {
+                boolean chance = new Random().nextInt(INSULT_CHANCE) == 0;
+                if (chance) {
+                    insults.execute(event);
+                }
+            }
     }
 
     @Override

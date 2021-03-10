@@ -89,4 +89,16 @@ public class GuildCommandHandler {
         channel.sendMessage("Command is unknown, try using !k help").queue();
         event.getMessage().addReaction("🤷‍♂️").queue();
     }
+
+    /**
+     * @param event The message
+     * @return true if there is a quest associated with this user.
+     */
+    public boolean handleQuests(@NotNull GuildMessageReceivedEvent event) {
+        boolean exists = QUEST.exists(event);
+        if (exists) {
+            QUEST.get(event).update(event);
+        }
+        return exists;
+    }
 }
