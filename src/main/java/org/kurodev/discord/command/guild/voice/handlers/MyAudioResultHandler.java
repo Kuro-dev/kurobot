@@ -4,11 +4,14 @@ import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author kuro
  **/
 public class MyAudioResultHandler implements AudioLoadResultHandler {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final TrackScheduler trackScheduler;
 
     public MyAudioResultHandler(TrackScheduler trackScheduler) {
@@ -29,7 +32,7 @@ public class MyAudioResultHandler implements AudioLoadResultHandler {
 
     @Override
     public void noMatches() {
-        System.err.println("no matches found");
+        logger.error("no matched found");
     }
 
     @Override

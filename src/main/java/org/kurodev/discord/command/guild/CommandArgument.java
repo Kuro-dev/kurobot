@@ -13,5 +13,7 @@ import java.lang.annotation.Target;
 public @interface CommandArgument {
     boolean mandatory() default false;
 
+    boolean requireAdmin() default false;
+
     String meaning() default "";
 }
