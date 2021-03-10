@@ -30,7 +30,7 @@ public class HemanCommand extends VoiceCommand {
     private static final Map<String, String> searchParams = new HashMap<>();
     @CommandArgument(meaning = "Lists every possible sound that can be played")
     private static final String SHOW_ARGUMENTS = "--list";
-    @CommandArgument(meaning = "causes the command to ignore the cache")
+    @CommandArgument(requireAdmin = true, meaning = "causes the command to ignore/reload the cache")
     private static final String RELOAD_CACHE = "--noCache";
 
     static {

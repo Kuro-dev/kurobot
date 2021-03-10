@@ -41,7 +41,7 @@ public class HelpCommand extends GuildCommand {
                     action.append("Supports @mentions: ").append(String.valueOf(com.supportsMention()));
                     if (com instanceof GuildCommand) {
                         GuildCommand guildCommand = (GuildCommand) com;
-                        String possibleArgs = guildCommand.getArguments();
+                        String possibleArgs = guildCommand.getArgumentsAsString();
                         if (!possibleArgs.isBlank())
                             action.append("\nArguments:\n```\n").append(possibleArgs).append("\n```");
                     }
