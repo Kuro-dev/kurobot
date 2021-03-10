@@ -79,8 +79,7 @@ public class GuildCommandHandler {
                         com.execute(channel, args, event);
                     }
                 } catch (IOException e) {
-                    logger.debug(this.getClass().getSimpleName() + "#handle() exception logged", e);
-                    logger.debug("Commandhandler#handle() exception logged", e);
+                    logger.debug("Exception logged", e);
                 }
                 return;
             }
