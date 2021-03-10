@@ -40,7 +40,7 @@ public abstract class Quest {
     }
 
     public final boolean isExpired() {
-        return timeStamp.plus(maxAge, unit.toChronoUnit()).isAfter(LocalDateTime.now());
+        return timeStamp.plus(maxAge, unit.toChronoUnit()).isBefore(LocalDateTime.now());
     }
 
     public void refresh() {
