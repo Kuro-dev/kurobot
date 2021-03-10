@@ -30,6 +30,8 @@ public class HemanCommand extends VoiceCommand {
     private static final Map<String, String> searchParams = new HashMap<>();
     @CommandArgument(meaning = "Lists every possible sound that can be played")
     private static final String SHOW_ARGUMENTS = "--list";
+    @CommandArgument(meaning = "causes the command to ignore the cache")
+    private static final String RELOAD_CACHE = "--noCache";
 
     static {
         searchParams.put("", "");
@@ -62,7 +64,7 @@ public class HemanCommand extends VoiceCommand {
 
     @Override
     protected void executeInternally(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) {
-        if (cache.isDirty()) {
+        if (cache.isDirty() || args.getOpt(RELOAD_CACHE)) {
             updateCache();
         }
         List<String> otherArgs = args.getOtherArgs();
