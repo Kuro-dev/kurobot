@@ -1,4 +1,4 @@
-package org.kurodev.discord.command.guild.voice.soundboard;
+package org.kurodev.discord.command.guild.standard.voice.soundboard;
 
 /**
  * @author kuro

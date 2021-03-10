@@ -1,7 +1,6 @@
-package org.kurodev.discord.command.guild.force;
+package org.kurodev.discord.command.guild.standard.submission;
 
-import net.dv8tion.jda.api.entities.TextChannel;
-import org.kurodev.discord.command.guild.admin.AdminCommand;
+import org.kurodev.discord.command.guild.GuildCommand;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,17 +8,18 @@ import java.nio.file.Path;
 /**
  * @author kuro
  **/
-public abstract class ForceAddFileCommand extends AdminCommand {
+public abstract class SubmissionCommand extends GuildCommand {
     protected final Path path;
 
-    public ForceAddFileCommand(String command, Path path) {
-        super("Force-add-" + command);
+
+    protected SubmissionCommand(String command, Path path) {
+        super("Submit" + command);
         this.path = path;
     }
 
-
     @Override
     public void prepare() throws Exception {
+        logger.info("Loading files");
         if (!Files.exists(path)) {
             if (path.getFileName().toString().matches(".+\\..+")) {
                 logger.info("Creating File: " + path);
@@ -29,9 +29,5 @@ public abstract class ForceAddFileCommand extends AdminCommand {
                 Files.createDirectories(path);
             }
         }
-    }
-
-    protected void onSuccess(TextChannel channel) {
-        channel.sendMessage("Successfully added file to database").queue();
     }
 }

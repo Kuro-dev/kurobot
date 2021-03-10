@@ -1,4 +1,4 @@
-package org.kurodev.discord.command.guild.voice.soundboard;
+package org.kurodev.discord.command.guild.standard.voice.soundboard;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.CommandArgument;
-import org.kurodev.discord.command.guild.voice.VoiceCommand;
+import org.kurodev.discord.command.guild.standard.voice.VoiceCommand;
 import org.kurodev.discord.util.MarkDown;
 import org.kurodev.discord.util.UrlRequest;
 import org.kurodev.discord.util.cache.Cache;
