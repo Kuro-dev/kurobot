@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.discord.command.argument.Argument;
+import org.kurodev.discord.command.guild.CommandArgument;
 import org.kurodev.discord.command.guild.voice.VoiceCommand;
 import org.kurodev.discord.util.UrlRequest;
 import org.kurodev.discord.util.cache.Cache;
@@ -27,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class HemanCommand extends VoiceCommand {
     private static final String LIST_REQUEST_URL = "https://hemann-soundboard.hamsterlabs.de/api/files";
     private static final Map<String, String> searchParams = new HashMap<>();
+    @CommandArgument(meaning = "Lists every possible sound that can be played")
     private static final String SHOW_ARGUMENTS = "--list";
 
     static {
