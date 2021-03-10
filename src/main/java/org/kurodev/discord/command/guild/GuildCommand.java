@@ -62,6 +62,15 @@ public abstract class GuildCommand implements Command {
         return out;
     }
 
+    /**
+     * invoking this will register the quest and hook it into the message
+     * listener directly to be able to respond to any other message the registered user types.
+     * Quest will solely respond to the one that triggered it.
+     * <p>Use case examples: an AI dungeon based command</p>
+     *
+     * @param event The event to base this off. Will store channel and user data to be able to recognize the invoker in the future of the quest.
+     * @param q     The quest to register.
+     */
     protected final void registerQuest(GuildMessageReceivedEvent event, Quest q) {
         GuildCommandHandler.QUESTS.register(event, q);
     }
