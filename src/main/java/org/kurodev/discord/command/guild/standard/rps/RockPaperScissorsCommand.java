@@ -86,7 +86,8 @@ public class RockPaperScissorsCommand extends GuildCommand {
         if (args.getOpt(SHOW_OPTIONS)) {
             channel.sendMessage(MarkDown.CODE_BLOCK.wrap(writeOptionString())).queue();
         } else if (args.getOtherArgs().isEmpty()) {
-            channel.sendMessage("Argument required\n").append(writeOptionString()).queue();
+            channel.sendMessage("Argument required\n")
+                    .append(MarkDown.CODE_BLOCK.wrap(writeOptionString())).queue();
         } else if (args.containsAny(getConditionNames())) {
             RPSCondition botChoice = getRandomRps();
             int playerChoiceIndex = 0;
@@ -106,6 +107,9 @@ public class RockPaperScissorsCommand extends GuildCommand {
             channel.sendMessage("My choice: `" + botChoice.getName()).append("`\n")
                     .append("your choice: `").append(String.valueOf(playerChoice.getName()))
                     .append("`\nresult: `").append(outcome).append("`").queue();
+        } else {
+            channel.sendMessage("Unknown choice, here are all available choices:\n")
+                    .append(MarkDown.CODE_BLOCK.wrap(writeOptionString())).queue();
         }
     }
 

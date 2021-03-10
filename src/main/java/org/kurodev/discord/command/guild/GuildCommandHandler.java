@@ -49,7 +49,7 @@ public class GuildCommandHandler {
         commands.add(new ForceAddMemeCommand());
         commands.add(new CheckSubmissionsCommand());
         commands.add(new InspireCommand());
-        commands.add(new ReloadSettingsCommand());
+        commands.add(new ReloadSettingsCommand(commands));
         commands.add(new HemanCommand());
         commands.add(new LeaveCommand());
         commands.add(new RockPaperScissorsCommand());
