@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.kurodev.discord.command.Command;
 import org.kurodev.discord.command.argument.ArgInfo;
 import org.kurodev.discord.command.argument.Argument;
+import org.kurodev.discord.command.quest.Quest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +23,8 @@ import java.util.List;
 public abstract class GuildCommand implements Command {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     protected final Permission[] neededPermissions;
-    private final String command;
     protected final List<ArgInfo> argInformation;
+    private final String command;
 
     public GuildCommand(String command, Permission... neededPermissions) {
         this.command = command;
@@ -59,6 +60,10 @@ public abstract class GuildCommand implements Command {
             }
         }
         return out;
+    }
+
+    protected final void registerQuest(GuildMessageReceivedEvent event, Quest q) {
+        GuildCommandHandler.QUEST.register(event, q);
     }
 
     public String getArgumentsAsString() {

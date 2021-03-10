@@ -12,7 +12,7 @@ import org.kurodev.Main;
 import org.kurodev.discord.command.guild.GuildCommandHandler;
 import org.kurodev.discord.command.privateMsg.PrivateCommandHandler;
 import org.kurodev.discord.config.Setting;
-import org.kurodev.discord.util.TextSampleHandler;
+import org.kurodev.discord.util.handlers.TextSampleHandler;
 
 import java.nio.file.Paths;
 import java.util.Arrays;

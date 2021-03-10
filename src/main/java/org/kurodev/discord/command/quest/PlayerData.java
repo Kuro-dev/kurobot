@@ -1,4 +1,4 @@
-package org.kurodev.discord.command.guild.standard.quest;
+package org.kurodev.discord.command.quest;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;

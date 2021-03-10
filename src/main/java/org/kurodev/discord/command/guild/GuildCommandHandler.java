@@ -16,7 +16,8 @@ import org.kurodev.discord.command.guild.standard.submission.InsultSubmissionCom
 import org.kurodev.discord.command.guild.standard.submission.MemeSubmissionCommand;
 import org.kurodev.discord.command.guild.standard.voice.LeaveCommand;
 import org.kurodev.discord.command.guild.standard.voice.soundboard.HemanCommand;
-import org.kurodev.discord.util.TextSampleHandler;
+import org.kurodev.discord.command.quest.QuestHandler;
+import org.kurodev.discord.util.handlers.TextSampleHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +29,7 @@ import java.util.List;
  * @author kuro
  **/
 public class GuildCommandHandler {
+    public static final QuestHandler QUEST = new QuestHandler();
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<GuildCommand> commands = new ArrayList<>();
     private final TextSampleHandler insults;

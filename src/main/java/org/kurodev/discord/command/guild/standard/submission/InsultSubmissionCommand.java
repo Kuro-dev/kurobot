@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.config.Setting;
-import org.kurodev.discord.util.TextSampleHandler;
+import org.kurodev.discord.util.handlers.TextSampleHandler;
 
 import java.io.IOException;
 import java.io.OutputStream;
