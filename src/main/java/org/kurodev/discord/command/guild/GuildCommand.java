@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,10 +23,12 @@ public abstract class GuildCommand implements Command {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     protected final Permission[] neededPermissions;
     private final String command;
+    protected final List<ArgInfo> argInformation;
 
     public GuildCommand(String command, Permission... neededPermissions) {
         this.command = command;
         this.neededPermissions = neededPermissions;
+        argInformation = getArguments();
     }
 
     public String getCommand() {
@@ -36,7 +39,7 @@ public abstract class GuildCommand implements Command {
         return this.command.equalsIgnoreCase(command);
     }
 
-    public List<ArgInfo> getArguments() {
+    private List<ArgInfo> getArguments() {
         List<ArgInfo> out = new ArrayList<>();
         for (Field declaredField : getClass().getDeclaredFields()) {
             if (declaredField.isAnnotationPresent(CommandArgument.class)) {
@@ -58,22 +61,13 @@ public abstract class GuildCommand implements Command {
         return out;
     }
 
-    //TODO make this iterate over getArguments()
     public String getArgumentsAsString() {
         StringBuilder builder = new StringBuilder();
-        for (Field declaredField : getClass().getDeclaredFields()) {
-            if (declaredField.isAnnotationPresent(CommandArgument.class)) {
-                try {
-                    declaredField.setAccessible(true);
-                    String name = declaredField.get(this).toString();
-                    CommandArgument argument = declaredField.getAnnotation(CommandArgument.class);
-                    String mandatory = argument.mandatory() ? " (Mandatory)" : "";
-                    builder.append(name).append(mandatory).append(" = ").append(argument.meaning()).append("\n");
-                    declaredField.setAccessible(false);
-                } catch (IllegalAccessException e) {
-                    //should never be thrown
-                    e.printStackTrace();
-                }
+        if (!argInformation.isEmpty()) {
+            for (ArgInfo argument : argInformation) {
+                String name = argument.getName();
+                String mandatory = argument.isMandatory() ? " (Mandatory)" : "";
+                builder.append(name).append(mandatory).append(" = ").append(argument.getMeaning()).append("\n");
             }
         }
         return builder.toString();
@@ -83,5 +77,9 @@ public abstract class GuildCommand implements Command {
 
     protected boolean botHasPermission(@NotNull GuildMessageReceivedEvent event) {
         return event.getGuild().getSelfMember().hasPermission(neededPermissions);
+    }
+
+    public List<ArgInfo> getArgInformation() {
+        return Collections.unmodifiableList(argInformation);
     }
 }
