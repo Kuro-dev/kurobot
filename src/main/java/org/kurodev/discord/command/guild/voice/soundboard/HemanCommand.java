@@ -64,7 +64,11 @@ public class HemanCommand extends VoiceCommand {
 
     @Override
     protected void executeInternally(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) {
-        if (cache.isDirty() || args.getOpt(RELOAD_CACHE)) {
+        boolean forceUpdateCache = args.getOpt(RELOAD_CACHE);
+        if (forceUpdateCache) {
+            logger.info("Force reloading cached files");
+        }
+        if (cache.isDirty() || forceUpdateCache) {
             updateCache();
         }
         List<String> otherArgs = args.getOtherArgs();
@@ -74,6 +78,7 @@ public class HemanCommand extends VoiceCommand {
                 for (JsonFile jsonFile : list) {
                     if (jsonFile.getSlug().equalsIgnoreCase(arg)) {
                         try {
+                            logger.debug("loading resource: {}", jsonFile.toString());
                             loadURL(jsonFile.getUrl());
                         } catch (ExecutionException | InterruptedException e) {
                             logger.error("A (potentially ignorable) error occurred:", e);
