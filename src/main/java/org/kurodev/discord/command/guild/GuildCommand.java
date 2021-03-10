@@ -63,7 +63,7 @@ public abstract class GuildCommand implements Command {
     }
 
     protected final void registerQuest(GuildMessageReceivedEvent event, Quest q) {
-        GuildCommandHandler.QUEST.register(event, q);
+        GuildCommandHandler.QUESTS.register(event, q);
     }
 
     public String getArgumentsAsString() {

@@ -16,6 +16,7 @@ import org.kurodev.discord.command.guild.standard.submission.InsultSubmissionCom
 import org.kurodev.discord.command.guild.standard.submission.MemeSubmissionCommand;
 import org.kurodev.discord.command.guild.standard.voice.LeaveCommand;
 import org.kurodev.discord.command.guild.standard.voice.soundboard.HemanCommand;
+import org.kurodev.discord.command.quest.Quest;
 import org.kurodev.discord.command.quest.QuestHandler;
 import org.kurodev.discord.util.handlers.TextSampleHandler;
 import org.slf4j.Logger;
@@ -29,7 +30,7 @@ import java.util.List;
  * @author kuro
  **/
 public class GuildCommandHandler {
-    public static final QuestHandler QUEST = new QuestHandler();
+    public static final QuestHandler QUESTS = new QuestHandler();
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<GuildCommand> commands = new ArrayList<>();
     private final TextSampleHandler insults;
@@ -79,6 +80,7 @@ public class GuildCommandHandler {
                         channel.sendMessage("Oops, something went wrong\n").append(args.getErrorsAsString()).queue();
                     } else {
                         com.execute(channel, args, event);
+                        registerAgainQuest(com, channel, event, args);
                     }
                 } catch (IOException e) {
                     logger.debug("Exception logged", e);
@@ -90,14 +92,28 @@ public class GuildCommandHandler {
         event.getMessage().addReaction("🤷‍♂️").queue();
     }
 
+    private void registerAgainQuest(GuildCommand com, TextChannel channel, @NotNull GuildMessageReceivedEvent trigger, Argument args) {
+        Quest q = Quest.simpleInstance(event -> {
+            try {
+                if ("again".equals(event.getMessage().getContentDisplay()))
+                    com.execute(channel, args, trigger);
+            } catch (IOException e) {
+                channel.sendMessage("Oops, something went wrong\n").append(args.getErrorsAsString()).queue();
+            }
+            return false;
+        });
+        q.setOnUpdate(Quest.REFRESH_TIMER_ON_UPDATE);
+        QUESTS.register(trigger, q);
+    }
+
     /**
      * @param event The message
      * @return true if there is a quest associated with this user.
      */
     public boolean handleQuests(@NotNull GuildMessageReceivedEvent event) {
-        boolean exists = QUEST.exists(event);
+        boolean exists = QUESTS.exists(event);
         if (exists) {
-            QUEST.get(event).update(event);
+            QUESTS.get(event).update(event);
         }
         return exists;
     }

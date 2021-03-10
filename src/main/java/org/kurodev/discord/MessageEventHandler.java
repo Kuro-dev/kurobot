@@ -48,6 +48,7 @@ public class MessageEventHandler extends ListenerAdapter {
                 String command = split[1];
                 String[] args = Arrays.copyOfRange(split, 2, split.length);
                 guildCommandHandler.handle(command, event, args);
+                return;
             }
         }
         if (guildCommandHandler.handleQuests(event))
