@@ -15,7 +15,7 @@ public abstract class AdminCommand extends GuildCommand {
     @Override
     public boolean check(String command, @NotNull GuildMessageReceivedEvent event) {
         boolean preCheck = super.check(command, event);
-        return invokerIsAdmin(event) && preCheck;
+        return preCheck && invokerIsAdmin(event);
     }
 
     @Override
