@@ -4,7 +4,9 @@ its just some fun project:
 What can it do:
 
 1) Post memes
-2) post inspiring images (well, sometimes)
+2) post inspiring images (well, sometimes. because it uses an AI to do it.)
+   yes, you heard me: randomly generated, completely unique "inspiring" images.
+3) insult people
 
 What can you do:
 
