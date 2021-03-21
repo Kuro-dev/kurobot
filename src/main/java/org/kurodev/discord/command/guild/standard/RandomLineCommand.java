@@ -17,10 +17,6 @@ public class RandomLineCommand extends GuildCommand {
     private final TextSampleHandler samples;
 
 
-    /**
-     * @param command The command where this instance is triggered from
-     * @param samples A collection of one line samples from which will be one line randomly picked
-     */
     public RandomLineCommand(String command, TextSampleHandler samples) {
         super(command);
         this.samples = samples;

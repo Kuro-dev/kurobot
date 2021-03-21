@@ -13,8 +13,6 @@ import javax.annotation.Nullable;
 public enum UserIDs {
     //Admin
     KURO(223878679061725185L),
-    //some guy I just want to insult everytime he writes something.
-    MAU(290501224455995392L),
     ;
 
     private final long id;

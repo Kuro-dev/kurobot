@@ -3,6 +3,7 @@ package org.kurodev.discord.command.guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.Main;
 import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.admin.CheckSubmissionsCommand;
 import org.kurodev.discord.command.guild.admin.ExitCommand;
@@ -18,11 +19,13 @@ import org.kurodev.discord.command.guild.standard.voice.LeaveCommand;
 import org.kurodev.discord.command.guild.standard.voice.soundboard.HemanCommand;
 import org.kurodev.discord.command.quest.Quest;
 import org.kurodev.discord.command.quest.QuestHandler;
+import org.kurodev.discord.config.Setting;
 import org.kurodev.discord.util.handlers.TextSampleHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,14 +36,11 @@ public class GuildCommandHandler {
     public static final QuestHandler QUESTS = new QuestHandler();
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<GuildCommand> commands = new ArrayList<>();
-    private final TextSampleHandler insults;
 
-    public GuildCommandHandler(TextSampleHandler insults) {
-        this.insults = insults;
-    }
 
     public void prepare() {
         logger.info("initializing commands");
+        final TextSampleHandler insults = new TextSampleHandler(Paths.get(Main.SETTINGS.getSetting(Setting.INSULT_FILE)));
         commands.add(new HelpCommand(commands));
         commands.add(new MemeCommand());
         commands.add(new InfoCommand());

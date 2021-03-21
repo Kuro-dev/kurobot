@@ -4,7 +4,7 @@ its just some fun project:
 What can it do:
 
 1) Post memes
-2) Insult you by pure chance, its like russian roulette with every message.
+2) post inspiring images (well, sometimes)
 
 What can you do:
 

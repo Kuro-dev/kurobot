@@ -17,9 +17,9 @@ public class Cache<T> {
         this.unit = unit;
     }
 
-    public Cache(T item, int maxAge, TimeUnit unit) {
+    public Cache(T initial, int maxAge, TimeUnit unit) {
         this(maxAge, unit);
-        cached = item;
+        cached = initial;
         current = LocalDateTime.now();
     }
 

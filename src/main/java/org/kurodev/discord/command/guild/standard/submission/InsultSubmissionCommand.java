@@ -72,7 +72,7 @@ public class InsultSubmissionCommand extends SubmissionCommand {
 
     private boolean checkIfInsultExists(String submission) {
         final String insult = submission.replaceAll("(\n|\r|\")", "");
-        for (String handlerInsult : handler.getInsults()) {
+        for (String handlerInsult : handler.getSamples()) {
             if (handlerInsult.matches(insult)) {
                 return true;
             }

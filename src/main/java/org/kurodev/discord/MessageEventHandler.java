@@ -16,7 +16,6 @@ import org.kurodev.discord.util.handlers.TextSampleHandler;
 
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Random;
 
 /**
  * @author kuro
@@ -25,7 +24,7 @@ public class MessageEventHandler extends ListenerAdapter {
     public static final String DELETE_REACTION = "🗑";
     public static final int INSULT_CHANCE = Integer.parseInt(Main.SETTINGS.getSetting(Setting.INSULT_CHANCE));
     private final TextSampleHandler insults = new TextSampleHandler(Paths.get(Main.SETTINGS.getSetting(Setting.INSULT_FILE)));
-    private final GuildCommandHandler guildCommandHandler = new GuildCommandHandler(insults);
+    private final GuildCommandHandler guildCommandHandler = new GuildCommandHandler();
     private final PrivateCommandHandler privateCommandHandler = new PrivateCommandHandler();
 
     private static boolean messageAuthorIsThisBot(User author) {
@@ -48,18 +47,8 @@ public class MessageEventHandler extends ListenerAdapter {
                 String command = split[1];
                 String[] args = Arrays.copyOfRange(split, 2, split.length);
                 guildCommandHandler.handle(command, event, args);
-                return;
             }
         }
-        if (guildCommandHandler.handleQuests(event))
-            if (event.getAuthor().getIdLong() == UserIDs.MAU.getId()) {
-                insults.execute(event);
-            } else {
-                boolean chance = new Random().nextInt(INSULT_CHANCE) == 0;
-                if (chance) {
-                    insults.execute(event);
-                }
-            }
     }
 
     @Override

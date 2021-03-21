@@ -29,8 +29,10 @@ import java.util.stream.Collectors;
  **/
 public class RockPaperScissorsCommand extends GuildCommand {
     private static final List<RPSCondition> CONDITION_LIST = new ArrayList<>();
+
     @CommandArgument(mandatory = true, meaning = "your choice for this round of the game")
     private static final String CHOICE = "choice"; //yes this is never used, still, please don't delete it.
+
     @CommandArgument(meaning = "Displays a list of all possible choices for the game")
     private static final String SHOW_OPTIONS = "--list";
 

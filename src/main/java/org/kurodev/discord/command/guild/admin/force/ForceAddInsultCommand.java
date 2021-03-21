@@ -58,7 +58,7 @@ public class ForceAddInsultCommand extends ForceAddFileCommand {
 
     private boolean checkIfInsultExists(String submission) {
         final String insult = submission.replaceAll("(\n|\r|\")", "");
-        for (String handlerInsult : insultHandler.getInsults()) {
+        for (String handlerInsult : insultHandler.getSamples()) {
             if (handlerInsult.matches(insult)) {
                 return true;
             }

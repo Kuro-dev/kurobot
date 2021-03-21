@@ -17,16 +17,17 @@ import java.util.Random;
  **/
 public class TextSampleHandler {
     private final Path file;
-    private final List<String> insults;
+
+    private final List<String> samples;
 
     public TextSampleHandler(Path file) {
         this.file = file;
-        insults = new ArrayList<>();
+        samples = new ArrayList<>();
     }
 
     public void prepare() throws IOException {
         if (Files.exists(file))
-            insults.addAll(Files.readAllLines(file));
+            samples.addAll(Files.readAllLines(file));
     }
 
     public void execute(GuildMessageReceivedEvent event) {
@@ -51,12 +52,12 @@ public class TextSampleHandler {
     }
 
     private String getRandomInsult() {
-        if (insults.size() == 0)
+        if (samples.size() == 0)
             return "No lines found :( they have either not been added yet or the bot is currently being worked on";
-        return insults.get(new Random().nextInt(insults.size()));
+        return samples.get(new Random().nextInt(samples.size()));
     }
 
-    public List<String> getInsults() {
-        return insults;
+    public List<String> getSamples() {
+        return samples;
     }
 }
