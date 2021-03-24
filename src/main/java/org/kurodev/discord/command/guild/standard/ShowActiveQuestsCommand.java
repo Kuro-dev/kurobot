@@ -9,6 +9,7 @@ import org.kurodev.discord.command.guild.GuildCommand;
 import org.kurodev.discord.command.quest.PlayerData;
 import org.kurodev.discord.command.quest.Quest;
 import org.kurodev.discord.command.quest.QuestHandler;
+import org.kurodev.discord.util.MarkDown;
 
 import java.io.IOException;
 import java.util.Map;
@@ -44,33 +45,35 @@ public class ShowActiveQuestsCommand extends GuildCommand {
 
     @Override
     public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
-        Map<PlayerData, Quest> quests = questHandler.getQuests();
-        PlayerData invoker = new PlayerData(event);
-        StringBuilder response = new StringBuilder();
+        final Map<PlayerData, Quest> quests = questHandler.getQuests();
+        final PlayerData invoker = new PlayerData(event);
+        final StringBuilder response = new StringBuilder();
         if (args.getOpt(SHOW_ALL)) {
             quests.entrySet().stream().filter(e -> !e.getValue().isExpired())
                     .forEach(entry -> {
                         PlayerData player = entry.getKey();
-                        String tag = player.getUser().getAsTag();
-                        response.append(tag).append("\n");
+                        appendQuestString(response, entry.getValue(), player);
                     });
         } else if (args.getOpt(SHOW_ALL_CHANNEL)) {
             quests.entrySet().stream().filter(e -> !e.getValue().isExpired() && e.getKey().channelMatches(invoker))
                     .forEach(entry -> {
                         PlayerData player = entry.getKey();
-                        String tag = player.getUser().getAsTag();
-                        response.append(tag).append("\n");
+                        appendQuestString(response, entry.getValue(), player);
                     });
         } else {
             Quest q = quests.get(invoker);
             if (q != null) {
-                String tag = invoker.getUser().getAsTag();
-                response.append(tag).append("\n");
+                appendQuestString(response, q, invoker);
             }
         }
+
         if (response.toString().isBlank()) {
             response.append("Currently there is no active quest");
         }
-        channel.sendMessage(response.toString()).queue();
+        channel.sendMessage(MarkDown.CODE_BLOCK.wrap(response.toString())).queue();
+    }
+
+    private void appendQuestString(StringBuilder response, Quest quest, PlayerData data) {
+        response.append(data.getUser().getAsTag()).append(": ").append(quest.getTitle()).append("\n");
     }
 }

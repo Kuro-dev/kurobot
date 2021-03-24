@@ -19,6 +19,7 @@ public abstract class Quest {
     private final int maxAge;
     private final TimeUnit unit;
     protected boolean isFinished = false;
+    private String title = "untitled quest";
     /**
      * Always invoked when the quest is finished. Parameter will consist of the currently affected quest, as well as the
      * last event that triggered this quest
@@ -105,4 +106,12 @@ public abstract class Quest {
      * completed yet.
      */
     protected abstract boolean process(GuildMessageReceivedEvent event);
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

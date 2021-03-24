@@ -90,10 +90,9 @@ public class GuildCommandHandler {
                 return;
             }
         }
-        if (!handleQuests(event)) {
-            channel.sendMessage("Command is unknown, try using !k help").queue();
-            event.getMessage().addReaction("🤷‍♂️").queue();
-        }
+        channel.sendMessage("Command is unknown, try using !k help").queue();
+        event.getMessage().addReaction("🤷‍♂️").queue();
+
     }
 
     private void registerAgainQuest(GuildCommand com, TextChannel channel, @NotNull GuildMessageReceivedEvent trigger, Argument args) {
@@ -106,19 +105,18 @@ public class GuildCommandHandler {
             }
             return false;
         });
+        q.setTitle("\"again\" repeat quest");
         q.setOnUpdate(Quest.REFRESH_TIMER_ON_UPDATE);
         QUESTS.register(trigger, q);
     }
 
     /**
      * @param event The message
-     * @return true if there is a quest associated with this user.
      */
-    public boolean handleQuests(@NotNull GuildMessageReceivedEvent event) {
+    public void handleQuests(@NotNull GuildMessageReceivedEvent event) {
         boolean exists = QUESTS.exists(event);
         if (exists) {
             QUESTS.get(event).update(event);
         }
-        return exists;
     }
 }
