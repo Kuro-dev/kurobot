@@ -32,6 +32,10 @@ public abstract class GuildCommand implements Command {
         argInformation = getArguments();
     }
 
+    public boolean canRegisterQuest() {
+        return true;
+    }
+
     public String getCommand() {
         return command;
     }
@@ -63,12 +67,12 @@ public abstract class GuildCommand implements Command {
     }
 
     /**
-     * invoking this will register the quest and hook it into the message
-     * listener directly to be able to respond to any other message the registered user types.
-     * Quest will solely respond to the one that triggered it.
+     * invoking this will register the quest and hook it into the message listener directly to be able to respond to any
+     * other message the registered user types. Quest will solely respond to the one that triggered it.
      * <p>Use case examples: an AI dungeon based command</p>
      *
-     * @param event The event to base this off. Will store channel and user data to be able to recognize the invoker in the future of the quest.
+     * @param event The event to base this off. Will store channel and user data to be able to recognize the invoker in
+     *              the future of the quest.
      * @param q     The quest to register.
      */
     protected final void registerQuest(GuildMessageReceivedEvent event, Quest q) {
@@ -80,8 +84,16 @@ public abstract class GuildCommand implements Command {
         if (!argInformation.isEmpty()) {
             for (ArgInfo argument : argInformation) {
                 String name = argument.getName();
-                String mandatory = argument.isMandatory() ? " (Mandatory)" : "";
-                builder.append(name).append(mandatory).append(" = ").append(argument.getMeaning()).append("\n");
+                String mandatory = argument.isMandatory() ? " Mandatory" : "";
+                String requireAdmin = argument.RequiresAdmin() ? "requires admin" : "";
+                String additionalInfo;
+                if (mandatory.isEmpty() && requireAdmin.isEmpty()) {
+                    additionalInfo = "";
+                } else {
+                    additionalInfo = "(" + mandatory + (mandatory.isEmpty() || requireAdmin.isEmpty() ? "" : " & ") +
+                            requireAdmin + ")";
+                }
+                builder.append(name).append(additionalInfo).append(" = ").append(argument.getMeaning()).append("\n");
             }
         }
         return builder.toString();

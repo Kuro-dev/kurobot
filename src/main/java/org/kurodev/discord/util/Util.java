@@ -2,6 +2,8 @@ package org.kurodev.discord.util;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author kuro
@@ -29,5 +31,35 @@ public class Util {
             file = parent.resolve(fileName + numString + fileExtension);
         }
         return file;
+    }
+
+    public static List<String> partitionString(String string) {
+        return partitionString(string, 1950);
+    }
+
+    /**
+     * splits a big string into multiple smaller ones.
+     * <P>Respects line-breaks, does not cut off mid line.</P>
+     *
+     * @param string        the string to split
+     * @param partitionSize maximum size of each list item (default: 1950)
+     * @throws IllegalArgumentException if partitionSize is less than or equal to 0
+     */
+    public static List<String> partitionString(String string, final int partitionSize) {
+        if (partitionSize <= 0) {
+            throw new IllegalArgumentException("PartitionSize must be above 0");
+        }
+        List<String> parts = new ArrayList<>();
+        StringBuilder part = new StringBuilder(2000);
+        final int newLine = "\n".length();
+        string.lines().forEachOrdered(s -> {
+            if (part.length() + s.length() + newLine >= partitionSize) {
+                parts.add(part.toString());
+                part.delete(0, part.length());
+            }
+            part.append(s).append("\n");
+        });
+        parts.add(part.toString());
+        return parts;
     }
 }

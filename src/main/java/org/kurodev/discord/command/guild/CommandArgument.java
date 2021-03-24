@@ -15,5 +15,5 @@ public @interface CommandArgument {
 
     boolean requireAdmin() default false;
 
-    String meaning() default "";
+    String meaning();
 }

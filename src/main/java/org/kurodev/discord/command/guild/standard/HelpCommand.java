@@ -25,6 +25,11 @@ public class HelpCommand extends GuildCommand {
     }
 
     @Override
+    public boolean canRegisterQuest() {
+        return false;
+    }
+
+    @Override
     public String getDescription() {
         return "Lists all available commands. use !k help *command* for additional info";
     }

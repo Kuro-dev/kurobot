@@ -25,7 +25,7 @@ public class ArgInfo {
         return mandatory;
     }
 
-    public boolean isRequiresAdmin() {
+    public boolean RequiresAdmin() {
         return requiresAdmin;
     }
 

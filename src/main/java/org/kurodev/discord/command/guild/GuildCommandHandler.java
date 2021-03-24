@@ -57,6 +57,7 @@ public class GuildCommandHandler {
         commands.add(new LeaveCommand());
         commands.add(new RockPaperScissorsCommand());
         commands.add(new VersionCommand());
+        commands.add(new ShowActiveQuestsCommand(QUESTS));
 
         for (GuildCommand command : commands) {
             try {
@@ -80,7 +81,8 @@ public class GuildCommandHandler {
                         channel.sendMessage("Oops, something went wrong\n").append(args.getErrorsAsString()).queue();
                     } else {
                         com.execute(channel, args, event);
-                        registerAgainQuest(com, channel, event, args);
+                        if (com.canRegisterQuest())
+                            registerAgainQuest(com, channel, event, args);
                     }
                 } catch (IOException e) {
                     logger.debug("Exception logged", e);
@@ -88,8 +90,10 @@ public class GuildCommandHandler {
                 return;
             }
         }
-        channel.sendMessage("Command is unknown, try using !k help").queue();
-        event.getMessage().addReaction("🤷‍♂️").queue();
+        if (!handleQuests(event)) {
+            channel.sendMessage("Command is unknown, try using !k help").queue();
+            event.getMessage().addReaction("🤷‍♂️").queue();
+        }
     }
 
     private void registerAgainQuest(GuildCommand com, TextChannel channel, @NotNull GuildMessageReceivedEvent trigger, Argument args) {
