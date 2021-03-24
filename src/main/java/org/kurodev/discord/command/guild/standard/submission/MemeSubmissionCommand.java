@@ -38,7 +38,7 @@ public class MemeSubmissionCommand extends SubmissionCommand {
         if (event.getMessage().getAttachments().isEmpty()) {
             channel.sendMessage("Nothing was attached, I don't know what to submit :(").queue();
         } else {
-            final String acceptedExtensions = "(jpg|png|gif)";
+            final String acceptedExtensions = "(jpg|png|gif|mp4)";
             for (Message.Attachment attachment : event.getMessage().getAttachments()) {
                 if (attachment.getFileName().matches("(.+\\." + acceptedExtensions + ")")) {
                     Path destPath = Util.generateFileName(attachment.getFileName(), path);
