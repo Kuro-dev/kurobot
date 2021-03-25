@@ -147,12 +147,10 @@ public class GuildCommandHandler {
 
     public void onGuildMessageReactionRemove(@NotNull GuildMessageReactionRemoveEvent event) {
         List<GuildCommand> commands = this.commands.stream().filter(GuildCommand::hasReactAction).collect(Collectors.toList());
-        if (event.getUser() != null && event.getUser().isBot()) {
-            event.getChannel().retrieveMessageById(event.getMessageIdLong()).queue(message -> {
-                for (GuildCommand command : commands) {
-                    ((Reactable) command).onReact(message, event);
-                }
-            });
-        }
+        event.getChannel().retrieveMessageById(event.getMessageIdLong()).queue(message -> {
+            for (GuildCommand command : commands) {
+                ((Reactable) command).onReact(message, event);
+            }
+        });
     }
 }
