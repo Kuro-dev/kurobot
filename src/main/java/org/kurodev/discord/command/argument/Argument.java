@@ -54,6 +54,10 @@ public class Argument {
         return new Argument(argsList, optsList, doubleOptsList, errors);
     }
 
+    /**
+     * @param param The argument to get the parameter for
+     * @return the value of the given argument or null if none was given
+     */
     public String getParam(String param) {
         final String flag;
         if (param.startsWith("-")) {

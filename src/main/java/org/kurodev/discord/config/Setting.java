@@ -15,8 +15,9 @@ public enum Setting {
     INSULT_SUBMISSIONS("submission.insults", "./insultSubmissions"),
     MEME_FOLDER("meme.folder", "./memes"),
     MEME_SUBMISSIONS("submission.memes", "./memeSubmissions"),
-    TOKEN("token", ""),
-    RPS_Outcomes_File("rps.outcomes", "./RPSOutcomes.json");
+    MEME_VOTE_FILE("meme.votes.file", "./memeVotes.json"),
+    RPS_Outcomes_File("rps.outcomes", "./RPSOutcomes.json"),
+    TOKEN("token", "");
 
     private final String key;
     private final String defaultVal;

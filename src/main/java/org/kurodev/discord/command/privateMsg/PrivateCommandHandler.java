@@ -87,4 +87,6 @@ public class PrivateCommandHandler {
         }
     }
 
+    public void onShutDown() {
+    }
 }

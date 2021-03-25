@@ -71,4 +71,5 @@ public class HelpCommand extends GuildCommand {
     private Command find(String name) {
         return commands.stream().filter(command -> command.getCommand().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
+
 }

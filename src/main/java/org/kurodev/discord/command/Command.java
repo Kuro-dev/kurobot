@@ -10,10 +10,14 @@ import org.kurodev.discord.UserIDs;
  **/
 public interface Command {
     /**
-     * @throws Exception if the preparation fails meaning the command will not at all be usable.
-     *                   Thus will be removed from the available commands list to avoid exceptions
+     * @throws Exception if the preparation fails meaning the command will not at all be usable. Thus will be removed
+     *                   from the available commands list to avoid exceptions
      */
     default void prepare() throws Exception {
+
+    }
+
+    default void onShutdown() throws Exception {
 
     }
 

@@ -12,7 +12,6 @@ import org.kurodev.discord.command.guild.standard.voice.VoiceCommand;
 import org.kurodev.discord.util.MarkDown;
 import org.kurodev.discord.util.UrlRequest;
 import org.kurodev.discord.util.cache.Cache;
-import org.kurodev.discord.util.cache.SelfUpdatingCache;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -38,7 +37,7 @@ public class HemanCommand extends VoiceCommand {
         searchParams.put("", "");
     }
 
-    private final Cache<List<JsonFile>> cache = new SelfUpdatingCache<>(3, TimeUnit.DAYS, this::updateCache);
+    private final Cache<List<JsonFile>> cache = new Cache<>(3, TimeUnit.DAYS, this::updateCache);
 
     public HemanCommand() {
         super("heman", Permission.VOICE_CONNECT);

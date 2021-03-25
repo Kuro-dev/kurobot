@@ -108,4 +108,15 @@ public abstract class GuildCommand implements Command {
     public List<ArgInfo> getArgInformation() {
         return Collections.unmodifiableList(argInformation);
     }
+
+    @Override
+    public String toString() {
+        return "GuildCommand{" +
+                "command='" + command + '\'' +
+                '}';
+    }
+
+    public boolean hasReactAction() {
+        return this instanceof Reactable;
+    }
 }

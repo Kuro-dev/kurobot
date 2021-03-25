@@ -2,6 +2,8 @@ package org.kurodev.discord.command.guild;
 
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.discord.command.argument.Argument;
@@ -28,6 +30,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author kuro
@@ -117,6 +120,39 @@ public class GuildCommandHandler {
         boolean exists = QUESTS.exists(event);
         if (exists) {
             QUESTS.get(event).update(event);
+        }
+    }
+
+    public void onShutDown() {
+        for (GuildCommand command : commands) {
+            try {
+                command.onShutdown();
+            } catch (Exception e) {
+                logger.error("Failed to execute shutdown for {}", command);
+            }
+        }
+    }
+
+    public void onGuildMessageReactionAdd(@NotNull GuildMessageReactionAddEvent event) {
+        List<GuildCommand> commands = this.commands.stream().filter(GuildCommand::hasReactAction).collect(Collectors.toList());
+        event.getUser();
+        if (!event.getUser().isBot()) {
+            event.getChannel().retrieveMessageById(event.getMessageIdLong()).queue(message -> {
+                for (GuildCommand command : commands) {
+                    ((Reactable) command).onReact(message, event);
+                }
+            });
+        }
+    }
+
+    public void onGuildMessageReactionRemove(@NotNull GuildMessageReactionRemoveEvent event) {
+        List<GuildCommand> commands = this.commands.stream().filter(GuildCommand::hasReactAction).collect(Collectors.toList());
+        if (event.getUser() != null && event.getUser().isBot()) {
+            event.getChannel().retrieveMessageById(event.getMessageIdLong()).queue(message -> {
+                for (GuildCommand command : commands) {
+                    ((Reactable) command).onReact(message, event);
+                }
+            });
         }
     }
 }
