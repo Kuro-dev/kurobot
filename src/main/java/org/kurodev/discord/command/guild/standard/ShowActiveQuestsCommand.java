@@ -39,11 +39,6 @@ public class ShowActiveQuestsCommand extends GuildCommand {
     }
 
     @Override
-    public boolean canRegisterQuest() {
-        return false;
-    }
-
-    @Override
     public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
         final Map<PlayerData, Quest> quests = questHandler.getQuests();
         final PlayerData invoker = new PlayerData(event);

@@ -1,39 +1,35 @@
 package org.kurodev.discord.command.guild;
 
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.discord.command.Command;
 import org.kurodev.discord.command.argument.ArgInfo;
 import org.kurodev.discord.command.argument.Argument;
+import org.kurodev.discord.command.interfaces.Command;
+import org.kurodev.discord.command.interfaces.Reactable;
 import org.kurodev.discord.command.quest.Quest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author kuro
  **/
 public abstract class GuildCommand implements Command {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-    protected final Permission[] neededPermissions;
+    protected final EnumSet<Permission> neededPermissions = EnumSet.allOf(Permission.class);
     protected final List<ArgInfo> argInformation;
     private final String command;
 
     public GuildCommand(String command, Permission... neededPermissions) {
         this.command = command;
-        this.neededPermissions = neededPermissions;
+        this.neededPermissions.addAll(Arrays.asList(neededPermissions));
         argInformation = getArguments();
-    }
-
-    public boolean canRegisterQuest() {
-        return true;
     }
 
     public String getCommand() {
@@ -44,6 +40,21 @@ public abstract class GuildCommand implements Command {
         return this.command.equalsIgnoreCase(command);
     }
 
+    /**
+     * @return a list of permissions that are missing for this command.
+     */
+    public Permission[] checkPermissions(GuildMessageReceivedEvent event) {
+        Guild guild = event.getGuild();
+        TextChannel channel = event.getChannel();
+        return neededPermissions.stream()
+                .filter(neededPermission ->
+                        guild.getSelfMember().getPermissions(channel).contains(neededPermission))
+                .toArray(Permission[]::new);
+    }
+
+    /**
+     * @return Magically converts every field that is annotated with {@link CommandArgument} into an object.
+     */
     private List<ArgInfo> getArguments() {
         List<ArgInfo> out = new ArrayList<>();
         for (Field declaredField : getClass().getDeclaredFields()) {
