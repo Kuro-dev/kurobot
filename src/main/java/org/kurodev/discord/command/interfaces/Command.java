@@ -1,4 +1,4 @@
-package org.kurodev.discord.command;
+package org.kurodev.discord.command.interfaces;
 
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -10,8 +10,12 @@ import org.kurodev.discord.UserIDs;
  **/
 public interface Command {
     /**
+     * Prepare everything that is necessary for this command to work here. Especially things, that can fail, like file
+     * operations etc. Will be invoked once during the start of the bot. May be invoked again at a later time.
+     *
      * @throws Exception if the preparation fails meaning the command will not at all be usable. Thus will be removed
      *                   from the available commands list to avoid exceptions
+     * @see org.kurodev.discord.command.guild.admin.ReloadSettingsCommand
      */
     default void prepare() throws Exception {
 

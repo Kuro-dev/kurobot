@@ -1,6 +1,6 @@
 package discord;
 
-import org.kurodev.discord.command.Command;
+import org.kurodev.discord.command.interfaces.Command;
 
 /**
  * @author kuro
