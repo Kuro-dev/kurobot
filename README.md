@@ -21,4 +21,4 @@ much as I please. If there will ever be a function added that would change anyth
 it so that it can only be invoked by the owner of said server.
 
 Simply add the bot to your server by clicking
-[here](https://discord.com/api/oauth2/authorize?client_id=772230476827983923&permissions=0&scope=bot%20applications.commands) :)
+[here](https://discord.com/api/oauth2/authorize?client_id=772230476827983923&permissions=8&scope=bot%20applications.commands) :)
