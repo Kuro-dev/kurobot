@@ -7,12 +7,14 @@ import java.util.List;
  * @author kuro
  **/
 public class Argument {
+    private final String[] argsRaw;
     private final List<String> otherArgs;
     private final List<Option> paramArg;
     private final List<String> booleanArg;
     private final List<Error> errors;
 
-    private Argument(List<String> argsList, List<Option> optsList, List<String> doubleOptsList, List<Error> errors) {
+    private Argument(String[] argsRaw, List<String> argsList, List<Option> optsList, List<String> doubleOptsList, List<Error> errors) {
+        this.argsRaw = argsRaw;
         this.otherArgs = argsList;
         this.paramArg = optsList;
         this.booleanArg = doubleOptsList;
@@ -51,7 +53,7 @@ public class Argument {
                 argsList.add(args[i]);
             }
         }
-        return new Argument(argsList, optsList, doubleOptsList, errors);
+        return new Argument(args, argsList, optsList, doubleOptsList, errors);
     }
 
     /**
@@ -107,4 +109,7 @@ public class Argument {
         return otherArgs.size() > 0;
     }
 
+    public String[] getArgsRaw() {
+        return argsRaw;
+    }
 }
