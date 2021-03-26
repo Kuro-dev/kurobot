@@ -89,7 +89,8 @@ public class Argument {
     public String getErrorsAsString() {
         StringBuilder out = new StringBuilder();
         for (Error error : errors) {
-            out.append(String.format("```Error code: %d (%s):\nReason: %s\ncaused by argument:\"%s\"\n```", error.code.ordinal(), error.code.name(), error.code.reason, error.cause));
+            out.append(String.format("```Error code: %d (%s):\nReason: %s\ncaused by argument:\"%s\"\n```",
+                    error.code.ordinal(), error.getCode().name(), error.getCode().reason, error.getCause()));
         }
         return out.toString();
     }
@@ -106,43 +107,4 @@ public class Argument {
         return otherArgs.size() > 0;
     }
 
-    static class Option {
-        String flag, opt;
-
-        private Option(String flag, String opt) {
-            this.flag = flag;
-            this.opt = opt;
-        }
-    }
-
-    public static class Error {
-
-        private final ErrorCode code;
-        private final String reason;
-        private final String cause;
-
-        private Error(ErrorCode code, String reason, String cause) {
-            this.code = code;
-            this.reason = reason;
-            this.cause = cause;
-        }
-
-        private Error(ErrorCode code, String cause) {
-            this.code = code;
-            this.reason = code.reason;
-            this.cause = cause;
-        }
-
-        public ErrorCode getCode() {
-            return code;
-        }
-
-        public String getReason() {
-            return reason;
-        }
-
-        public String getCause() {
-            return cause;
-        }
-    }
 }
