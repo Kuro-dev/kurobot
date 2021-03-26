@@ -19,6 +19,7 @@ import org.kurodev.discord.command.guild.standard.submission.InsultSubmissionCom
 import org.kurodev.discord.command.guild.standard.submission.MemeSubmissionCommand;
 import org.kurodev.discord.command.guild.standard.voice.LeaveCommand;
 import org.kurodev.discord.command.guild.standard.voice.soundboard.HemanCommand;
+import org.kurodev.discord.command.interfaces.Reactable;
 import org.kurodev.discord.command.quest.Quest;
 import org.kurodev.discord.command.quest.QuestHandler;
 import org.kurodev.discord.config.Setting;
@@ -61,7 +62,6 @@ public class GuildCommandHandler {
         commands.add(new RockPaperScissorsCommand());
         commands.add(new VersionCommand());
         commands.add(new ShowActiveQuestsCommand(QUESTS));
-
         for (GuildCommand command : commands) {
             try {
                 command.prepare();
@@ -84,8 +84,7 @@ public class GuildCommandHandler {
                         channel.sendMessage("Oops, something went wrong\n").append(args.getErrorsAsString()).queue();
                     } else {
                         com.execute(channel, args, event);
-                        if (com.canRegisterQuest())
-                            registerAgainQuest(com, channel, event, args);
+                        registerAgainQuest(com, channel, event, args);
                     }
                 } catch (IOException e) {
                     logger.debug("Exception logged", e);

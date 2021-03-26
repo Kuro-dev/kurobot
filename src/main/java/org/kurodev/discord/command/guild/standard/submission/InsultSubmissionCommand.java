@@ -33,7 +33,7 @@ public class InsultSubmissionCommand extends SubmissionCommand {
 
     /**
      * @param path    Destination path for every submission of this type
-     * @param handler
+     * @param handler The text samples file handler
      */
     public InsultSubmissionCommand(Path path, TextSampleHandler handler) {
         super("Insult", path);

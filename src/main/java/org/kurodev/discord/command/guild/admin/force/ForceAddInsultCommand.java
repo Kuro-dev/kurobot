@@ -30,6 +30,7 @@ public class ForceAddInsultCommand extends ForceAddFileCommand {
         this.insultHandler = insultHandler;
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
         final String content = event.getMessage().getContentDisplay();
@@ -65,6 +66,7 @@ public class ForceAddInsultCommand extends ForceAddFileCommand {
         }
         return false;
     }
+
     @Override
     public String getDescription() {
         return "used to add an insult into the official database";

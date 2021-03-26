@@ -13,11 +13,11 @@ import org.kurodev.Main;
 import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.CommandArgument;
 import org.kurodev.discord.command.guild.GuildCommand;
-import org.kurodev.discord.command.guild.Reactable;
-import org.kurodev.discord.command.vote.Score;
-import org.kurodev.discord.command.vote.impl.ReactionVote;
+import org.kurodev.discord.command.interfaces.Reactable;
 import org.kurodev.discord.config.Setting;
 import org.kurodev.discord.util.cache.Cache;
+import org.kurodev.discord.vote.Score;
+import org.kurodev.discord.vote.impl.ReactionVote;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

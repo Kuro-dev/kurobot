@@ -4,9 +4,9 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.discord.command.Command;
 import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.GuildCommand;
+import org.kurodev.discord.command.interfaces.Command;
 import org.kurodev.discord.util.HelpTextFormatter;
 
 import java.util.List;
@@ -22,11 +22,6 @@ public class HelpCommand extends GuildCommand {
     public HelpCommand(List<? extends Command> commands) {
         super("Help");
         this.commands = commands;
-    }
-
-    @Override
-    public boolean canRegisterQuest() {
-        return false;
     }
 
     @Override

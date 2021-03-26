@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
-import org.kurodev.discord.command.Command;
 import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.GuildCommand;
 
@@ -27,14 +26,14 @@ public class ReloadSettingsCommand extends AdminCommand {
 
     @Override
     public String getDescription() {
-        return "reloads the settings file";
+        return "reloads the settings file and re-prepares every command";
     }
 
     @Override
     public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
         Message msg = channel.sendMessage("Reloading settings").complete();
         Main.loadSettings();
-        List<Command> failed = new LinkedList<>();
+        List<GuildCommand> failed = new LinkedList<>();
         for (GuildCommand command : commands) {
             try {
                 command.prepare();

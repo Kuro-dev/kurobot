@@ -63,6 +63,7 @@ public class MemeSubmissionCommand extends SubmissionCommand {
                 .append("Attachments have been submitted and will be reviewed :)\n")
                 .append("If the reviewers think the submission is a good meme, it may be added to the database").queue();
     }
+
     @Override
     public String getDescription() {
         return "used to submit a meme, usage: attach an image to the command-message";

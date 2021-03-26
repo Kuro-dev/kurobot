@@ -3,7 +3,7 @@ package org.kurodev.discord.command.privateMsg;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.discord.command.Command;
+import org.kurodev.discord.command.interfaces.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
