@@ -1,8 +1,8 @@
-package org.kurodev.discord.command.vote.impl;
+package org.kurodev.discord.vote.impl;
 
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.discord.command.vote.Score;
-import org.kurodev.discord.command.vote.Votable;
+import org.kurodev.discord.vote.Score;
+import org.kurodev.discord.vote.Votable;
 
 import java.util.HashMap;
 import java.util.Map;

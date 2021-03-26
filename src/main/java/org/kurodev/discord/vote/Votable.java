@@ -1,4 +1,4 @@
-package org.kurodev.discord.command.vote;
+package org.kurodev.discord.vote;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;

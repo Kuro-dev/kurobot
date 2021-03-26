@@ -1,4 +1,4 @@
-package org.kurodev.discord.command.vote;
+package org.kurodev.discord.vote;
 
 public class Score {
     private volatile int upVotes = 0, downVotes = 0;
