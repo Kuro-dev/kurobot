@@ -31,6 +31,10 @@ public abstract class Quest {
     private BiConsumer<Quest, GuildMessageReceivedEvent> onUpdate;
     private LocalDateTime timeStamp = LocalDateTime.now();
 
+    /**
+     * @param maxAge Maximum age of this quest (default 3)
+     * @param unit   Timeunit of the maximum age of the quest (default {@link TimeUnit#MINUTES minutes})
+     */
     protected Quest(int maxAge, TimeUnit unit) {
         this.maxAge = maxAge;
         this.unit = unit;
