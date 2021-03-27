@@ -43,9 +43,10 @@ public class ReloadSettingsCommand extends AdminCommand {
                 commands.remove(command);
             }
         }
-        msg.editMessage("Settings reloaded").queue();
-        if (!failed.isEmpty()) {
-            channel.sendMessage("Failed reloading settings for:\n").append(failed.toString()).queue();
+        if (failed.isEmpty()) {
+            msg.editMessage("Settings reloaded").queue();
+        } else {
+            msg.editMessage("Failed reloading settings for:\n").append(failed.toString()).queue();
         }
     }
 }
