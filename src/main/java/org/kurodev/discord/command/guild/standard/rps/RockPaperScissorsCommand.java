@@ -68,6 +68,7 @@ public class RockPaperScissorsCommand extends GuildCommand {
             Files.writeString(file, json);
             logger.info("creating {} - DONE", file.getFileName());
         } else {
+            logger.info("Checking files - DONE");
             logger.info("Parsing RPSCondition data");
             Type listType = new TypeToken<ArrayList<RPSCondition>>() {
             }.getType();

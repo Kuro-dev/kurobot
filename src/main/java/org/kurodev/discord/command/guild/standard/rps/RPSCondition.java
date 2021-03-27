@@ -9,6 +9,9 @@ import java.util.Objects;
  **/
 public class RPSCondition {
     private final String name;
+    /**
+     * List containing the names of every condition this instance can win against.
+     */
     private final List<String> winsAgainst = new ArrayList<>();
 
     public RPSCondition(String name) {
@@ -65,6 +68,13 @@ public class RPSCondition {
                 '}';
     }
 
+    /**
+     * Registers another instance as inferior in comparison meaning that this instance will beat the given one.
+     * <p>example:</p>
+     * {@code rock.beats(scissors); scissors.beats(paper); paper.beats(rock); }
+     *
+     * @param loses The condition that will lose against this instance.
+     */
     public void beats(RPSCondition loses) {
         winsAgainst.add(loses.name);
     }
