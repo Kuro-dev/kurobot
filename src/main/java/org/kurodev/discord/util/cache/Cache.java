@@ -15,7 +15,7 @@ public class Cache<T> {
     private final ChronoUnit unit;
     private T cached = null;
     private LocalDateTime current;
-    private Supplier<T> supplier;
+    private Supplier<T> onDirty;
     private Consumer<T> onUpdate;
 
     public Cache(int maxAge, ChronoUnit unit) {
@@ -36,6 +36,11 @@ public class Cache<T> {
         update(initial);
     }
 
+    public Cache(int maxAge, TimeUnit unit, Supplier<T> onDirty) {
+        this(maxAge, unit);
+        this.onDirty = onDirty;
+    }
+
     public boolean isDirty() {
         return current == null || current.plus(maxAge, unit).isBefore(LocalDateTime.now());
     }
@@ -46,8 +51,8 @@ public class Cache<T> {
 
     public T getCachedItem(T ifDirty) {
         boolean dirty = isDirty();
-        if (supplier != null && dirty) {
-            update(supplier.get());
+        if (onDirty != null && dirty) {
+            update(onDirty.get());
             return cached;
         }
         if (dirty) {
@@ -68,7 +73,7 @@ public class Cache<T> {
      * @param supplier A function to automatically update the cache using the given function
      */
     public void setOnDirty(Supplier<T> supplier) {
-        this.supplier = supplier;
+        this.onDirty = supplier;
     }
 
     /**
@@ -80,8 +85,8 @@ public class Cache<T> {
      * @see #setOnDirty(Supplier)
      */
     public void forceUpdate() {
-        Objects.requireNonNull(supplier);
-        update(supplier.get());
+        Objects.requireNonNull(onDirty);
+        update(onDirty.get());
     }
 
     public void setOnUpdate(Consumer<T> onUpdate) {
