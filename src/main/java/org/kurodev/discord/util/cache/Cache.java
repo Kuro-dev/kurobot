@@ -1,8 +1,10 @@
 package org.kurodev.discord.util.cache;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -10,41 +12,46 @@ import java.util.function.Supplier;
  **/
 public class Cache<T> {
     private final int maxAge;
-    private final TimeUnit unit;
+    private final ChronoUnit unit;
     private T cached = null;
     private LocalDateTime current;
     private Supplier<T> supplier;
+    private Consumer<T> onUpdate;
 
-    public Cache(int maxAge, TimeUnit unit) {
+    public Cache(int maxAge, ChronoUnit unit) {
         this.maxAge = maxAge;
         this.unit = unit;
     }
 
-    public Cache(T initial, int maxAge, TimeUnit unit) {
-        this(maxAge, unit);
-        cached = initial;
-        current = LocalDateTime.now();
+    public Cache(int maxAge, TimeUnit unit) {
+        this(maxAge, unit.toChronoUnit());
     }
 
-    public Cache(int maxAge, TimeUnit unit, Supplier<T> supplier) {
+    public Cache() {
+        this(3, TimeUnit.MINUTES);
+    }
+
+    public Cache(T initial, int maxAge, TimeUnit unit) {
         this(maxAge, unit);
-        setOnDirty(supplier);
+        update(initial);
     }
 
     public boolean isDirty() {
-        return current == null || current.plus(maxAge, unit.toChronoUnit()).isBefore(LocalDateTime.now());
+        return current == null || current.plus(maxAge, unit).isBefore(LocalDateTime.now());
     }
 
     public T getCachedItem() {
         return getCachedItem(null);
     }
 
-    public T getCachedItem(T ifNull) {
-        if (supplier != null && isDirty()) {
+    public T getCachedItem(T ifDirty) {
+        boolean dirty = isDirty();
+        if (supplier != null && dirty) {
             update(supplier.get());
+            return cached;
         }
-        if (cached == null) {
-            return ifNull;
+        if (dirty) {
+            return ifDirty;
         }
         return cached;
     }
@@ -52,6 +59,9 @@ public class Cache<T> {
     public void update(T cached) {
         this.cached = cached;
         current = LocalDateTime.now();
+        if (onUpdate != null) {
+            onUpdate.accept(cached);
+        }
     }
 
     /**
@@ -72,5 +82,9 @@ public class Cache<T> {
     public void forceUpdate() {
         Objects.requireNonNull(supplier);
         update(supplier.get());
+    }
+
+    public void setOnUpdate(Consumer<T> onUpdate) {
+        this.onUpdate = onUpdate;
     }
 }
