@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.argument.ErrorCode;
 
+import java.util.EnumSet;
+
 import static org.junit.Assert.*;
 
 /**
@@ -61,5 +63,18 @@ public class ArgumentTest {
         assertEquals(ErrorCode.ARGUMENT_TOO_SHORT, arg.getErrors().get(0).getCode());
         assertEquals(ErrorCode.ARGUMENT_TOO_SHORT, arg.getErrors().get(1).getCode());
         assertEquals(ErrorCode.OPTION_SYNTAX_ERROR, arg.getErrors().get(2).getCode());
+    }
+
+    @Test
+    public void testBulkCheck() {
+        String[] args = {"--test1", "-test3", "value", "test6"};
+        Argument arg = Argument.parse(args);
+        assertFalse(arg.hasErrors());
+        EnumSet<TestArgs> content = arg.checkBulk(EnumSet.allOf(TestArgs.class));
+        assertTrue(content.contains(TestArgs.BOOL_ARG));
+        assertFalse(content.contains(TestArgs.NOT_PRESENT_ARG));
+        assertTrue(content.contains(TestArgs.PARAM_ARG));
+        assertFalse(content.contains(TestArgs.ARG_WITH_VALUE_SAME_AS_PARAM));
+        assertTrue(content.contains(TestArgs.NORMAL_ARG));
     }
 }

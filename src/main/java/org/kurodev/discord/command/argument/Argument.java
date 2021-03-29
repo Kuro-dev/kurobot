@@ -1,6 +1,7 @@
 package org.kurodev.discord.command.argument;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -111,5 +112,22 @@ public class Argument {
 
     public String[] getArgsRaw() {
         return argsRaw;
+    }
+
+    /**
+     * @param args The available arguments as EnumSet
+     * @return A list of all Arguments that are present in this instance.
+     *
+     * @apiNote use {@link EnumSet#allOf(Class)} to create an EnumSet from an {@link Enum}
+     */
+    public <T extends EnumSet<? extends ArgEnum>> T checkBulk(T args) {
+        T out = (T) args.clone();
+        for (ArgEnum arg : args) {
+            String argName = arg.getArgumentName();
+            if (!getOpt(argName) && (getParam(argName) == null) && !otherArgs.contains(argName)) {
+                out.remove(arg);
+            }
+        }
+        return out;
     }
 }
