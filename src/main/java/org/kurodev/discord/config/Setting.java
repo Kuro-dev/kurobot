@@ -9,7 +9,7 @@ public enum Setting {
     /**
      * Specifies whether or not bot messages should be deletable using the trash can reaction or not.
      */
-    INCLUDE_DELETE_OPTION("include.delete.option", "true"),
+    INCLUDE_DELETE_OPTION("include.delete.option", "false"),
     INSULT_CHANCE("insult.chance", "1000"),
     INSULT_FILE("insult.file", "./insults.txt"),
     INSULT_SUBMISSIONS("submission.insults", "./insultSubmissions"),

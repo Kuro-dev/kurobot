@@ -62,6 +62,7 @@ public class GuildCommandHandler {
         commands.add(new RockPaperScissorsCommand());
         commands.add(new VersionCommand());
         commands.add(new ShowActiveQuestsCommand(QUESTS));
+
         for (GuildCommand command : commands) {
             try {
                 command.prepare();
