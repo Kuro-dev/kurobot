@@ -3,9 +3,9 @@ package org.kurodev.discord.command.guild.admin.force;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
+import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
-import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.config.Setting;
 import org.kurodev.discord.util.handlers.TextSampleHandler;
 
@@ -32,7 +32,7 @@ public class ForceAddInsultCommand extends ForceAddFileCommand {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
-    public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
+    public void execute(TextChannel channel, CommandLine args, @NotNull GuildMessageReceivedEvent event) throws IOException {
         final String content = event.getMessage().getContentDisplay();
         final Matcher match = pattern.matcher(content);
         channel.sendTyping().queue();

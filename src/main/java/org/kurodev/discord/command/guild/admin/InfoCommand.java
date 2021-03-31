@@ -3,9 +3,9 @@ package org.kurodev.discord.command.guild.admin;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
+import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
-import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.config.Setting;
 
 /**
@@ -16,9 +16,10 @@ public class InfoCommand extends AdminCommand {
         super("Info");
     }
 
+
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
-    public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) {
+    public void execute(TextChannel channel, CommandLine args, @NotNull GuildMessageReceivedEvent event) {
         MessageAction msg = channel.sendMessage("```\nThese are the settings:\n");
         for (Setting value : Setting.values()) {
             if (!"token".equals(value.getKey()))

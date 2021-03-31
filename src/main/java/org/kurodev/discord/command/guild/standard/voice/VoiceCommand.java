@@ -12,8 +12,8 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
+import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.GuildCommand;
 import org.kurodev.discord.command.guild.standard.voice.handlers.AudioPlayerSendHandler;
 import org.kurodev.discord.command.guild.standard.voice.handlers.MyAudioResultHandler;
@@ -58,7 +58,7 @@ public abstract class VoiceCommand extends GuildCommand {
     }
 
     @Override
-    public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
+    public void execute(TextChannel channel, CommandLine args, @NotNull GuildMessageReceivedEvent event) throws IOException {
         if (botHasPermission(event)) {
             VoiceChannel voice = getVoiceChannel(event);
             if (voice == null) {
@@ -73,7 +73,7 @@ public abstract class VoiceCommand extends GuildCommand {
         }
     }
 
-    protected abstract void executeInternally(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event);
+    protected abstract void executeInternally(TextChannel channel, CommandLine args, @NotNull GuildMessageReceivedEvent event);
 
     protected void loadURL(String url) throws ExecutionException, InterruptedException {
         playerManager.loadItem(url, resultHandler).get();

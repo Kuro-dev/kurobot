@@ -5,10 +5,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
-import org.kurodev.discord.command.argument.Argument;
-import org.kurodev.discord.command.guild.CommandArgument;
 import org.kurodev.discord.command.guild.GuildCommand;
 import org.kurodev.discord.config.Setting;
 import org.kurodev.discord.util.MarkDown;
@@ -29,12 +30,6 @@ import java.util.stream.Collectors;
  **/
 public class RockPaperScissorsCommand extends GuildCommand {
     private static final List<RPSCondition> CONDITION_LIST = new ArrayList<>();
-
-    @CommandArgument(mandatory = true, meaning = "your choice for this round of the game")
-    private static final String CHOICE = "choice"; //yes this is never used, still, please don't delete it.
-
-    @CommandArgument(meaning = "Displays a list of all possible choices for the game")
-    private static final String SHOW_OPTIONS = "--list";
 
     static {
         RPSCondition rock = addCondition("rock");
@@ -58,7 +53,10 @@ public class RockPaperScissorsCommand extends GuildCommand {
     }
 
     @Override
-    public void prepare() throws Exception {
+    public void prepare(Options args) throws Exception {
+        args.addOption("l", "list", false, "List all possible choices");
+        Option choice = new Option("c", "choice", true, "The choice for this game");
+        args.addOption(choice);
         logger.info("Checking files");
         final Path file = Paths.get(Main.SETTINGS.getSetting(Setting.RPS_Outcomes_File));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -85,16 +83,13 @@ public class RockPaperScissorsCommand extends GuildCommand {
     }
 
     @Override
-    public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
-        if (args.getOpt(SHOW_OPTIONS)) {
+    public void execute(TextChannel channel, CommandLine args, @NotNull GuildMessageReceivedEvent event) throws IOException {
+        String value = args.getOptionValue("c");
+        if (args.hasOption("l")) {
             channel.sendMessage(MarkDown.CODE_BLOCK.wrap(writeOptionString())).queue();
-        } else if (args.getOtherArgs().isEmpty()) {
-            channel.sendMessage("Argument required\n")
-                    .append(MarkDown.CODE_BLOCK.wrap(writeOptionString())).queue();
-        } else if (args.containsAny(getConditionNames())) {
+        } else if (value != null) {
             RPSCondition botChoice = getRandomRps();
-            int playerChoiceIndex = 0;
-            RPSCondition playerChoice = find(args.getOtherArgs().get(playerChoiceIndex));
+            RPSCondition playerChoice = find(value);
             String outcome = "";
             switch (botChoice.check(playerChoice)) {
                 case WIN:

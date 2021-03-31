@@ -2,9 +2,9 @@ package org.kurodev.discord.command.guild.standard;
 
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.discord.command.argument.Argument;
-import org.kurodev.discord.command.guild.CommandArgument;
 import org.kurodev.discord.command.guild.GuildCommand;
 import org.kurodev.discord.command.quest.PlayerData;
 import org.kurodev.discord.command.quest.Quest;
@@ -15,17 +15,18 @@ import java.io.IOException;
 import java.util.Map;
 
 public class ShowActiveQuestsCommand extends GuildCommand {
-    @CommandArgument(meaning = "Shows every active quests")
-    private static final String SHOW_ALL = "--all";
-
-    @CommandArgument(meaning = "Shows every active quests in this channel")
-    private static final String SHOW_ALL_CHANNEL = "--channel";
     private final QuestHandler questHandler;
 
 
     public ShowActiveQuestsCommand(QuestHandler questHandler) {
         super("activeQuests");
         this.questHandler = questHandler;
+    }
+
+    @Override
+    protected void prepare(Options args) throws Exception {
+        args.addOption("a", "all", false, "Shows every currently active quest");
+        args.addOption("c", "channel", false, "Shows every active quest in this channel");
     }
 
     @Override
@@ -39,17 +40,17 @@ public class ShowActiveQuestsCommand extends GuildCommand {
     }
 
     @Override
-    public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
+    public void execute(TextChannel channel, CommandLine args, @NotNull GuildMessageReceivedEvent event) throws IOException {
         final Map<PlayerData, Quest> quests = questHandler.getQuests();
         final PlayerData invoker = new PlayerData(event);
         final StringBuilder response = new StringBuilder();
-        if (args.getOpt(SHOW_ALL)) {
+        if (args.hasOption("a")) {
             quests.entrySet().stream().filter(e -> !e.getValue().isExpired())
                     .forEach(entry -> {
                         PlayerData player = entry.getKey();
                         appendQuestString(response, entry.getValue(), player);
                     });
-        } else if (args.getOpt(SHOW_ALL_CHANNEL)) {
+        } else if (args.hasOption("c")) {
             quests.entrySet().stream().filter(e -> !e.getValue().isExpired() && e.getKey().channelMatches(invoker))
                     .forEach(entry -> {
                         PlayerData player = entry.getKey();

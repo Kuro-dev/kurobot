@@ -9,6 +9,7 @@ import org.kurodev.discord.UserIDs;
  * @author kuro
  **/
 public interface Command {
+    String IDENTIFIER ="!k";
     /**
      * Prepare everything that is necessary for this command to work here. Especially things, that can fail, like file
      * operations etc. Will be invoked once during the start of the bot. May be invoked again at a later time.

@@ -1,5 +1,6 @@
 package org.kurodev.discord.command.guild.standard.submission;
 
+import org.apache.commons.cli.Options;
 import org.kurodev.discord.command.guild.GuildCommand;
 
 import java.nio.file.Files;
@@ -18,7 +19,7 @@ public abstract class SubmissionCommand extends GuildCommand {
     }
 
     @Override
-    public void prepare() throws Exception {
+    public void prepare(Options args) throws Exception {
         logger.info("Loading files");
         if (!Files.exists(path)) {
             if (path.getFileName().toString().matches(".+\\..+")) {

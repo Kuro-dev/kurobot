@@ -1,6 +1,7 @@
 package org.kurodev.discord.command.guild.admin.force;
 
 import net.dv8tion.jda.api.entities.TextChannel;
+import org.apache.commons.cli.Options;
 import org.kurodev.discord.command.guild.admin.AdminCommand;
 
 import java.nio.file.Files;
@@ -19,7 +20,7 @@ public abstract class ForceAddFileCommand extends AdminCommand {
 
 
     @Override
-    public void prepare() throws Exception {
+    public void prepare(Options args) throws Exception {
         if (!Files.exists(path)) {
             if (path.getFileName().toString().matches(".+\\..+")) {
                 logger.info("Creating File: " + path);
