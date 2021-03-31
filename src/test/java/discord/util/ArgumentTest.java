@@ -10,7 +10,9 @@ import static org.junit.Assert.*;
 
 /**
  * @author kuro
+ * @deprecated will soon be replaced}
  **/
+@Deprecated(forRemoval = true, since = "1.7.0")
 public class ArgumentTest {
     @Test
     public void argParsingTest() {

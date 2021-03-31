@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @author kuro
- * @deprecated will soon be replaced by {@link org.kurodev.discord.command.argadv.ArgumentParser}
+ * @deprecated will soon be replaced}
  **/
 @Deprecated(forRemoval = true, since = "1.7.0")
 public class Argument {
