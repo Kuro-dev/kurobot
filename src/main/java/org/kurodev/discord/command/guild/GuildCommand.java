@@ -8,7 +8,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.discord.command.argument.ArgInfo;
+import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.interfaces.Command;
 import org.kurodev.discord.command.interfaces.Reactable;
 import org.kurodev.discord.command.quest.Quest;
@@ -18,9 +18,9 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Arrays;
+import java.util.EnumSet;
 
 /**
  * @author kuro
@@ -91,6 +91,16 @@ public abstract class GuildCommand implements Command {
                     "All arguments:", args, 2, 5, "");
         }
         return baos.toString(StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Final removal in 1.8.0
+     *
+     * @deprecated Replaced by {@link #execute(TextChannel, CommandLine, GuildMessageReceivedEvent)}
+     */
+    @Deprecated(forRemoval = true, since = "1.7.0")
+    public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
+
     }
 
     public abstract void execute(TextChannel channel, CommandLine args, @NotNull GuildMessageReceivedEvent event) throws IOException;
