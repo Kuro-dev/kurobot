@@ -6,7 +6,9 @@ import java.util.List;
 
 /**
  * @author kuro
+ * @deprecated will soon be replaced}
  **/
+@Deprecated(forRemoval = true, since = "1.7.0")
 public class Argument {
     private final String[] argsRaw;
     private final List<String> otherArgs;
@@ -71,6 +73,10 @@ public class Argument {
         return paramArg.stream().filter(option -> option.flag.equals(flag)).findFirst().map(option -> option.opt).orElse(null);
     }
 
+    /**
+     * @param param The argument to get the parameter for
+     * @return {@code true} if the argument has been passed {@code false} otherwise
+     */
     public boolean getOpt(String param) {
         final String flag;
         if (param.startsWith("--")) {

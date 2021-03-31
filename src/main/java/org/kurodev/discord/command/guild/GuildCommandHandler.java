@@ -4,9 +4,12 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
-import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.admin.CheckSubmissionsCommand;
 import org.kurodev.discord.command.guild.admin.ExitCommand;
 import org.kurodev.discord.command.guild.admin.InfoCommand;
@@ -18,7 +21,6 @@ import org.kurodev.discord.command.guild.standard.rps.RockPaperScissorsCommand;
 import org.kurodev.discord.command.guild.standard.submission.InsultSubmissionCommand;
 import org.kurodev.discord.command.guild.standard.submission.MemeSubmissionCommand;
 import org.kurodev.discord.command.guild.standard.voice.LeaveCommand;
-import org.kurodev.discord.command.guild.standard.voice.soundboard.HemanCommand;
 import org.kurodev.discord.command.interfaces.Reactable;
 import org.kurodev.discord.command.quest.Quest;
 import org.kurodev.discord.command.quest.QuestHandler;
@@ -57,7 +59,6 @@ public class GuildCommandHandler {
         commands.add(new CheckSubmissionsCommand());
         commands.add(new InspireCommand());
         commands.add(new ReloadSettingsCommand(commands));
-        commands.add(new HemanCommand());
         commands.add(new LeaveCommand());
         commands.add(new RockPaperScissorsCommand());
         commands.add(new VersionCommand());
@@ -79,32 +80,32 @@ public class GuildCommandHandler {
         channel.sendTyping().complete();
         for (GuildCommand com : commands) {
             if (com.check(command, event)) {
+                CommandLineParser parser = new DefaultParser();
                 try {
-                    Argument args = Argument.parse(strArgs);
-                    if (args.hasErrors()) {
-                        channel.sendMessage("Oops, something went wrong\n").append(args.getErrorsAsString()).queue();
-                    } else {
-                        com.execute(channel, args, event);
-                        registerAgainQuest(com, channel, event, args);
-                    }
+                    CommandLine args = parser.parse(com.getArgs(), strArgs);
+                    com.execute(channel, args, event);
+                    registerAgainQuest(com, channel, event, args);
+                } catch (ParseException e) {
+                    channel.sendMessage(e.getMessage()).queue();
                 } catch (IOException e) {
-                    logger.debug("Exception logged", e);
+                    channel.sendMessage("Oops, something went wrong\n").queue();
+                    logger.error("something went wrong in command {}", com.getCommand(), e);
                 }
                 return;
             }
         }
         channel.sendMessage("Command is unknown, try using !k help").queue();
         event.getMessage().addReaction("🤷‍♂️").queue();
-
     }
 
-    private void registerAgainQuest(GuildCommand com, TextChannel channel, @NotNull GuildMessageReceivedEvent trigger, Argument args) {
+    private void registerAgainQuest(GuildCommand com, TextChannel channel, @NotNull GuildMessageReceivedEvent
+            trigger, CommandLine args) {
         Quest q = Quest.simpleInstance(event -> {
             try {
                 if ("again".equals(event.getMessage().getContentDisplay()))
                     com.execute(channel, args, trigger);
             } catch (IOException e) {
-                channel.sendMessage("Oops, something went wrong\n").append(args.getErrorsAsString()).queue();
+                channel.sendMessage("Oops, something went wrong\n").queue();
             }
             return false;
         });

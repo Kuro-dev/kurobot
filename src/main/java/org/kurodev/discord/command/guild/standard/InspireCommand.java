@@ -2,9 +2,9 @@ package org.kurodev.discord.command.guild.standard;
 
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
-import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.GuildCommand;
 import org.kurodev.discord.config.Setting;
 import org.kurodev.discord.util.UrlRequest;
@@ -31,7 +31,7 @@ public class InspireCommand extends GuildCommand {
     }
 
     @Override
-    public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
+    public void execute(TextChannel channel, CommandLine args, @NotNull GuildMessageReceivedEvent event) throws IOException {
         String response = request.get(URL, PARAMS);
         if (response != null) {
             channel.sendMessage(response).queue();

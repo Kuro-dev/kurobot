@@ -3,9 +3,9 @@ package org.kurodev.discord.command.guild.admin;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
-import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.GuildCommand;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class ReloadSettingsCommand extends AdminCommand {
     }
 
     @Override
-    public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
+    public void execute(TextChannel channel, CommandLine args, @NotNull GuildMessageReceivedEvent event) throws IOException {
         Message msg = channel.sendMessage("Reloading settings").complete();
         Main.loadSettings();
         List<GuildCommand> failed = new LinkedList<>();

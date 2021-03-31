@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.discord.command.guild.GuildCommandHandler;
+import org.kurodev.discord.command.interfaces.Command;
 import org.kurodev.discord.command.privateMsg.PrivateCommandHandler;
 import org.kurodev.discord.config.Setting;
 import org.slf4j.Logger;
@@ -42,7 +43,7 @@ public class MessageEventHandler extends ListenerAdapter {
         }
         super.onGuildMessageReceived(event);
         String message = event.getMessage().getContentDisplay();
-        if (message.startsWith("!k") || message.startsWith("!K")) {
+        if (message.startsWith(Command.IDENTIFIER) || message.startsWith(Command.IDENTIFIER.toUpperCase())) {
             String[] split = message.split(" ");
             if (split.length > 1) {
                 String command = split[1];

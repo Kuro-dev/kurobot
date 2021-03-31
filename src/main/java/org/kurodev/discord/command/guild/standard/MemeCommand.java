@@ -8,9 +8,10 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
-import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.guild.CommandArgument;
 import org.kurodev.discord.command.guild.GuildCommand;
 import org.kurodev.discord.command.interfaces.Reactable;
@@ -37,10 +38,6 @@ import java.util.stream.Collectors;
  * @author kuro
  **/
 public class MemeCommand extends GuildCommand implements Reactable {
-    @CommandArgument(meaning = "Gives an index to a specific file (must be numeric)")
-    private static final String INDEX_ARG = "-i";
-    @CommandArgument(meaning = "Gives the amount of memes present in the database")
-    private static final String SHOW_INDEX = "--count";
     private static final Pattern IS_NUMERIC_REG = Pattern.compile("\\d+");
     private final Path memeFolder = Paths.get(Main.SETTINGS.getSetting(Setting.MEME_FOLDER));
     private final Path memeVoteFile = Paths.get(Main.SETTINGS.getSetting(Setting.MEME_VOTE_FILE));
@@ -53,7 +50,10 @@ public class MemeCommand extends GuildCommand implements Reactable {
     }
 
     @Override
-    public void prepare() throws Exception {
+    public void prepare(Options args) throws Exception {
+        args.addOption("count", "Gives the amount of memes present in the database");
+        args.addOption("i", "index", true,
+                "Gives an index to a specific file (must be numeric)");
         if (!Files.exists(memeFolder)) {
             logger.info("Creating Meme Folder");
             Files.createDirectories(memeFolder);
@@ -83,32 +83,32 @@ public class MemeCommand extends GuildCommand implements Reactable {
     }
 
     @Override
-    public void execute(TextChannel channel, Argument args, @NotNull GuildMessageReceivedEvent event) throws IOException {
-        if (args.getOpt(SHOW_INDEX)) {
+    public void execute(TextChannel channel, CommandLine args, @NotNull GuildMessageReceivedEvent event) throws IOException {
+        if (args.hasOption("count")) {
             channel.sendMessage("index: ").append(String.valueOf(fileCache.getCachedItem().size() - 1)).queue();
             return;
         }
         if (event.getChannel().isNSFW()) {
-            final String index = args.getParam(INDEX_ARG);
+            final String index = args.getOptionValue("i");
             final boolean indexIsValid = index != null && IS_NUMERIC_REG.matcher(index).matches();
             Path image = null;
             final List<Path> files = fileCache.getCachedItem();
-            int imgnum;
+            int imgNum;
             if (indexIsValid) {
-                imgnum = Integer.parseInt(index);
-                if (files.size() > imgnum) {
-                    image = files.get(imgnum);
+                imgNum = Integer.parseInt(index);
+                if (files.size() > imgNum) {
+                    image = files.get(imgNum);
                 } else {
                     channel.sendMessage(String.format("Index is out of bounds. max: %d", files.size() - 1)).queue();
                 }
             } else {
-                imgnum = getRandomImageIndex();
-                if (imgnum != -1)
-                    image = files.get(imgnum);
+                imgNum = getRandomImageIndex();
+                if (imgNum != -1)
+                    image = files.get(imgNum);
             }
 
             if (image != null) {
-                channel.sendMessage(createImageDesc(image, imgnum)).addFile(image.toFile()).queue(vote::makeVoteable);
+                channel.sendMessage(createImageDesc(image, imgNum)).addFile(image.toFile()).queue(vote::makeVoteable);
                 if (Main.SETTINGS.getSettingBool(Setting.DELETE_COMMAND_MESSAGE))
                     event.getMessage().delete().queue();
             } else {

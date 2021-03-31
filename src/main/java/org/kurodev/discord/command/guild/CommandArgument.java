@@ -10,6 +10,7 @@ import java.lang.annotation.Target;
  **/
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
+@Deprecated(forRemoval = true, since = "1.7.0")
 public @interface CommandArgument {
     boolean mandatory() default false;
 

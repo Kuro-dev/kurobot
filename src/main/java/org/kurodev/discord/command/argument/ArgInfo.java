@@ -2,7 +2,9 @@ package org.kurodev.discord.command.argument;
 
 /**
  * @author kuro
+ * @deprecated will soon be replaced}
  **/
+@Deprecated(forRemoval = true, since = "1.7.0")
 public class ArgInfo {
     private final String name;
     private final boolean mandatory;
