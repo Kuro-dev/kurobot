@@ -27,13 +27,14 @@ import java.util.EnumSet;
  **/
 public abstract class GuildCommand implements Command {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-    protected final EnumSet<Permission> neededPermissions = EnumSet.allOf(Permission.class);
+    private final EnumSet<Permission> neededPermissions = EnumSet.noneOf(Permission.class);
     private final String command;
     private final Options args = new Options();
 
     public GuildCommand(String command, Permission... neededPermissions) {
         this.command = command;
-        this.neededPermissions.addAll(Arrays.asList(neededPermissions));
+        if (neededPermissions.length > 0)
+            this.neededPermissions.addAll(Arrays.asList(neededPermissions));
     }
 
     public Options getArgs() {
@@ -49,7 +50,7 @@ public abstract class GuildCommand implements Command {
 
     }
 
-    public String getCommand() {
+    public final String getCommand() {
         return command;
     }
 
@@ -60,7 +61,7 @@ public abstract class GuildCommand implements Command {
     /**
      * @return a list of permissions that are missing for this command.
      */
-    public Permission[] checkPermissions(GuildMessageReceivedEvent event) {
+    public final Permission[] checkPermissions(GuildMessageReceivedEvent event) {
         Guild guild = event.getGuild();
         TextChannel channel = event.getChannel();
         return neededPermissions.stream()
@@ -82,8 +83,11 @@ public abstract class GuildCommand implements Command {
         GuildCommandHandler.QUESTS.register(event, q);
     }
 
-    public String getArgumentsAsString() {
-        HelpFormatter formatter = new HelpFormatter();
+    public final String getArgumentsAsString() {
+        if (args.getOptions().isEmpty()) {
+            return "There are no arguments for " + command;
+        }
+        final HelpFormatter formatter = new HelpFormatter();
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final String syntax = Command.IDENTIFIER + " " + command + " -argument";
         try (PrintWriter pw = new PrintWriter(baos, true, StandardCharsets.UTF_8)) {
@@ -117,7 +121,7 @@ public abstract class GuildCommand implements Command {
                 '}';
     }
 
-    public boolean hasReactAction() {
+    public final boolean hasReactAction() {
         return this instanceof Reactable;
     }
 }

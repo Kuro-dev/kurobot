@@ -21,6 +21,14 @@ public class QuestHandler {
         quests.put(new PlayerData(event), q);
     }
 
+    public void purgeExpiredQuests() {
+        quests.forEach((data, quest) -> {
+            if (quest.isExpired() || quest.isFinished) {
+                quests.remove(data);
+            }
+        });
+    }
+
     public boolean exists(PlayerData data) {
         return get(data) != null;
     }

@@ -82,13 +82,6 @@ public abstract class Quest {
     }
 
     /**
-     * Simply sets the {}
-     */
-    public void reset() {
-
-    }
-
-    /**
      * @param onFinished <code>nullable</code>, Will be invoked whenever {@link #update(GuildMessageReceivedEvent)}
      *                   would return "true"
      */
