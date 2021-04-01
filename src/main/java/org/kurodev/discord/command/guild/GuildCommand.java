@@ -21,6 +21,7 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.Objects;
 
 /**
  * @author kuro
@@ -32,7 +33,7 @@ public abstract class GuildCommand implements Command {
     private final Options args = new Options();
 
     public GuildCommand(String command, Permission... neededPermissions) {
-        this.command = command;
+        this.command = Objects.requireNonNull(command);
         if (neededPermissions.length > 0)
             this.neededPermissions.addAll(Arrays.asList(neededPermissions));
     }
@@ -46,9 +47,20 @@ public abstract class GuildCommand implements Command {
         prepare(args);
     }
 
-    protected void prepare(Options args) throws Exception {
-
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GuildCommand that = (GuildCommand) o;
+        return command.equals(that.command);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(command);
+    }
+
+    protected abstract void prepare(Options args) throws Exception;
 
     public final String getCommand() {
         return command;

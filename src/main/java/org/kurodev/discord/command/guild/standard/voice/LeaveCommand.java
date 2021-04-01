@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -27,5 +28,10 @@ public class LeaveCommand extends VoiceCommand {
             channel.sendMessage("Disconnecting").queue();
             event.getGuild().getAudioManager().closeAudioConnection();
         }
+    }
+
+    @Override
+    protected void prepare(Options args) throws Exception {
+
     }
 }

@@ -70,6 +70,15 @@ public class Cache<T> {
     }
 
     /**
+     * Will clear the cache (set item to null) if the cache is dirty
+     */
+    public void clean() {
+        if (isDirty()) {
+            cached = null;
+        }
+    }
+
+    /**
      * @param supplier A function to automatically update the cache using the given function
      */
     public void setOnDirty(Supplier<T> supplier) {

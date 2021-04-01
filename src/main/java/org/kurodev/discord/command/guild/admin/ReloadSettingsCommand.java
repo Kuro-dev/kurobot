@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.discord.command.guild.GuildCommand;
@@ -27,6 +28,11 @@ public class ReloadSettingsCommand extends AdminCommand {
     @Override
     public String getDescription() {
         return "reloads the settings file and re-prepares every command";
+    }
+
+    @Override
+    protected void prepare(Options args) throws Exception {
+
     }
 
     @Override

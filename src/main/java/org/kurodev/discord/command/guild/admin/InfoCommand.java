@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.discord.config.Setting;
@@ -16,6 +17,11 @@ public class InfoCommand extends AdminCommand {
         super("Info");
     }
 
+
+    @Override
+    protected void prepare(Options args) throws Exception {
+
+    }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override

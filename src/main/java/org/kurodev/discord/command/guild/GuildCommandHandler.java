@@ -17,6 +17,7 @@ import org.kurodev.discord.command.guild.admin.ReloadSettingsCommand;
 import org.kurodev.discord.command.guild.admin.force.ForceAddInsultCommand;
 import org.kurodev.discord.command.guild.admin.force.ForceAddMemeCommand;
 import org.kurodev.discord.command.guild.standard.*;
+import org.kurodev.discord.command.guild.standard.nasa.RoverCommand;
 import org.kurodev.discord.command.guild.standard.rps.RockPaperScissorsCommand;
 import org.kurodev.discord.command.guild.standard.submission.InsultSubmissionCommand;
 import org.kurodev.discord.command.guild.standard.submission.MemeSubmissionCommand;
@@ -63,7 +64,7 @@ public class GuildCommandHandler {
         commands.add(new RockPaperScissorsCommand());
         commands.add(new VersionCommand());
         commands.add(new ShowActiveQuestsCommand(QUESTS));
-
+        commands.add(new RoverCommand());
         for (GuildCommand command : commands) {
             try {
                 command.prepare();

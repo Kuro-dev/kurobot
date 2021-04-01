@@ -3,6 +3,7 @@ package org.kurodev.discord.command.guild.standard;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.discord.command.guild.GuildCommand;
@@ -21,6 +22,11 @@ public class VersionCommand extends GuildCommand {
     @Override
     public String getDescription() {
         return "displays version data";
+    }
+
+    @Override
+    protected void prepare(Options args) throws Exception {
+
     }
 
     @Override

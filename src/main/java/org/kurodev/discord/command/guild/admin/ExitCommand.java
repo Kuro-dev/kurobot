@@ -3,6 +3,7 @@ package org.kurodev.discord.command.guild.admin;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 
@@ -16,6 +17,11 @@ public class ExitCommand extends AdminCommand {
         super("exit");
     }
 
+
+    @Override
+    protected void prepare(Options args) throws Exception {
+
+    }
 
     @Override
     public void execute(TextChannel channel, CommandLine args, @NotNull GuildMessageReceivedEvent event) throws IOException {
