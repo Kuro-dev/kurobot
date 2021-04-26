@@ -1,17 +1,17 @@
 # kurobot
 
 its just some fun project:
+I use this project primarily to learn how to work with the Java-Discord-Api (JDA).
 What can it do:
 
 1) Post memes
-2) post inspiring images (well, sometimes. because it uses an AI to do it.)
+2) post inspiring images (well sometimes, because it uses an AI to do it.)
    yes, you heard me: randomly generated, completely unique "inspiring" images.
-3) insult people
+
 
 What can you do:
 
 1) Submit memes to be added to the database
-2) Do the same with insults.
 
 collaborators are appreciated. If someone wants to join, just let me know. Its a pure fun project to learn and work with
 the Java discord library "JDA"
