@@ -5,6 +5,8 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.Main;
+import org.kurodev.discord.config.Setting;
 import org.kurodev.discord.util.Util;
 
 import java.io.File;
@@ -18,7 +20,7 @@ import java.nio.file.Paths;
 public class MemeSubmissionCommand extends SubmissionCommand {
 
     public MemeSubmissionCommand() {
-        this(Paths.get("./memeSubmissions"));
+        this(Paths.get(Main.SETTINGS.getSetting(Setting.MEME_SUBMISSIONS)));
     }
 
     /**
