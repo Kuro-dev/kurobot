@@ -17,6 +17,7 @@ public enum Setting {
     MEME_SUBMISSIONS("submission.memes", "./memeSubmissions"),
     MEME_VOTE_FILE("meme.votes.file", "./memeVotes.json"),
     RPS_Outcomes_File("rps.outcomes", "./RPSOutcomes.json"),
+    BOT_NAME("botName","Kuro-Bot"),
     TOKEN("token", "");
 
     private final String key;
