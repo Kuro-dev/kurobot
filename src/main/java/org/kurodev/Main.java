@@ -40,15 +40,9 @@ public class Main {
         startBot();
     }
 
-    private static void startBot() throws InterruptedException, LoginException {
+    private static void startBot() throws LoginException {
         JDA = JDABuilder.createDefault(SETTINGS.getSetting(Setting.TOKEN)).build();
-        MessageEventHandler event = new MessageEventHandler();
-        event.initialize();
-        JDA.addEventListener(event);
-        logger.info("Connecting to Discord");
-        JDA.awaitReady();
-        logger.info("Connecting to Discord - DONE");
-        JDA.getPresence().setActivity(Activity.of(Activity.ActivityType.LISTENING, "!k help"));
+        JDA.addEventListener(new MessageEventHandler());
     }
 
     public static void loadSettings() throws IOException {

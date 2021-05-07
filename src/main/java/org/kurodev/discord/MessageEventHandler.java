@@ -1,5 +1,7 @@
 package org.kurodev.discord;
 
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -87,7 +89,19 @@ public class MessageEventHandler extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        super.onReady(event);
+        final JDA jda = Main.getJDA();
+        initialize();
+        jda.getPresence().setActivity(Activity.of(Activity.ActivityType.LISTENING, "!k help"));
+        setName(jda);
+    }
+
+    private void setName(JDA jda) {
+        String newName = Main.SETTINGS.getSetting(Setting.BOT_NAME);
+        String currentName = jda.getSelfUser().getName();
+        if (!newName.equals(currentName)) {
+            logger.info("attempting to change bot name from \"{}\" to \"{}\" ", currentName, newName);
+            jda.getSelfUser().getManager().setName(newName).queue();
+        }
     }
 
     public void initialize() {
@@ -100,6 +114,5 @@ public class MessageEventHandler extends ListenerAdapter {
             privateCommandHandler.onShutDown();
             logger.info("Shutting down bot - DONE\n-------------------------------");
         }));
-
     }
 }

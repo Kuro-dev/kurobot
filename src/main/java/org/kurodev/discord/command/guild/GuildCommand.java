@@ -8,10 +8,12 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.Main;
 import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.interfaces.Command;
 import org.kurodev.discord.command.interfaces.Reactable;
 import org.kurodev.discord.command.quest.Quest;
+import org.kurodev.discord.config.Setting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +37,14 @@ public abstract class GuildCommand implements Command {
         this.command = command;
         if (neededPermissions.length > 0)
             this.neededPermissions.addAll(Arrays.asList(neededPermissions));
+    }
+
+    protected String getSetting(Setting setting) {
+        return Main.SETTINGS.getSetting(setting);
+    }
+
+    protected boolean getSettingBool(Setting setting) {
+        return Main.SETTINGS.getSettingBool(setting);
     }
 
     public Options getArgs() {
