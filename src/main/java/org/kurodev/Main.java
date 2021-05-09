@@ -1,11 +1,8 @@
 package org.kurodev;
 
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Activity;
-import org.kurodev.discord.MessageEventHandler;
+import org.kurodev.discord.BotMain;
 import org.kurodev.discord.config.MySettings;
-import org.kurodev.discord.config.Setting;
+import org.kurodev.webserver.WebserverMain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,21 +25,22 @@ public class Main {
     public static final String VERSION = getVersion();
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     private static final Path SETTINGS_FILE = Paths.get("./settings.properties");
-    private static JDA JDA;
 
-    public static JDA getJDA() {
-        return JDA;
-    }
 
     public static void main(String[] args) throws LoginException, InterruptedException, IOException {
         logger.info(TITLE + " - ver " + VERSION);
         loadSettings();
-        startBot();
+        startApplication(args);
     }
 
-    private static void startBot() throws LoginException {
-        JDA = JDABuilder.createDefault(SETTINGS.getSetting(Setting.TOKEN)).build();
-        JDA.addEventListener(new MessageEventHandler());
+    private static void startApplication(String[] args) {
+        WebserverMain webserver = new WebserverMain();
+        Thread webApp = new Thread(webserver, "Webserver");
+        Runnable shutdown = webserver::shutdown;
+        Thread discordBot = new Thread(new BotMain(shutdown), "Discord-bot");
+        webApp.setDaemon(true);
+        webApp.start();
+        discordBot.start();
     }
 
     public static void loadSettings() throws IOException {

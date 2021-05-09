@@ -30,9 +30,15 @@ public class MessageEventHandler extends ListenerAdapter {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final GuildCommandHandler guildCommandHandler = new GuildCommandHandler();
     private final PrivateCommandHandler privateCommandHandler = new PrivateCommandHandler();
+    private final Runnable additionalShutDownContext;
+
+    public MessageEventHandler(Runnable additionalShutDownContext) {
+
+        this.additionalShutDownContext = additionalShutDownContext;
+    }
 
     private static boolean messageAuthorIsThisBot(User author) {
-        return author.getIdLong() == Main.getJDA().getSelfUser().getIdLong();
+        return author.getIdLong() == BotMain.getJDA().getSelfUser().getIdLong();
     }
 
     @Override
@@ -89,7 +95,7 @@ public class MessageEventHandler extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        final JDA jda = Main.getJDA();
+        final JDA jda = BotMain.getJDA();
         initialize();
         jda.getPresence().setActivity(Activity.of(Activity.ActivityType.LISTENING, "!k help"));
         setName(jda);
@@ -105,11 +111,11 @@ public class MessageEventHandler extends ListenerAdapter {
     }
 
     public void initialize() {
-        guildCommandHandler.prepare();
+        guildCommandHandler.prepare(additionalShutDownContext);
         privateCommandHandler.prepare();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             logger.info("Shutting down bot");
-            Main.getJDA().shutdown();
+            BotMain.getJDA().shutdown();
             guildCommandHandler.onShutDown();
             privateCommandHandler.onShutDown();
             logger.info("Shutting down bot - DONE\n-------------------------------");

@@ -44,13 +44,13 @@ public class GuildCommandHandler {
     private final List<GuildCommand> commands = new ArrayList<>();
 
 
-    public void prepare() {
+    public void prepare(Runnable additionalShutDownContext) {
         logger.info("initializing commands");
         final TextSampleHandler insults = new TextSampleHandler(Paths.get(Main.SETTINGS.getSetting(Setting.INSULT_FILE)));
         commands.add(new HelpCommand(commands));
         commands.add(new MemeCommand());
         commands.add(new InfoCommand());
-        commands.add(new ExitCommand());
+        commands.add(new ExitCommand(additionalShutDownContext));
         commands.add(new RandomLineCommand("insult", insults));
         commands.add(new InsultSubmissionCommand(insults));
         commands.add(new ForceAddInsultCommand(insults));
