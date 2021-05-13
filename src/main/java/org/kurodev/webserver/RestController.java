@@ -26,19 +26,25 @@ public class RestController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/discordInfo", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+            value = "/discordInfo",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            headers = "Access-Control-Allow-Origin: *")
     public ResponseEntity<String> getDiscordInfo() {
         DiscordInfo info = DiscordInfoCollector.getInstance().collect();
         return ResponseEntity.ok(gson.toJson(info));
     }
 
-    @GetMapping(value = "/config", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+            value = "/config",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            headers = "Access-Control-Allow-Origin: *")
     public ResponseEntity<String> getConfigInfo() {
         MySettings info = Main.SETTINGS;
         return ResponseEntity.ok(gson.toJson(info));
     }
 
-    @PutMapping(value = "/config", consumes = MediaType.APPLICATION_JSON_VALUE, headers = "Accept=application/json")
+    @PutMapping(value = "/config", consumes = MediaType.APPLICATION_JSON_VALUE, headers = "Accept=application/json\nAccess-Control-Allow-Origin: *")
     public ResponseEntity<Void> setConfigInfo(@RequestBody MySettings config) {
         System.out.println("test: " + config);
         return ResponseEntity.ok(null);
