@@ -8,7 +8,7 @@ import org.kurodev.Main;
 import org.kurodev.discord.UserIDs;
 import org.kurodev.discord.command.privateMsg.console.ConsoleCommandHandler;
 import org.kurodev.discord.command.privateMsg.standard.ArchCommand;
-import org.kurodev.discord.config.Setting;
+import org.kurodev.config.Setting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

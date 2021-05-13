@@ -1,15 +1,20 @@
 package org.kurodev;
 
-import org.kurodev.discord.BotMain;
-import org.kurodev.discord.config.MySettings;
+import org.apache.commons.cli.*;
+import org.kurodev.discord.DiscordBot;
+import org.kurodev.config.MySettings;
+import org.kurodev.discord.util.information.DiscordInfoCollector;
 import org.kurodev.webserver.WebserverMain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,21 +30,33 @@ public class Main {
     public static final String VERSION = getVersion();
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     private static final Path SETTINGS_FILE = Paths.get("./settings.properties");
+    private static final Options ARGUMENTS = new Options();
 
-
-    public static void main(String[] args) throws LoginException, InterruptedException, IOException {
-        logger.info(TITLE + " - ver " + VERSION);
-        loadSettings();
-        startApplication(args);
+    static {
+        ARGUMENTS.addOption("tw", "toggleWebserver", false, "enable the webserver on port 8080");
     }
 
-    private static void startApplication(String[] args) {
-        WebserverMain webserver = new WebserverMain();
-        Thread webApp = new Thread(webserver, "Webserver");
-        Runnable shutdown = webserver::shutdown;
-        Thread discordBot = new Thread(new BotMain(shutdown), "Discord-bot");
-        webApp.setDaemon(true);
-        webApp.start();
+    public static void main(String[] args) throws LoginException, InterruptedException, IOException, ParseException {
+        CommandLineParser parser = new DefaultParser();
+        CommandLine arguments = parser.parse(ARGUMENTS, args);
+        logger.info(TITLE + VERSION);
+        logger.info(getApplicationArgumentsAsString());
+        loadSettings();
+        startApplication(arguments);
+    }
+
+    private static void startApplication(CommandLine args) {
+        Runnable shutdown = null;
+        if (args.hasOption("-tw")) {
+            WebserverMain webserver = new WebserverMain();
+            Thread webApp = new Thread(webserver, "Webserver");
+            shutdown = webserver::shutdown;
+            webApp.setDaemon(true);
+            webApp.start();
+        }
+        DiscordBot bot = new DiscordBot(shutdown);
+        DiscordInfoCollector.createInstance(bot);
+        Thread discordBot = new Thread(bot, "Discord-bot");
         discordBot.start();
     }
 
@@ -93,5 +110,15 @@ public class Main {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static String getApplicationArgumentsAsString() {
+        final HelpFormatter formatter = new HelpFormatter();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try (PrintWriter pw = new PrintWriter(baos, true, StandardCharsets.UTF_8)) {
+            formatter.printHelp(pw, 200, "just append them in the end",
+                    "All Application arguments:", ARGUMENTS, 2, 5, "");
+        }
+        return baos.toString(StandardCharsets.UTF_8);
     }
 }

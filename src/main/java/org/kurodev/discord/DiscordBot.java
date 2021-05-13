@@ -3,22 +3,21 @@ package org.kurodev.discord;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import org.kurodev.Main;
-import org.kurodev.discord.config.Setting;
+import org.kurodev.config.Setting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
-import java.util.Objects;
 
 
-public class BotMain implements Runnable {
+public class DiscordBot implements Runnable {
     private static net.dv8tion.jda.api.JDA JDA;
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final Runnable additionalShutDownContext;
+    private final MessageEventHandler messageEventHandler;
 
-    public BotMain(Runnable additionalShutDownContext) {
+    public DiscordBot(Runnable additionalShutDownContext) {
 
-        this.additionalShutDownContext = Objects.requireNonNull(additionalShutDownContext);
+        messageEventHandler = new MessageEventHandler(additionalShutDownContext);
     }
 
     public static JDA getJDA() {
@@ -29,9 +28,13 @@ public class BotMain implements Runnable {
     public void run() {
         try {
             JDA = JDABuilder.createDefault(Main.SETTINGS.getSetting(Setting.TOKEN)).build();
-            JDA.addEventListener(new MessageEventHandler(additionalShutDownContext));
+            JDA.addEventListener(messageEventHandler);
         } catch (LoginException e) {
             logger.error("Failed to start discord bot", e);
         }
+    }
+
+    public MessageEventHandler getMessageEventHandler() {
+        return messageEventHandler;
     }
 }

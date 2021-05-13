@@ -1,7 +1,6 @@
 package org.kurodev.discord;
 
 import net.dv8tion.jda.api.entities.User;
-import org.kurodev.Main;
 
 import javax.annotation.Nullable;
 
@@ -27,9 +26,9 @@ public enum UserIDs {
 
     @Nullable
     public User getUser() {
-        User out = BotMain.getJDA().getUserById(id); //attempt to find in cache
+        User out = DiscordBot.getJDA().getUserById(id); //attempt to find in cache
         if (out == null) {
-            out = BotMain.getJDA().retrieveUserById(id).complete(); //retrieve from discord DB
+            out = DiscordBot.getJDA().retrieveUserById(id).complete(); //retrieve from discord DB
         }
         return out;
     }

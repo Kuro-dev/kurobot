@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
-import org.kurodev.discord.config.Setting;
+import org.kurodev.config.Setting;
 import org.kurodev.discord.util.Util;
 
 import java.io.File;

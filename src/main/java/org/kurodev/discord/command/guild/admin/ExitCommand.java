@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.discord.BotMain;
+import org.kurodev.discord.DiscordBot;
 
 import java.io.IOException;
 
@@ -19,12 +19,15 @@ public class ExitCommand extends AdminCommand {
         this.additionalShutDownContext = additionalShutDownContext;
     }
 
-
     @Override
     public void execute(TextChannel channel, CommandLine args, @NotNull GuildMessageReceivedEvent event) throws IOException {
         channel.sendMessage("Shutting down bot").queue();
-        BotMain.getJDA().shutdown();
-        additionalShutDownContext.run();
+        for (Object registeredListener : DiscordBot.getJDA().getEventManager().getRegisteredListeners()) {
+            DiscordBot.getJDA().removeEventListener(registeredListener);
+        }
+        DiscordBot.getJDA().shutdown();
+        if (additionalShutDownContext != null)
+            additionalShutDownContext.run();
     }
 
     @Override

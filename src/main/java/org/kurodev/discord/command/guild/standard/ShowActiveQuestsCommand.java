@@ -35,6 +35,11 @@ public class ShowActiveQuestsCommand extends GuildCommand {
     }
 
     @Override
+    public boolean isListed() {
+        return false;
+    }
+
+    @Override
     public String getDescription() {
         return "its a simple debug command to show all actively running quests";
     }
