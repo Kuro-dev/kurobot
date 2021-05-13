@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @SpringBootApplication
 @Controller
+@CrossOrigin(origins = "*")
 public class RestController {
     private final Gson gson = new Gson();
 
@@ -28,8 +30,7 @@ public class RestController {
 
     @GetMapping(
             value = "/discordInfo",
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            headers = "Access-Control-Allow-Origin: *")
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getDiscordInfo() {
         DiscordInfo info = DiscordInfoCollector.getInstance().collect();
         return ResponseEntity.ok(gson.toJson(info));
@@ -37,14 +38,13 @@ public class RestController {
 
     @GetMapping(
             value = "/config",
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            headers = "Access-Control-Allow-Origin: *")
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getConfigInfo() {
         MySettings info = Main.SETTINGS;
         return ResponseEntity.ok(gson.toJson(info));
     }
 
-    @PutMapping(value = "/config", consumes = MediaType.APPLICATION_JSON_VALUE, headers = "Accept=application/json\nAccess-Control-Allow-Origin: *")
+    @PutMapping(value = "/config", consumes = MediaType.APPLICATION_JSON_VALUE, headers = "Accept=application/json")
     public ResponseEntity<Void> setConfigInfo(@RequestBody MySettings config) {
         System.out.println("test: " + config);
         return ResponseEntity.ok(null);
