@@ -29,7 +29,6 @@
                     <span v-if="arg.numberOfArgs === -1">None</span>
                     <span v-if="arg.numberOfArgs > 0">{{arg.numberOfArgs}}</span>
                 </p>
-                <Label v-if="arg.required" color="orange">Required</Label>
             </div>
             
         </div>
