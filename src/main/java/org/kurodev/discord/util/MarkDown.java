@@ -3,7 +3,7 @@ package org.kurodev.discord.util;
 /**
  * @author kuro
  **/
-//TODO finish this up
+//TODO clean this up
 public enum MarkDown {
     ITALICS("*"),
     BOLD("**"),
