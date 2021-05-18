@@ -4,7 +4,6 @@ import org.apache.commons.cli.Option;
 
 public class CommandArg {
     private final String opt, longOpt, desc;
-    private final boolean required;
     //-1 means "no args" -2 means "unlimited args" anything else means "this many args"\\
     private final int numberOfArgs;
 
@@ -15,7 +14,6 @@ public class CommandArg {
             longOpt = "--" + arg.getLongOpt();
         else
             longOpt = null;
-        required = arg.isRequired();
         numberOfArgs = arg.getArgs();
     }
 
@@ -29,10 +27,6 @@ public class CommandArg {
 
     public String getDesc() {
         return desc;
-    }
-
-    public boolean isRequired() {
-        return required;
     }
 
     public int getNumberOfArgs() {
