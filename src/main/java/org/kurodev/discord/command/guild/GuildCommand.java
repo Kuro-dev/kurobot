@@ -70,7 +70,7 @@ public abstract class GuildCommand implements Command {
     }
 
     /**
-     * @return a list of permissions that are missing for this command.
+     * @return an array of permissions that are missing for this command.
      */
     public final Permission[] checkPermissions(GuildMessageReceivedEvent event) {
         Guild guild = event.getGuild();
