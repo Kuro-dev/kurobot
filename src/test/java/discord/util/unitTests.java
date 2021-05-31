@@ -1,8 +1,8 @@
 package discord.util;
 
 import org.junit.Test;
-import org.kurodev.discord.command.guild.standard.rps.Outcome;
-import org.kurodev.discord.command.guild.standard.rps.RPSCondition;
+import org.kurodev.discord.message.command.guild.standard.rps.Outcome;
+import org.kurodev.discord.message.command.guild.standard.rps.RPSCondition;
 
 import static org.junit.Assert.assertEquals;
 

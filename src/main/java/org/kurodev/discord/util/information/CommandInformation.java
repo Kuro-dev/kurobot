@@ -2,7 +2,7 @@ package org.kurodev.discord.util.information;
 
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.kurodev.discord.command.guild.GuildCommand;
+import org.kurodev.discord.message.command.interfaces.Command;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,7 +17,7 @@ public class CommandInformation {
     private final boolean hasReactAction;
     private final List<CommandArg> args;
 
-    public CommandInformation(GuildCommand command) {
+    public CommandInformation(Command command) {
         this.command = command.getCommand();
         functioning = command.isFunctioning();
         args = convertArgs(command.getArgs());
@@ -27,9 +27,9 @@ public class CommandInformation {
         hasReactAction = command.hasReactAction();
     }
 
-    public static List<CommandInformation> of(List<GuildCommand> commands) {
+    public static List<CommandInformation> of(List<Command> commands) {
         List<CommandInformation> out = new ArrayList<>();
-        for (GuildCommand command : commands) {
+        for (Command command : commands) {
             out.add(new CommandInformation(command));
         }
         return out;

@@ -1,9 +1,9 @@
 package org.kurodev.discord.util.handlers;
 
 import net.dv8tion.jda.api.entities.IMentionable;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,24 +30,15 @@ public class TextSampleHandler {
             samples.addAll(Files.readAllLines(file));
     }
 
-    public void execute(GuildMessageReceivedEvent event) {
-        Member member = event.getGuild().getMember(event.getAuthor());
-        execute(event, member);
-    }
 
-    public void execute(GuildMessageReceivedEvent event, IMentionable mention) {
-        TextChannel channel = event.getChannel();
-        String insult = getRandomInsult();
-        if (mention != null) {
-            channel.sendMessage(mention.getAsMention() + " " + insult.trim()).mention(mention).queue();
+    public void execute(@NotNull MessageReceivedEvent event, List<IMentionable> mentions) {
+        MessageChannel channel = event.getTextChannel();
+        if (mentions != null && !mentions.isEmpty()) {
+            for (IMentionable mention : mentions) {
+                channel.sendMessage(mention.getAsMention() + " " + getRandomInsult().trim()).mention(mention).queue();
+            }
         } else {
-            channel.sendMessage(insult).queue();
-        }
-    }
-
-    public void execute(GuildMessageReceivedEvent event, List<IMentionable> mentions) {
-        for (IMentionable mention : mentions) {
-            execute(event, mention);
+            channel.sendMessage(getRandomInsult()).queue();
         }
     }
 

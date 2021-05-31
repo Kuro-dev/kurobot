@@ -1,7 +1,7 @@
 package org.kurodev.discord.util.information;
 
 import org.kurodev.discord.DiscordBot;
-import org.kurodev.discord.command.guild.GuildCommand;
+import org.kurodev.discord.message.command.interfaces.Command;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class DiscordInfoCollector {
     }
 
     public DiscordInfo collect() {
-        List<GuildCommand> commands = bot.getMessageEventHandler().getGuildCommandHandler().getCommands();
+        List<Command> commands = bot.getMessageEventHandler().getCommandHandler().getCommands();
         return new DiscordInfo(commands);
     }
 }

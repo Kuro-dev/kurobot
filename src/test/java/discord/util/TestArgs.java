@@ -1,6 +1,6 @@
 package discord.util;
 
-import org.kurodev.discord.command.argument.ArgEnum;
+import org.kurodev.discord.message.command.argument.ArgEnum;
 
 public enum TestArgs implements ArgEnum {
     BOOL_ARG("test1"),

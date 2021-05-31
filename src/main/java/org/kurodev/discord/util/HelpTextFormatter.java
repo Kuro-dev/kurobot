@@ -1,6 +1,6 @@
 package org.kurodev.discord.util;
 
-import org.kurodev.discord.command.interfaces.Command;
+import org.kurodev.discord.message.command.interfaces.Command;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
