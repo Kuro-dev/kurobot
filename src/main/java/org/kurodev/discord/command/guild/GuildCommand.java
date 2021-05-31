@@ -13,7 +13,7 @@ import org.kurodev.discord.command.argument.Argument;
 import org.kurodev.discord.command.interfaces.Command;
 import org.kurodev.discord.command.interfaces.Reactable;
 import org.kurodev.discord.command.quest.Quest;
-import org.kurodev.discord.config.Setting;
+import org.kurodev.config.Setting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +32,7 @@ public abstract class GuildCommand implements Command {
     private final EnumSet<Permission> neededPermissions = EnumSet.noneOf(Permission.class);
     private final String command;
     private final Options args = new Options();
+    private boolean functioning;
 
     public GuildCommand(String command, Permission... neededPermissions) {
         this.command = command;
@@ -65,11 +66,11 @@ public abstract class GuildCommand implements Command {
     }
 
     public boolean check(String command, @NotNull GuildMessageReceivedEvent event) {
-        return this.command.equalsIgnoreCase(command);
+        return functioning && this.command.equalsIgnoreCase(command);
     }
 
     /**
-     * @return a list of permissions that are missing for this command.
+     * @return an array of permissions that are missing for this command.
      */
     public final Permission[] checkPermissions(GuildMessageReceivedEvent event) {
         Guild guild = event.getGuild();
@@ -133,5 +134,13 @@ public abstract class GuildCommand implements Command {
 
     public final boolean hasReactAction() {
         return this instanceof Reactable;
+    }
+
+    public boolean isFunctioning() {
+        return functioning;
+    }
+
+    public void setFunctioning(boolean functioning) {
+        this.functioning = functioning;
     }
 }

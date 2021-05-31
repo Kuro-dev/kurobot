@@ -1,18 +1,20 @@
 package org.kurodev;
 
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Activity;
-import org.kurodev.discord.MessageEventHandler;
-import org.kurodev.discord.config.MySettings;
-import org.kurodev.discord.config.Setting;
+import org.apache.commons.cli.*;
+import org.kurodev.discord.DiscordBot;
+import org.kurodev.config.MySettings;
+import org.kurodev.discord.util.information.DiscordInfoCollector;
+import org.kurodev.webserver.WebserverMain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,21 +30,34 @@ public class Main {
     public static final String VERSION = getVersion();
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     private static final Path SETTINGS_FILE = Paths.get("./settings.properties");
-    private static JDA JDA;
+    private static final Options ARGUMENTS = new Options();
 
-    public static JDA getJDA() {
-        return JDA;
+    static {
+        ARGUMENTS.addOption("tw", "toggleWebserver", false, "enable the webserver on port 8080");
     }
 
-    public static void main(String[] args) throws LoginException, InterruptedException, IOException {
-        logger.info(TITLE + " - ver " + VERSION);
+    public static void main(String[] args) throws LoginException, InterruptedException, IOException, ParseException {
+        CommandLineParser parser = new DefaultParser();
+        CommandLine arguments = parser.parse(ARGUMENTS, args);
+        logger.info(TITLE + VERSION);
+        logger.info(getApplicationArgumentsAsString());
         loadSettings();
-        startBot();
+        startApplication(arguments);
     }
 
-    private static void startBot() throws LoginException {
-        JDA = JDABuilder.createDefault(SETTINGS.getSetting(Setting.TOKEN)).build();
-        JDA.addEventListener(new MessageEventHandler());
+    private static void startApplication(CommandLine args) {
+        Runnable shutdown = null;
+        if (args.hasOption("-tw")) {
+            WebserverMain webserver = new WebserverMain();
+            Thread webApp = new Thread(webserver, "Webserver");
+            shutdown = webserver::shutdown;
+            webApp.setDaemon(true);
+            webApp.start();
+        }
+        DiscordBot bot = new DiscordBot(shutdown);
+        DiscordInfoCollector.createInstance(bot);
+        Thread discordBot = new Thread(bot, "Discord-bot");
+        discordBot.start();
     }
 
     public static void loadSettings() throws IOException {
@@ -95,5 +110,15 @@ public class Main {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static String getApplicationArgumentsAsString() {
+        final HelpFormatter formatter = new HelpFormatter();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try (PrintWriter pw = new PrintWriter(baos, true, StandardCharsets.UTF_8)) {
+            formatter.printHelp(pw, 200, "just append them in the end",
+                    "All Application arguments:", ARGUMENTS, 2, 5, "");
+        }
+        return baos.toString(StandardCharsets.UTF_8);
     }
 }

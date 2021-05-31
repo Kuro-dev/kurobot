@@ -21,7 +21,7 @@ public class LeaveCommand extends VoiceCommand {
 
     @Override
     protected void executeInternally(TextChannel channel, CommandLine args, @NotNull GuildMessageReceivedEvent event) {
-        if (getVoiceChannel(event) == null) {
+        if (getVoiceChannel(event) == null|| getVoiceChannel(event).getMembers().contains(event.getGuild().getSelfMember())) {
             channel.sendMessage("Not connected to any voice channels").queue();
         } else {
             channel.sendMessage("Disconnecting").queue();

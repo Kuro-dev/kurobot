@@ -12,10 +12,10 @@ import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
+import org.kurodev.config.Setting;
 import org.kurodev.discord.command.guild.GuildCommandHandler;
 import org.kurodev.discord.command.interfaces.Command;
 import org.kurodev.discord.command.privateMsg.PrivateCommandHandler;
-import org.kurodev.discord.config.Setting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,13 +26,27 @@ import java.util.Arrays;
  **/
 public class MessageEventHandler extends ListenerAdapter {
     public static final String DELETE_REACTION = "🗑";
-
+    private static boolean active = true;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final GuildCommandHandler guildCommandHandler = new GuildCommandHandler();
     private final PrivateCommandHandler privateCommandHandler = new PrivateCommandHandler();
+    private final Runnable additionalShutDownContext;
+
+    public MessageEventHandler(Runnable additionalShutDownContext) {
+
+        this.additionalShutDownContext = additionalShutDownContext;
+    }
 
     private static boolean messageAuthorIsThisBot(User author) {
-        return author.getIdLong() == Main.getJDA().getSelfUser().getIdLong();
+        return author.getIdLong() == DiscordBot.getJDA().getSelfUser().getIdLong();
+    }
+
+    public static void setActive(boolean active) {
+        MessageEventHandler.active = active;
+    }
+
+    public GuildCommandHandler getGuildCommandHandler() {
+        return guildCommandHandler;
     }
 
     @Override
@@ -89,7 +103,7 @@ public class MessageEventHandler extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        final JDA jda = Main.getJDA();
+        final JDA jda = DiscordBot.getJDA();
         initialize();
         jda.getPresence().setActivity(Activity.of(Activity.ActivityType.LISTENING, "!k help"));
         setName(jda);
@@ -105,11 +119,11 @@ public class MessageEventHandler extends ListenerAdapter {
     }
 
     public void initialize() {
-        guildCommandHandler.prepare();
+        guildCommandHandler.prepare(additionalShutDownContext);
         privateCommandHandler.prepare();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             logger.info("Shutting down bot");
-            Main.getJDA().shutdown();
+            DiscordBot.getJDA().shutdown();
             guildCommandHandler.onShutDown();
             privateCommandHandler.onShutDown();
             logger.info("Shutting down bot - DONE\n-------------------------------");

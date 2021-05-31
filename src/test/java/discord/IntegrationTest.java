@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kurodev.Main;
+import org.kurodev.discord.DiscordBot;
 import org.kurodev.discord.UserIDs;
 import org.kurodev.discord.util.MarkDown;
 
@@ -21,7 +22,7 @@ public class IntegrationTest {
     @BeforeClass
     public static void prepare() throws Exception {
         Main.main(new String[0]);
-        jda = Main.getJDA();
+        jda = DiscordBot.getJDA();
         kuro = UserIDs.KURO.getUser();
     }
 

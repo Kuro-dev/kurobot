@@ -11,7 +11,7 @@ import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.discord.command.guild.GuildCommand;
-import org.kurodev.discord.config.Setting;
+import org.kurodev.config.Setting;
 import org.kurodev.discord.util.MarkDown;
 
 import java.io.IOException;

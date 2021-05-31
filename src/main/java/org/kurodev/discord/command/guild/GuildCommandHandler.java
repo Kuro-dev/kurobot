@@ -10,6 +10,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
+import org.kurodev.config.Setting;
 import org.kurodev.discord.command.guild.admin.CheckSubmissionsCommand;
 import org.kurodev.discord.command.guild.admin.ExitCommand;
 import org.kurodev.discord.command.guild.admin.InfoCommand;
@@ -24,7 +25,6 @@ import org.kurodev.discord.command.guild.standard.voice.LeaveCommand;
 import org.kurodev.discord.command.interfaces.Reactable;
 import org.kurodev.discord.command.quest.Quest;
 import org.kurodev.discord.command.quest.QuestHandler;
-import org.kurodev.discord.config.Setting;
 import org.kurodev.discord.util.handlers.TextSampleHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,15 +42,19 @@ public class GuildCommandHandler {
     public static final QuestHandler QUESTS = new QuestHandler();
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<GuildCommand> commands = new ArrayList<>();
+    private boolean active;
 
+    public List<GuildCommand> getCommands() {
+        return commands;
+    }
 
-    public void prepare() {
+    public void prepare(Runnable additionalShutDownContext) {
         logger.info("initializing commands");
         final TextSampleHandler insults = new TextSampleHandler(Paths.get(Main.SETTINGS.getSetting(Setting.INSULT_FILE)));
         commands.add(new HelpCommand(commands));
         commands.add(new MemeCommand());
         commands.add(new InfoCommand());
-        commands.add(new ExitCommand());
+        commands.add(new ExitCommand(additionalShutDownContext));
         commands.add(new RandomLineCommand("insult", insults));
         commands.add(new InsultSubmissionCommand(insults));
         commands.add(new ForceAddInsultCommand(insults));
@@ -67,35 +71,36 @@ public class GuildCommandHandler {
         for (GuildCommand command : commands) {
             try {
                 command.prepare();
+                command.setFunctioning(true);
             } catch (Exception e) {
                 logger.error("Failed to initialize command \"" + command.getCommand() + "\"", e);
-                commands.remove(command);
+                command.setFunctioning(false);
             }
         }
         logger.info("initializing commands - DONE");
     }
 
     public void handle(String command, @NotNull GuildMessageReceivedEvent event, String[] strArgs) {
-        TextChannel channel = event.getChannel();
-        channel.sendTyping().complete();
-        for (GuildCommand com : commands) {
-            if (com.check(command, event)) {
-                CommandLineParser parser = new DefaultParser();
-                try {
-                    CommandLine args = parser.parse(com.getArgs(), strArgs);
-                    com.execute(channel, args, event);
-                    registerAgainQuest(com, channel, event, args);
-                } catch (ParseException e) {
-                    channel.sendMessage(e.getMessage()).queue();
-                } catch (IOException e) {
-                    channel.sendMessage("Oops, something went wrong\n").queue();
-                    logger.error("something went wrong in command {}", com.getCommand(), e);
+            TextChannel channel = event.getChannel();
+            channel.sendTyping().complete();
+            for (GuildCommand com : commands) {
+                if (com.check(command, event)) {
+                    CommandLineParser parser = new DefaultParser();
+                    try {
+                        CommandLine args = parser.parse(com.getArgs(), strArgs);
+                        com.execute(channel, args, event);
+                        registerAgainQuest(com, channel, event, args);
+                    } catch (ParseException e) {
+                        channel.sendMessage(e.getMessage()).queue();
+                    } catch (IOException e) {
+                        channel.sendMessage("Oops, something went wrong\n").queue();
+                        logger.error("something went wrong in command {}", com.getCommand(), e);
+                    }
+                    return;
                 }
-                return;
-            }
+            channel.sendMessage("Command is unknown, try using !k help").queue();
+            event.getMessage().addReaction("🤷‍♂️").queue();
         }
-        channel.sendMessage("Command is unknown, try using !k help").queue();
-        event.getMessage().addReaction("🤷‍♂️").queue();
     }
 
     private void registerAgainQuest(GuildCommand com, TextChannel channel, @NotNull GuildMessageReceivedEvent
@@ -153,5 +158,13 @@ public class GuildCommandHandler {
                 ((Reactable) command).onReact(message, event);
             }
         });
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

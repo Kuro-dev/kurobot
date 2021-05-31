@@ -7,7 +7,7 @@ import org.kurodev.discord.command.guild.GuildCommandHandler;
 
 /**
  * If the command can support reactions, simply make it implement this interface, the rest will happen automatically.
- * (don't forget to add your command to {@link GuildCommandHandler#prepare()})
+ * (don't forget to add your command to {@link GuildCommandHandler#prepare(Runnable)})
  */
 public interface Reactable {
     void onReact(Message reactedMessage, GuildMessageReactionAddEvent event);

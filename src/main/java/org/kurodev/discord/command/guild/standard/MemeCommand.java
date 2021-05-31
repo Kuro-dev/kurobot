@@ -12,10 +12,9 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
-import org.kurodev.discord.command.guild.CommandArgument;
 import org.kurodev.discord.command.guild.GuildCommand;
 import org.kurodev.discord.command.interfaces.Reactable;
-import org.kurodev.discord.config.Setting;
+import org.kurodev.config.Setting;
 import org.kurodev.discord.util.cache.Cache;
 import org.kurodev.discord.vote.Score;
 import org.kurodev.discord.vote.impl.ReactionVote;
@@ -88,7 +87,9 @@ public class MemeCommand extends GuildCommand implements Reactable {
             channel.sendMessage("index: ").append(String.valueOf(fileCache.getCachedItem().size() - 1)).queue();
             return;
         }
-        if (event.getChannel().isNSFW()) {
+        if (!event.getChannel().isNSFW()) {
+            channel.sendMessage("you may want to be in a NSFW channel for this...").queue();
+        } else {
             final String index = args.getOptionValue("i");
             final boolean indexIsValid = index != null && IS_NUMERIC_REG.matcher(index).matches();
             Path image = null;
@@ -114,8 +115,6 @@ public class MemeCommand extends GuildCommand implements Reactable {
             } else {
                 channel.sendMessage("No memes found :(").queue();
             }
-        } else {
-            channel.sendMessage("you may want to be in a NSFW channel for this...").queue();
         }
     }
 
