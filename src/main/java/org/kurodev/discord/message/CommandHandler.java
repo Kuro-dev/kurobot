@@ -17,7 +17,6 @@ import org.kurodev.discord.message.command.generic.admin.InfoCommand;
 import org.kurodev.discord.message.command.generic.admin.ReloadSettingsCommand;
 import org.kurodev.discord.message.command.generic.admin.force.ForceAddInsultCommand;
 import org.kurodev.discord.message.command.generic.admin.force.ForceAddMemeCommand;
-import org.kurodev.discord.message.command.generic.standard.ArchCommand;
 import org.kurodev.discord.message.command.guild.standard.*;
 import org.kurodev.discord.message.command.guild.standard.rps.RockPaperScissorsCommand;
 import org.kurodev.discord.message.command.guild.standard.submission.InsultSubmissionCommand;
@@ -53,7 +52,6 @@ public class CommandHandler {
     public void prepare(Runnable additionalShutDownContext) {
         logger.info("initializing commands");
         final TextSampleHandler insults = new TextSampleHandler(Paths.get(Main.SETTINGS.getSetting(Setting.INSULT_FILE)));
-        commands.add(new ArchCommand());
         commands.add(new InfoCommand());
         commands.add(new ExitCommand(additionalShutDownContext));
         commands.add(new ForceAddInsultCommand(insults));
