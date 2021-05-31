@@ -7,6 +7,8 @@ import java.lang.annotation.Target;
 
 /**
  * @author kuro
+ * @deprecated to be removed in 1.8.0
+ * please use {@link org.apache.commons.cli.CommandLine} instead
  **/
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
