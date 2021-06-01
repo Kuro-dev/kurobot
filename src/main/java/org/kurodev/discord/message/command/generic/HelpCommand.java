@@ -1,14 +1,14 @@
-package org.kurodev.discord.message.command.guild.standard;
+package org.kurodev.discord.message.command.generic;
 
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.discord.message.command.Command;
 import org.kurodev.discord.message.command.generic.GenericCommand;
-import org.kurodev.discord.message.command.guild.GuildCommand;
-import org.kurodev.discord.message.command.interfaces.Command;
 import org.kurodev.discord.util.HelpTextFormatter;
 
 import java.util.List;
@@ -17,17 +17,16 @@ import java.util.List;
  * @author kuro
  **/
 public class HelpCommand extends GenericCommand {
-    private final List<? extends Command> commands;
+    private final List<Command> commands;
 
-    public HelpCommand(List<? extends Command> commands) {
+    public HelpCommand(List<Command> commands) {
         super("Help");
         this.commands = commands;
     }
 
     @Override
     protected void prepare(Options args) throws Exception {
-        args.addOption("a", "all", false, "shows all command, including hidden ones");
-        args.addOption("admin", "shows developer commands");
+        args.addOption("all", "shows all command, including the ones for different channels ones");
         args.addOption("c", "command", true, "Shows information about the given command.");
     }
 
@@ -45,27 +44,18 @@ public class HelpCommand extends GenericCommand {
             if (com != null) {
                 MessageAction action = channel.sendMessage(com.getCommand()).append(" - `").append(com.getDescription()).append("`\n");
                 action.append("Supports @mentions: ").append(String.valueOf(com.supportsMention()));
-                if (com instanceof GuildCommand) {
-                    GuildCommand guildCommand = (GuildCommand) com;
-                    String possibleArgs = guildCommand.getArgumentsAsString();
-                    if (!possibleArgs.isBlank())
-                        action.append("\nArguments:\n```\n").append(possibleArgs).append("\n```");
-                }
+                String possibleArgs = com.getArgumentsAsString();
+                if (!possibleArgs.isBlank())
+                    action.append("\nArguments:\n```\n").append(possibleArgs).append("\n```");
                 action.queue();
             } else {
                 channel.sendMessage("Command unknown: ").append(args.getOptionValue("c")).queue();
             }
             return;
         }
-        boolean showUnlisted = args.hasOption("a");
-        boolean showAdmin = args.hasOption("admin");
-        if (showAdmin) {
-            if (!isAdminInvoked) {
-                channel.sendMessage("nice try, but you're not an admin ;)")
-                        .append("\nhere are the commands you CAN use:\n").queue();
-            }
-        }
-        channel.sendMessage(HelpTextFormatter.format(commands, isAdminInvoked && showAdmin, showUnlisted)).queue();
+        boolean showAll = args.hasOption("a");
+        ChannelType type = event.getChannelType();
+        channel.sendMessage(HelpTextFormatter.format(commands, isAdminInvoked, showAll, type)).queue();
     }
 
     private Command find(String name) {

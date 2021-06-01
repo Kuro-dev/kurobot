@@ -1,6 +1,7 @@
 package org.kurodev.discord.util;
 
-import org.kurodev.discord.message.command.interfaces.Command;
+import net.dv8tion.jda.api.entities.ChannelType;
+import org.kurodev.discord.message.command.Command;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -12,19 +13,19 @@ import java.util.List;
  * @author kuro
  **/
 public class HelpTextFormatter {
-    private static final int PUFFER = 5;
+    private static final int BUFFER = 5;
 
-    public static String format(List<? extends Command> commands, boolean isAdmin, boolean showUnlisted) {
-        final int pufferLength = commands.stream().mapToInt(value -> value.getCommand().length()).max().orElse(-1) + PUFFER;
+    public static String format(List<Command> commands, boolean invokerIsAdmin, boolean showAll, ChannelType type) {
+        final int pufferLength = commands.stream().mapToInt(value -> value.getCommand().length()).max().orElse(-1) + BUFFER;
         final StringBuilder out = new StringBuilder("List of commands:\n");
-        final String delimiter = "-".repeat(pufferLength - PUFFER);
+        final String delimiter = "-".repeat(pufferLength - BUFFER);
 
         out.append(delimiter).append("Commands").append(delimiter).append("\n");
-        commands.stream().filter(command -> !command.needsAdmin() && (command.isListed() || showUnlisted)).forEach(command -> {
-            String string = command.getCommand();
-            out.append(string).append(createPuffer(string, pufferLength)).append("- ").append(command.getDescription()).append("\n");
+        commands.stream().filter(command -> !command.needsAdmin() && (showAll || command.supportsChannel(type))).forEach(command -> {
+            String name = command.getCommand();
+            out.append(name).append(createPuffer(name, pufferLength)).append("- ").append(command.getDescription()).append("\n");
         });
-        if (isAdmin) {
+        if (invokerIsAdmin && type == ChannelType.PRIVATE) {
             out.append(delimiter).append("Admin Commands").append(delimiter).append("\n");
             commands.stream().filter(Command::needsAdmin).forEach(command -> {
                 String string = command.getCommand();
@@ -38,8 +39,8 @@ public class HelpTextFormatter {
         return MarkDown.CODE_BLOCK.wrap(out.toString());
     }
 
-    private static String createPuffer(String str, int length) {
-        int diff = length - str.length();
+    private static String createPuffer(String commandName, int length) {
+        int diff = length - commandName.length();
         return " ".repeat(diff);
     }
 }

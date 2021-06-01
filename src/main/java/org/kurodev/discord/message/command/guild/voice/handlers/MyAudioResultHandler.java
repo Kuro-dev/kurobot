@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command.guild.standard.voice.handlers;
+package org.kurodev.discord.message.command.guild.voice.handlers;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;

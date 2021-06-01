@@ -6,7 +6,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
-import org.kurodev.discord.message.command.interfaces.Command;
+import org.kurodev.discord.message.command.Command;
+import org.kurodev.discord.message.command.generic.admin.AdminCommand;
 
 import java.io.IOException;
 import java.util.LinkedList;

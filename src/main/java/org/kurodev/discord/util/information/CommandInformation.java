@@ -2,7 +2,7 @@ package org.kurodev.discord.util.information;
 
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.kurodev.discord.message.command.interfaces.Command;
+import org.kurodev.discord.message.command.Command;
 
 import java.util.ArrayList;
 import java.util.Collection;

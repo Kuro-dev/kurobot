@@ -1,7 +1,7 @@
 package org.kurodev.discord.util.information;
 
 import org.kurodev.discord.DiscordBot;
-import org.kurodev.discord.message.command.interfaces.Command;
+import org.kurodev.discord.message.command.Command;
 
 import java.util.List;
 

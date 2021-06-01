@@ -1,11 +1,9 @@
-package org.kurodev.discord.message.command.quest;
+package org.kurodev.discord.message.quest;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author kuro

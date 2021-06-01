@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command.guild.standard;
+package org.kurodev.discord.message.command.generic;
 
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;

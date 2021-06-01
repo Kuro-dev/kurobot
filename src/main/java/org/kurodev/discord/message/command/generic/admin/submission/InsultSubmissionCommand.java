@@ -1,7 +1,6 @@
-package org.kurodev.discord.message.command.guild.standard.submission;
+package org.kurodev.discord.message.command.generic.admin.submission;
 
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.apache.commons.cli.CommandLine;

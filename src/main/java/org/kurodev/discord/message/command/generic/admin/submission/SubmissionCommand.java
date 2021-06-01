@@ -1,8 +1,7 @@
-package org.kurodev.discord.message.command.guild.standard.submission;
+package org.kurodev.discord.message.command.generic.admin.submission;
 
 import org.apache.commons.cli.Options;
 import org.kurodev.discord.message.command.generic.GenericCommand;
-import org.kurodev.discord.message.command.guild.GuildCommand;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

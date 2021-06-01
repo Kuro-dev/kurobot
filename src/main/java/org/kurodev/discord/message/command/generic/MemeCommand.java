@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command.guild.standard;
+package org.kurodev.discord.message.command.generic;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
 import org.kurodev.discord.message.command.generic.GenericCommand;
-import org.kurodev.discord.message.command.interfaces.Reactable;
+import org.kurodev.discord.message.command.Reactable;
 import org.kurodev.discord.util.cache.Cache;
 import org.kurodev.discord.vote.Score;
 import org.kurodev.discord.vote.impl.ReactionVote;

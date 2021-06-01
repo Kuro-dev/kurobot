@@ -11,8 +11,9 @@ import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
 import org.kurodev.discord.message.CommandHandler;
-import org.kurodev.discord.message.command.interfaces.Command;
-import org.kurodev.discord.message.command.quest.Quest;
+import org.kurodev.discord.message.command.Command;
+import org.kurodev.discord.message.command.CommandType;
+import org.kurodev.discord.message.quest.Quest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -104,7 +105,7 @@ public abstract class GenericCommand implements Command {
     protected final void registerQuest(MessageReceivedEvent event, Quest q) {
         CommandHandler.QUESTS.register(event, q);
     }
-
+@Override
     public final String getArgumentsAsString() {
         if (args.getOptions().isEmpty()) {
             return "There are no arguments for " + command;
@@ -131,5 +132,10 @@ public abstract class GenericCommand implements Command {
 
     public void setFunctioning(boolean functioning) {
         this.functioning = functioning;
+    }
+
+    @Override
+    public CommandType getType() {
+        return type;
     }
 }

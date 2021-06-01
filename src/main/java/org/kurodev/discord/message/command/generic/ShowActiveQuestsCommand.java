@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command.guild.standard;
+package org.kurodev.discord.message.command.generic;
 
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -6,9 +6,9 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.discord.message.command.generic.GenericCommand;
-import org.kurodev.discord.message.command.quest.UserData;
-import org.kurodev.discord.message.command.quest.Quest;
-import org.kurodev.discord.message.command.quest.QuestHandler;
+import org.kurodev.discord.message.quest.UserData;
+import org.kurodev.discord.message.quest.Quest;
+import org.kurodev.discord.message.quest.QuestHandler;
 import org.kurodev.discord.util.MarkDown;
 
 import java.io.IOException;

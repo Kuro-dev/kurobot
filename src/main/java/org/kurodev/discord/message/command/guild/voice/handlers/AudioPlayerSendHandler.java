@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command.guild.standard.voice.handlers;
+package org.kurodev.discord.message.command.guild.voice.handlers;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;

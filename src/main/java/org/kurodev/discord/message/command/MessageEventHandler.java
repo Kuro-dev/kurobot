@@ -15,7 +15,6 @@ import org.kurodev.config.Setting;
 import org.kurodev.discord.DiscordBot;
 import org.kurodev.discord.message.CommandHandler;
 import org.kurodev.discord.message.State;
-import org.kurodev.discord.message.command.interfaces.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

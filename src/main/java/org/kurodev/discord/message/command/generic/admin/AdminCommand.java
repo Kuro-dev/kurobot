@@ -1,7 +1,7 @@
 package org.kurodev.discord.message.command.generic.admin;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.kurodev.discord.message.command.generic.CommandType;
+import org.kurodev.discord.message.command.CommandType;
 import org.kurodev.discord.message.command.generic.GenericCommand;
 
 /**

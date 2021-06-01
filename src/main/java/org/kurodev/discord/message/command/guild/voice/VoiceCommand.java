@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command.guild.standard.voice;
+package org.kurodev.discord.message.command.guild.voice;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
@@ -15,9 +15,9 @@ import net.dv8tion.jda.api.managers.AudioManager;
 import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.discord.message.command.guild.GuildCommand;
-import org.kurodev.discord.message.command.guild.standard.voice.handlers.AudioPlayerSendHandler;
-import org.kurodev.discord.message.command.guild.standard.voice.handlers.MyAudioResultHandler;
-import org.kurodev.discord.message.command.guild.standard.voice.handlers.TrackScheduler;
+import org.kurodev.discord.message.command.guild.voice.handlers.AudioPlayerSendHandler;
+import org.kurodev.discord.message.command.guild.voice.handlers.MyAudioResultHandler;
+import org.kurodev.discord.message.command.guild.voice.handlers.TrackScheduler;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;

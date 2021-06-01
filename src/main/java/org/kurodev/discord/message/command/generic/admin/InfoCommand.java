@@ -27,7 +27,8 @@ public class InfoCommand extends AdminCommand {
     public void execute(MessageChannel channel, CommandLine args, @NotNull MessageReceivedEvent event) throws IOException {
         MessageAction msg = channel.sendMessage("\nSystem Information:\n");
         msg.append("Arch: ").append(System.getProperty("os.name")).append("\n")
-                .append("--------------------------------\n").append("These are the settings:```\n");
+                .append(Main.TITLE + " version: " + Main.VERSION)
+                .append("\n--------------------------------\n").append("These are the settings:```\n");
         for (Setting value : Setting.values()) {
             if (!"token".equals(value.getKey()))
                 msg.append(value.getKey()).append(" = ").append(Main.SETTINGS.getSetting(value)).append("\n");

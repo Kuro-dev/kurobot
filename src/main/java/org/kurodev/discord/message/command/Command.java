@@ -1,5 +1,6 @@
-package org.kurodev.discord.message.command.interfaces;
+package org.kurodev.discord.message.command;
 
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -8,6 +9,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.discord.UserIDs;
+import org.kurodev.discord.message.command.generic.admin.ReloadSettingsCommand;
 
 import java.io.IOException;
 
@@ -23,7 +25,7 @@ public interface Command {
      *
      * @throws Exception if the preparation fails meaning the command will not at all be usable. Thus will be removed
      *                   from the available commands list to avoid exceptions
-     * @see org.kurodev.discord.message.command.generic.admin.ReloadSettingsCommand
+     * @see ReloadSettingsCommand
      */
     default void prepare() throws Exception {
 
@@ -34,7 +36,7 @@ public interface Command {
     }
 
     default boolean check(String command, MessageReceivedEvent event) {
-        return isFunctioning()&& getCommand().equalsIgnoreCase(command);
+        return isFunctioning() && getCommand().equalsIgnoreCase(command);
     }
 
     void execute(MessageChannel channel, CommandLine args, @NotNull MessageReceivedEvent event) throws IOException;
@@ -74,4 +76,12 @@ public interface Command {
     }
 
     boolean isFunctioning();
+
+    CommandType getType();
+
+    String getArgumentsAsString();
+
+    default boolean supportsChannel(ChannelType type) {
+        return getType().supports(type);
+    }
 }

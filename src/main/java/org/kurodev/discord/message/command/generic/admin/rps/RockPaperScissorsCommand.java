@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command.guild.standard.rps;
+package org.kurodev.discord.message.command.generic.admin.rps;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command.interfaces;
+package org.kurodev.discord.message.command;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;

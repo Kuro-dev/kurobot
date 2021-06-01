@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command.guild.standard.rps;
+package org.kurodev.discord.message.command.generic.admin.rps;
 
 import java.util.ArrayList;
 import java.util.List;

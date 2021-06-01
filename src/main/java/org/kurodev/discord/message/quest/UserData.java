@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command.quest;
+package org.kurodev.discord.message.quest;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;

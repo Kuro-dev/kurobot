@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command.guild.standard.voice;
+package org.kurodev.discord.message.command.guild.voice;
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;
