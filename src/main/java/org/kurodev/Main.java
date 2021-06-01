@@ -1,8 +1,8 @@
 package org.kurodev;
 
 import org.apache.commons.cli.*;
-import org.kurodev.discord.DiscordBot;
 import org.kurodev.config.MySettings;
+import org.kurodev.discord.DiscordBot;
 import org.kurodev.discord.util.information.DiscordInfoCollector;
 import org.kurodev.webserver.WebserverMain;
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ public class Main {
     public static void main(String[] args) throws LoginException, InterruptedException, IOException, ParseException {
         CommandLineParser parser = new DefaultParser();
         CommandLine arguments = parser.parse(ARGUMENTS, args);
-        logger.info(TITLE + VERSION);
+        logger.info(TITLE + "-" + VERSION);
         logger.info(getApplicationArgumentsAsString());
         loadSettings();
         startApplication(arguments);

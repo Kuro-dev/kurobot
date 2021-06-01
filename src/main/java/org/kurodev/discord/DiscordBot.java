@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
+import org.kurodev.discord.message.command.MessageEventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
