@@ -1,6 +1,7 @@
 package org.kurodev.discord.message.command.generic.console;
 
 import net.dv8tion.jda.api.entities.MessageChannel;
+import org.kurodev.discord.message.command.Preparable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +15,7 @@ import java.util.concurrent.Executors;
  * @author kuro
  **/
 @SuppressWarnings("ResultOfMethodCallIgnored")
-public class ConsoleCommandHandler {
+public class ConsoleCommandHandler implements Preparable {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final boolean isWindows;
     ProcessBuilder processBuilder;
@@ -38,6 +39,7 @@ public class ConsoleCommandHandler {
         return parts;
     }
 
+    @Override
     public void prepare() {
         processBuilder = new ProcessBuilder();
         processBuilder.directory(Paths.get("./").toFile());

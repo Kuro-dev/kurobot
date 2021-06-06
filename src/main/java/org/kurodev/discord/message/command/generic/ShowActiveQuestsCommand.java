@@ -19,7 +19,7 @@ public class ShowActiveQuestsCommand extends GenericCommand {
 
 
     public ShowActiveQuestsCommand(QuestHandler questHandler) {
-        super("activeQuests");
+        super("Quests");
         this.questHandler = questHandler;
     }
 

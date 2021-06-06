@@ -15,6 +15,7 @@ import org.kurodev.config.Setting;
 import org.kurodev.discord.DiscordBot;
 import org.kurodev.discord.message.CommandHandler;
 import org.kurodev.discord.message.State;
+import org.kurodev.discord.message.command.generic.console.ConsoleCommandHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +28,7 @@ public class MessageEventHandler extends ListenerAdapter {
     public static final String DELETE_REACTION = "🗑";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final CommandHandler commandHandler = new CommandHandler();
+    private final ConsoleCommandHandler console = new ConsoleCommandHandler();
     private final Runnable additionalShutDownContext;
     private State state = State.OFFLINE;
 
@@ -67,7 +69,10 @@ public class MessageEventHandler extends ListenerAdapter {
                 commandHandler.handle(command, event, args);
             }
         } else {
-            commandHandler.handleQuests(event);
+            if (commandHandler.hasQuest(event))
+                commandHandler.handleQuests(event);
+            else
+                console.handle(event.getMessage().getContentDisplay(), event.getChannel());
         }
     }
 
@@ -120,6 +125,7 @@ public class MessageEventHandler extends ListenerAdapter {
     public void initialize() {
         setState(State.INITIALIZING);
         commandHandler.prepare(additionalShutDownContext);
+        console.prepare();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             setState(State.SHUTTING_DOWN);
             DiscordBot.getJDA().removeEventListener(this);

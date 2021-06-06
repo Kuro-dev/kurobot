@@ -11,8 +11,16 @@ import org.apache.commons.cli.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
-import org.kurodev.discord.message.command.generic.*;
-import org.kurodev.discord.message.command.generic.admin.*;
+import org.kurodev.discord.message.command.Command;
+import org.kurodev.discord.message.command.Reactable;
+import org.kurodev.discord.message.command.generic.HelpCommand;
+import org.kurodev.discord.message.command.generic.InspireCommand;
+import org.kurodev.discord.message.command.generic.MemeCommand;
+import org.kurodev.discord.message.command.generic.ShowActiveQuestsCommand;
+import org.kurodev.discord.message.command.generic.admin.CheckSubmissionsCommand;
+import org.kurodev.discord.message.command.generic.admin.ExitCommand;
+import org.kurodev.discord.message.command.generic.admin.InfoCommand;
+import org.kurodev.discord.message.command.generic.admin.ReloadSettingsCommand;
 import org.kurodev.discord.message.command.generic.admin.force.ForceAddInsultCommand;
 import org.kurodev.discord.message.command.generic.admin.force.ForceAddMemeCommand;
 import org.kurodev.discord.message.command.generic.admin.rps.RockPaperScissorsCommand;
@@ -20,8 +28,6 @@ import org.kurodev.discord.message.command.generic.admin.submission.InsultSubmis
 import org.kurodev.discord.message.command.generic.admin.submission.MemeSubmissionCommand;
 import org.kurodev.discord.message.command.guild.RandomLineCommand;
 import org.kurodev.discord.message.command.guild.voice.LeaveCommand;
-import org.kurodev.discord.message.command.Command;
-import org.kurodev.discord.message.command.Reactable;
 import org.kurodev.discord.message.quest.Quest;
 import org.kurodev.discord.message.quest.QuestHandler;
 import org.kurodev.discord.util.handlers.TextSampleHandler;
@@ -118,10 +124,13 @@ public class CommandHandler {
      * @param event The message
      */
     public void handleQuests(MessageReceivedEvent event) {
-        boolean exists = QUESTS.exists(event);
-        if (exists) {
+        if (hasQuest(event)) {
             QUESTS.get(event).update(event);
         }
+    }
+
+    public boolean hasQuest(MessageReceivedEvent event) {
+        return QUESTS.exists(event);
     }
 
     public void onShutDown() {
