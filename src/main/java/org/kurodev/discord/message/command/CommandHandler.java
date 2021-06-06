@@ -1,4 +1,4 @@
-package org.kurodev.discord.message;
+package org.kurodev.discord.message.command;
 
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -11,21 +11,16 @@ import org.apache.commons.cli.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
-import org.kurodev.discord.message.command.Command;
-import org.kurodev.discord.message.command.Reactable;
 import org.kurodev.discord.message.command.generic.HelpCommand;
 import org.kurodev.discord.message.command.generic.InspireCommand;
 import org.kurodev.discord.message.command.generic.MemeCommand;
 import org.kurodev.discord.message.command.generic.ShowActiveQuestsCommand;
-import org.kurodev.discord.message.command.generic.admin.CheckSubmissionsCommand;
-import org.kurodev.discord.message.command.generic.admin.ExitCommand;
-import org.kurodev.discord.message.command.generic.admin.InfoCommand;
-import org.kurodev.discord.message.command.generic.admin.ReloadSettingsCommand;
+import org.kurodev.discord.message.command.generic.admin.*;
 import org.kurodev.discord.message.command.generic.admin.force.ForceAddInsultCommand;
 import org.kurodev.discord.message.command.generic.admin.force.ForceAddMemeCommand;
-import org.kurodev.discord.message.command.generic.admin.rps.RockPaperScissorsCommand;
-import org.kurodev.discord.message.command.generic.admin.submission.InsultSubmissionCommand;
-import org.kurodev.discord.message.command.generic.admin.submission.MemeSubmissionCommand;
+import org.kurodev.discord.message.command.generic.rps.RockPaperScissorsCommand;
+import org.kurodev.discord.message.command.generic.submission.InsultSubmissionCommand;
+import org.kurodev.discord.message.command.generic.submission.MemeSubmissionCommand;
 import org.kurodev.discord.message.command.guild.RandomLineCommand;
 import org.kurodev.discord.message.command.guild.voice.LeaveCommand;
 import org.kurodev.discord.message.quest.Quest;
@@ -71,6 +66,7 @@ public class CommandHandler {
         commands.add(new LeaveCommand());
         commands.add(new RockPaperScissorsCommand());
         commands.add(new ShowActiveQuestsCommand(QUESTS));
+        commands.add(new ShowAdminsCommand());
         for (Command command : commands) {
             try {
                 command.prepare();

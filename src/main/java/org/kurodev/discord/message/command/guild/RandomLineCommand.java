@@ -32,7 +32,6 @@ public class RandomLineCommand extends GuildCommand {
     public void prepare(Options args) throws Exception {
         logger.info("Preparing samples");
         samples.prepare();
-        logger.info("Preparing samples - DONE");
     }
 
     @Override

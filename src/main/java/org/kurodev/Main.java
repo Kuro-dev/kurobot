@@ -3,6 +3,7 @@ package org.kurodev;
 import org.apache.commons.cli.*;
 import org.kurodev.config.MySettings;
 import org.kurodev.discord.DiscordBot;
+import org.kurodev.discord.util.Admins;
 import org.kurodev.discord.util.information.DiscordInfoCollector;
 import org.kurodev.webserver.WebserverMain;
 import org.slf4j.Logger;
@@ -28,15 +29,22 @@ public class Main {
     public static final MySettings SETTINGS = new MySettings();
     public static final String TITLE = getFromManifest("Implementation-Title");
     public static final String VERSION = getVersion();
+    public static final Admins ADMINS;
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     private static final Path SETTINGS_FILE = Paths.get("./settings.properties");
     private static final Options ARGUMENTS = new Options();
 
     static {
+        try {
+            ADMINS = Admins.Load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         ARGUMENTS.addOption("tw", "toggleWebserver", false, "enable the webserver on port 8080");
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException, IOException, ParseException {
+
         CommandLineParser parser = new DefaultParser();
         CommandLine arguments = parser.parse(ARGUMENTS, args);
         logger.info(TITLE + "-" + VERSION);
@@ -64,12 +72,10 @@ public class Main {
         if (Files.exists(SETTINGS_FILE)) {
             logger.info("---------LOADING SETTINGS---------");
             SETTINGS.load(Files.newInputStream(SETTINGS_FILE));
-            logger.info("---------------DONE---------------");
         } else {
             logger.info("---------CREATING NEW DEFAULT SETTINGS---------");
             SETTINGS.restoreDefault();
             saveSettings();
-            logger.info("--------------------DONE-----------------------");
         }
     }
 

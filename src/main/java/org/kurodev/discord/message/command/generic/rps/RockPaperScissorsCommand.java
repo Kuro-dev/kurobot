@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command.generic.admin.rps;
+package org.kurodev.discord.message.command.generic.rps;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -64,16 +64,13 @@ public class RockPaperScissorsCommand extends GenericCommand {
             logger.info("creating {}", file.getFileName());
             String json = gson.toJson(CONDITION_LIST);
             Files.writeString(file, json);
-            logger.info("creating {} - DONE", file.getFileName());
         } else {
-            logger.info("Checking files - DONE");
             logger.info("Parsing RPSCondition data");
             Type listType = new TypeToken<ArrayList<RPSCondition>>() {
             }.getType();
             List<RPSCondition> list = gson.fromJson(new InputStreamReader(Files.newInputStream(file)), listType);
             CONDITION_LIST.clear();
             CONDITION_LIST.addAll(list);
-            logger.info("Parsing RPSCondition data - DONE");
         }
     }
 

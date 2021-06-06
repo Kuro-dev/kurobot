@@ -27,10 +27,10 @@ public class ExitCommand extends AdminCommand {
     @Override
     public void execute(MessageChannel channel, CommandLine args, @NotNull MessageReceivedEvent event) throws IOException {
         channel.sendMessage("Shutting down bot").queue();
-        for (Object registeredListener : DiscordBot.getJDA().getEventManager().getRegisteredListeners()) {
-            DiscordBot.getJDA().removeEventListener(registeredListener);
+        for (Object registeredListener : DiscordBot.getJda().getEventManager().getRegisteredListeners()) {
+            DiscordBot.getJda().removeEventListener(registeredListener);
         }
-        DiscordBot.getJDA().shutdown();
+        DiscordBot.getJda().shutdown();
         if (additionalShutDownContext != null)
             additionalShutDownContext.run();
     }

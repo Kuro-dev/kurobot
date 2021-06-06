@@ -1,4 +1,4 @@
-package org.kurodev.discord.util.cache;
+package org.kurodev.discord.util;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

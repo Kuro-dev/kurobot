@@ -13,9 +13,8 @@ import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
-import org.kurodev.discord.message.command.generic.GenericCommand;
 import org.kurodev.discord.message.command.Reactable;
-import org.kurodev.discord.util.cache.Cache;
+import org.kurodev.discord.util.Cache;
 import org.kurodev.discord.vote.Score;
 import org.kurodev.discord.vote.impl.ReactionVote;
 

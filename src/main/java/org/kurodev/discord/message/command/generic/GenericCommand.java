@@ -10,7 +10,7 @@ import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
-import org.kurodev.discord.message.CommandHandler;
+import org.kurodev.discord.message.command.CommandHandler;
 import org.kurodev.discord.message.command.Command;
 import org.kurodev.discord.message.command.CommandType;
 import org.kurodev.discord.message.quest.Quest;

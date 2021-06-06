@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
 import org.kurodev.discord.DiscordBot;
-import org.kurodev.discord.message.CommandHandler;
 import org.kurodev.discord.message.State;
 import org.kurodev.discord.message.command.generic.console.ConsoleCommandHandler;
 import org.slf4j.Logger;
@@ -38,7 +37,7 @@ public class MessageEventHandler extends ListenerAdapter {
     }
 
     private static boolean messageAuthorIsThisBot(User author) {
-        return author.getIdLong() == DiscordBot.getJDA().getSelfUser().getIdLong();
+        return author.getIdLong() == DiscordBot.getJda().getSelfUser().getIdLong();
     }
 
     public CommandHandler getCommandHandler() {
@@ -71,7 +70,7 @@ public class MessageEventHandler extends ListenerAdapter {
         } else {
             if (commandHandler.hasQuest(event))
                 commandHandler.handleQuests(event);
-            else
+            else if (console.check(event))
                 console.handle(event.getMessage().getContentDisplay(), event.getChannel());
         }
     }
@@ -106,7 +105,7 @@ public class MessageEventHandler extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        final JDA jda = DiscordBot.getJDA();
+        final JDA jda = DiscordBot.getJda();
         initialize();
         jda.getPresence().setActivity(Activity.of(Activity.ActivityType.LISTENING, "!k help"));
         setName(jda);
@@ -128,9 +127,9 @@ public class MessageEventHandler extends ListenerAdapter {
         console.prepare();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             setState(State.SHUTTING_DOWN);
-            DiscordBot.getJDA().removeEventListener(this);
+            DiscordBot.getJda().removeEventListener(this);
             logger.info("Shutting down bot");
-            DiscordBot.getJDA().shutdown();
+            DiscordBot.getJda().shutdown();
             commandHandler.onShutDown();
             logger.info("Shutting down bot - DONE\n-------------------------------");
         }));

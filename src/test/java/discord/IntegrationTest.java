@@ -22,7 +22,7 @@ public class IntegrationTest {
     @BeforeClass
     public static void prepare() throws Exception {
         Main.main(new String[0]);
-        jda = DiscordBot.getJDA();
+        jda = DiscordBot.getJda();
         kuro = UserIDs.KURO.getUser();
     }
 

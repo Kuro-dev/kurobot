@@ -14,8 +14,7 @@ public abstract class AdminCommand extends GenericCommand {
 
     @Override
     public boolean check(String command, MessageReceivedEvent event) {
-        boolean preCheck = super.check(command, event);
-        return preCheck && invokerIsAdmin(event);
+        return super.check(command, event) && invokerIsAdmin(event);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command.generic.admin.submission;
+package org.kurodev.discord.message.command.generic.submission;
 
 import org.apache.commons.cli.Options;
 import org.kurodev.discord.message.command.generic.GenericCommand;

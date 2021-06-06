@@ -8,8 +8,7 @@ import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.discord.UserIDs;
-import org.kurodev.discord.message.command.generic.admin.ReloadSettingsCommand;
+import org.kurodev.Main;
 
 import java.io.IOException;
 
@@ -59,7 +58,7 @@ public interface Command extends Preparable {
     }
 
     default boolean invokerIsAdmin(User user) {
-        return user.getIdLong() == (UserIDs.KURO.getId());
+        return Main.ADMINS.isAdmin(user);
     }
 
     Options getArgs();

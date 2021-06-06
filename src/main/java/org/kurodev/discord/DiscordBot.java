@@ -12,7 +12,7 @@ import javax.security.auth.login.LoginException;
 
 
 public class DiscordBot implements Runnable {
-    private static net.dv8tion.jda.api.JDA JDA;
+    private static net.dv8tion.jda.api.JDA jda;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final MessageEventHandler messageEventHandler;
 
@@ -21,15 +21,15 @@ public class DiscordBot implements Runnable {
         messageEventHandler = new MessageEventHandler(additionalShutDownContext);
     }
 
-    public static JDA getJDA() {
-        return JDA;
+    public static JDA getJda() {
+        return jda;
     }
 
     @Override
     public void run() {
         try {
-            JDA = JDABuilder.createDefault(Main.SETTINGS.getSetting(Setting.TOKEN)).build();
-            JDA.addEventListener(messageEventHandler);
+            jda = JDABuilder.createDefault(Main.SETTINGS.getSetting(Setting.TOKEN)).build();
+            jda.addEventListener(messageEventHandler);
         } catch (LoginException e) {
             logger.error("Failed to start discord bot", e);
         }

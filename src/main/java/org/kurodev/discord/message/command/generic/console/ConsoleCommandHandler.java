@@ -1,6 +1,9 @@
 package org.kurodev.discord.message.command.generic.console;
 
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.kurodev.Main;
 import org.kurodev.discord.message.command.Preparable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +40,10 @@ public class ConsoleCommandHandler implements Preparable {
         });
         parts.add(part.toString());
         return parts;
+    }
+
+    public boolean check(MessageReceivedEvent event) {
+        return event.isFromType(ChannelType.PRIVATE) && Main.ADMINS.isAdmin(event.getAuthor());
     }
 
     @Override

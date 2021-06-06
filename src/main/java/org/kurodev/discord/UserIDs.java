@@ -26,9 +26,9 @@ public enum UserIDs {
 
     @Nullable
     public User getUser() {
-        User out = DiscordBot.getJDA().getUserById(id); //attempt to find in cache
+        User out = DiscordBot.getJda().getUserById(id); //attempt to find in cache
         if (out == null) {
-            out = DiscordBot.getJDA().retrieveUserById(id).complete(); //retrieve from discord DB
+            out = DiscordBot.getJda().retrieveUserById(id).complete(); //retrieve from discord DB
         }
         return out;
     }
