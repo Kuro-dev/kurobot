@@ -11,6 +11,8 @@ import org.apache.commons.cli.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
+import org.kurodev.discord.message.command.Command;
+import org.kurodev.discord.message.command.Reactable;
 import org.kurodev.discord.message.command.generic.HelpCommand;
 import org.kurodev.discord.message.command.generic.InspireCommand;
 import org.kurodev.discord.message.command.generic.MemeCommand;
@@ -87,10 +89,8 @@ public class CommandHandler {
                     CommandLine args = parser.parse(com.getArgs(), strArgs);
                     com.execute(channel, args, event);
                     registerAgainQuest(com, channel, event, args);
-                } catch (ParseException e) {
+                } catch (Throwable e) {
                     channel.sendMessage(e.getMessage()).queue();
-                } catch (IOException e) {
-                    channel.sendMessage("Oops, something went wrong\n").queue();
                     logger.error("something went wrong in command {}", com.getCommand(), e);
                 }
                 return;
