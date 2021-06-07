@@ -69,6 +69,7 @@ public class CommandHandler {
         commands.add(new RockPaperScissorsCommand());
         commands.add(new ShowActiveQuestsCommand(QUESTS));
         commands.add(new ShowAdminsCommand());
+        commands.add(new RestartComputerCommand());
         for (Command command : commands) {
             try {
                 command.prepare();
