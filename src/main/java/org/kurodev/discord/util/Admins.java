@@ -2,6 +2,7 @@ package org.kurodev.discord.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 import net.dv8tion.jda.api.entities.User;
 import org.kurodev.discord.DiscordBot;
 import org.slf4j.Logger;
@@ -18,8 +19,9 @@ import java.util.List;
 
 public class Admins {
     private static final Logger logger = LoggerFactory.getLogger(Admins.class);
-    private static final Gson JSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson JSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
     private static final Path FILE = Paths.get("./admins.json");
+    @Expose
     private final List<Long> admins = new ArrayList<>();
 
     public static Admins Load() throws IOException {

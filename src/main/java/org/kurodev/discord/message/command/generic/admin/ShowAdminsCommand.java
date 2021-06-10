@@ -27,8 +27,9 @@ public class ShowAdminsCommand extends AdminCommand {
         args.addOption("rm", "remove", true, "userID as argument");
     }
 
-    //TODO Fix this command. Will throw uncaught exception when user cannot be found.
-    //TODO add ability to use discord tag for removing and adding and remove code duplication.
+    //TODO
+    // add ability to use discord tag for removing and adding
+    // remove code duplication.
     @Override
     public void execute(MessageChannel channel, CommandLine args, @NotNull MessageReceivedEvent event) throws IOException {
         if (args.hasOption("a")) {
@@ -39,13 +40,19 @@ public class ShowAdminsCommand extends AdminCommand {
                         String msg = String.format("user \"%s\" is already admin", user.getName());
                         channel.sendMessage(msg).queue();
                     } else {
-                        admins.getAll().add(user.getIdLong());
-                        String msg = String.format("added \"%s\" as admin", user.getName());
-                        logger.info(msg);
+                        String msg;
+                        try {
+                            admins.getAll().add(user.getIdLong());
+                            admins.save();
+                            msg = String.format("added \"%s\" as admin", user.getName());
+                            logger.info(msg);
+                        } catch (IOException e) {
+                            msg = "Something went wrong when saving admins: " + e.getMessage();
+                            logger.error(msg, e);
+                        }
                         channel.sendMessage(msg).queue();
                     }
-                });
-                admins.save();
+                }, throwable -> channel.sendMessage("Something went wrong: " + throwable.getMessage()).queue());
             } else {
                 channel.sendMessage("Value must be numeric").queue();
             }

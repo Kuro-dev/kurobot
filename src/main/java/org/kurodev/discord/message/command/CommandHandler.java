@@ -55,6 +55,7 @@ public class CommandHandler {
         final TextSampleHandler insults = new TextSampleHandler(Paths.get(Main.SETTINGS.getSetting(Setting.INSULT_FILE)));
         commands.add(new InfoCommand());
         commands.add(new ExitCommand(additionalShutDownContext));
+        commands.add(new RestartComputerCommand(additionalShutDownContext));
         commands.add(new ForceAddInsultCommand(insults));
         commands.add(new ForceAddMemeCommand());
         commands.add(new CheckSubmissionsCommand());
@@ -69,7 +70,6 @@ public class CommandHandler {
         commands.add(new RockPaperScissorsCommand());
         commands.add(new ShowActiveQuestsCommand(QUESTS));
         commands.add(new ShowAdminsCommand());
-        commands.add(new RestartComputerCommand());
         for (Command command : commands) {
             try {
                 command.prepare();
