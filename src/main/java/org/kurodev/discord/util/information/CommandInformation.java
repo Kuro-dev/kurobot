@@ -20,7 +20,7 @@ public class CommandInformation {
     public CommandInformation(Command command) {
         this.command = command.getCommand();
         functioning = command.isFunctioning();
-        args = convertArgs(command.getArgs());
+        args = convertArgs(command.getOptions());
         desc = command.getDescription();
         isListed = command.isListed();
         needsAdmin = command.needsAdmin();

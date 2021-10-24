@@ -7,12 +7,9 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.ParseException;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
-import org.kurodev.discord.message.command.Command;
-import org.kurodev.discord.message.command.Reactable;
 import org.kurodev.discord.message.command.generic.HelpCommand;
 import org.kurodev.discord.message.command.generic.InspireCommand;
 import org.kurodev.discord.message.command.generic.MemeCommand;
@@ -70,12 +67,19 @@ public class CommandHandler {
         commands.add(new RockPaperScissorsCommand());
         commands.add(new ShowActiveQuestsCommand(QUESTS));
         commands.add(new ShowAdminsCommand());
+        List<Command> failed = new ArrayList<>();
         for (Command command : commands) {
             try {
                 command.prepare();
             } catch (Exception e) {
                 logger.error("Failed to initialize command \"" + command.getCommand() + "\"", e);
+                failed.add(command);
             }
+        }
+        if (!failed.isEmpty())
+            logger.info("Failed to initialize the following commands:");
+        for (Command command : failed) {
+            logger.info(command.getCommand());
         }
         logger.info("initializing commands - DONE");
     }
@@ -87,7 +91,7 @@ public class CommandHandler {
             if (com.check(command, event)) {
                 CommandLineParser parser = new DefaultParser();
                 try {
-                    CommandLine args = parser.parse(com.getArgs(), strArgs);
+                    CommandLine args = parser.parse(com.getOptions(), strArgs);
                     com.execute(channel, args, event);
                     registerAgainQuest(com, channel, event, args);
                 } catch (Throwable e) {

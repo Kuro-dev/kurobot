@@ -61,7 +61,7 @@ public interface Command extends Preparable {
         return Main.ADMINS.isAdmin(user);
     }
 
-    Options getArgs();
+    Options getOptions();
 
     default boolean hasReactAction() {
         return this instanceof Reactable;

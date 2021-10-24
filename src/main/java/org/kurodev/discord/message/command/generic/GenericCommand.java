@@ -56,6 +56,7 @@ public abstract class GenericCommand implements Command {
 
     @Override
     public final void prepare() throws Exception {
+        functioning = false;
         prepare(args);
         functioning = true;
     }
@@ -72,7 +73,8 @@ public abstract class GenericCommand implements Command {
         return Main.SETTINGS.getSettingBool(setting);
     }
 
-    public final Options getArgs() {
+    @Override
+    public final Options getOptions() {
         return args;
     }
 
@@ -105,17 +107,19 @@ public abstract class GenericCommand implements Command {
     protected final void registerQuest(MessageReceivedEvent event, Quest q) {
         CommandHandler.QUESTS.register(event, q);
     }
-@Override
+
+    @Override
     public final String getArgumentsAsString() {
         if (args.getOptions().isEmpty()) {
             return "There are no arguments for " + command;
         }
         final HelpFormatter formatter = new HelpFormatter();
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final String syntax = Command.IDENTIFIER + " " + command + " -argument";
-        try (PrintWriter pw = new PrintWriter(baos, true, StandardCharsets.UTF_8)) {
+        final String syntax = Command.IDENTIFIER + " " + command + " <arguments>";
+        try (PrintWriter pw = new PrintWriter(baos, false, StandardCharsets.UTF_8)) {
             formatter.printHelp(pw, 200, syntax,
                     "All arguments:", args, 2, 5, "");
+            pw.flush();
         }
         return baos.toString(StandardCharsets.UTF_8);
     }
@@ -124,7 +128,6 @@ public abstract class GenericCommand implements Command {
     protected boolean botHasPermission(@NotNull MessageReceivedEvent event) {
         return event.getGuild().getSelfMember().hasPermission(neededPermissions);
     }
-
 
     public boolean isFunctioning() {
         return functioning;
