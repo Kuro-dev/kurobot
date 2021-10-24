@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.discord.message.command.CommandType;
+import org.kurodev.discord.message.command.enums.CommandType;
 import org.kurodev.discord.message.command.generic.GenericCommand;
 
 import java.io.IOException;

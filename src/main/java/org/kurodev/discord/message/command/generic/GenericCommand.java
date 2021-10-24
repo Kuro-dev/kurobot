@@ -10,9 +10,10 @@ import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
-import org.kurodev.discord.message.command.CommandHandler;
 import org.kurodev.discord.message.command.Command;
-import org.kurodev.discord.message.command.CommandType;
+import org.kurodev.discord.message.command.CommandHandler;
+import org.kurodev.discord.message.command.enums.CommandState;
+import org.kurodev.discord.message.command.enums.CommandType;
 import org.kurodev.discord.message.quest.Quest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,7 @@ public abstract class GenericCommand implements Command {
     private final Options args = new Options();
     private final String command;
     private final CommandType type;
-    private boolean functioning = false;
+    private CommandState state = CommandState.OFFLINE;
 
     public GenericCommand(String command, Permission... neededPermissions) {
         this(command, CommandType.GENERIC, neededPermissions);
@@ -50,15 +51,20 @@ public abstract class GenericCommand implements Command {
         return "GenericCommand{" +
                 "command='" + command + '\'' +
                 ", type=" + type +
-                ", functioning=" + functioning +
+                ", state=" + state +
                 '}';
     }
 
     @Override
     public final void prepare() throws Exception {
-        functioning = false;
-        prepare(args);
-        functioning = true;
+        setState(CommandState.INITIALIZING);
+        try {
+            prepare(args);
+        } catch (Exception e) {
+            setState(CommandState.FAILED);
+            throw e;
+        }
+        setState(CommandState.ONLINE);
     }
 
     protected void prepare(Options args) throws Exception {
@@ -77,7 +83,6 @@ public abstract class GenericCommand implements Command {
     public final Options getOptions() {
         return args;
     }
-
 
     public final String getCommand() {
         return command;
@@ -109,6 +114,15 @@ public abstract class GenericCommand implements Command {
     }
 
     @Override
+    public CommandState getState() {
+        return state;
+    }
+
+    private void setState(CommandState newState) {
+        state = newState;
+    }
+
+    @Override
     public final String getArgumentsAsString() {
         if (args.getOptions().isEmpty()) {
             return "There are no arguments for " + command;
@@ -130,11 +144,7 @@ public abstract class GenericCommand implements Command {
     }
 
     public boolean isFunctioning() {
-        return functioning;
-    }
-
-    public void setFunctioning(boolean functioning) {
-        this.functioning = functioning;
+        return state == CommandState.ONLINE;
     }
 
     @Override

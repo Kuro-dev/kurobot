@@ -3,6 +3,7 @@ package org.kurodev.discord.util.information;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.kurodev.discord.message.command.Command;
+import org.kurodev.discord.message.command.enums.CommandState;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +12,7 @@ import java.util.List;
 public class CommandInformation {
     private final String command;
     private final String desc;
-    private final boolean functioning;
+    private final CommandState state;
     private final boolean isListed;
     private final boolean needsAdmin;
     private final boolean hasReactAction;
@@ -19,7 +20,7 @@ public class CommandInformation {
 
     public CommandInformation(Command command) {
         this.command = command.getCommand();
-        functioning = command.isFunctioning();
+        state = command.getState();
         args = convertArgs(command.getOptions());
         desc = command.getDescription();
         isListed = command.isListed();
@@ -48,8 +49,8 @@ public class CommandInformation {
         return command;
     }
 
-    public boolean isFunctioning() {
-        return functioning;
+    public CommandState getState() {
+        return state;
     }
 
     public String getDesc() {

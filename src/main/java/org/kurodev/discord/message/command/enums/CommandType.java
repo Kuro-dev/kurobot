@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command;
+package org.kurodev.discord.message.command.enums;
 
 import net.dv8tion.jda.api.entities.ChannelType;
 

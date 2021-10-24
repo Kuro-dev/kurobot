@@ -9,6 +9,8 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
+import org.kurodev.discord.message.command.enums.CommandState;
+import org.kurodev.discord.message.command.enums.CommandType;
 
 import java.io.IOException;
 
@@ -67,7 +69,17 @@ public interface Command extends Preparable {
         return this instanceof Reactable;
     }
 
+    /**
+     * @deprecated replaced by {@link #getState()} and {@link #isOnline()}
+     */
+    @Deprecated(forRemoval = true)
     boolean isFunctioning();
+
+    CommandState getState();
+
+    default boolean isOnline() {
+        return getState() == CommandState.ONLINE;
+    }
 
     CommandType getType();
 
