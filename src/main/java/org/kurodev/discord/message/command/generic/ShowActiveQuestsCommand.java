@@ -5,14 +5,12 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
-import org.kurodev.discord.message.command.generic.GenericCommand;
-import org.kurodev.discord.message.quest.UserData;
 import org.kurodev.discord.message.quest.Quest;
 import org.kurodev.discord.message.quest.QuestHandler;
+import org.kurodev.discord.message.quest.UserData;
 import org.kurodev.discord.util.MarkDown;
 
 import java.io.IOException;
-import java.util.Map;
 
 public class ShowActiveQuestsCommand extends GenericCommand {
     private final QuestHandler questHandler;
@@ -31,25 +29,32 @@ public class ShowActiveQuestsCommand extends GenericCommand {
 
     @Override
     public void execute(MessageChannel channel, CommandLine args, @NotNull MessageReceivedEvent event) throws IOException {
-        final Map<UserData, Quest> quests = questHandler.getQuests();
+        var questsMap = questHandler.getQuests();
         final UserData invoker = UserData.of(event);
         final StringBuilder response = new StringBuilder();
+        questsMap.forEach((userData, quests) -> {
+
+        });
         if (args.hasOption("a")) {
-            quests.entrySet().stream().filter(e -> !e.getValue().isExpired())
-                    .forEach(entry -> {
-                        UserData player = entry.getKey();
-                        appendQuestString(response, entry.getValue(), player);
-                    });
+            questsMap.forEach((userData, value) -> {
+                for (Quest quest : value) {
+                    if (!quest.isExpired())
+                        appendQuestString(response, quest, userData);
+                }
+            });
         } else if (args.hasOption("c")) {
-            quests.entrySet().stream().filter(e -> !e.getValue().isExpired() && e.getKey().channelMatches(invoker))
-                    .forEach(entry -> {
-                        UserData player = entry.getKey();
-                        appendQuestString(response, entry.getValue(), player);
-                    });
+            questsMap.forEach((userData, value) -> {
+                for (Quest quest : value) {
+                    if (userData.channelMatches(invoker) && !quest.isExpired())
+                        appendQuestString(response, quest, userData);
+                }
+            });
         } else {
-            Quest q = quests.get(invoker);
+            var q = questsMap.get(invoker);
             if (q != null) {
-                appendQuestString(response, q, invoker);
+                for (Quest quest : q) {
+                    appendQuestString(response, quest, invoker);
+                }
             }
         }
 

@@ -67,6 +67,7 @@ public class CommandHandler {
         commands.add(new RockPaperScissorsCommand());
         commands.add(new ShowActiveQuestsCommand(QUESTS));
         commands.add(new ShowAdminsCommand());
+        commands.add(new TestCommand());
         List<Command> failed = new ArrayList<>();
         for (Command command : commands) {
             try {
@@ -91,7 +92,7 @@ public class CommandHandler {
             if (com.check(command, event)) {
                 CommandLineParser parser = new DefaultParser();
                 try {
-                    CommandLine args = parser.parse(com.getOptions(), strArgs);
+                    CommandLine args = parser.parse(com.getOptions(), strArgs, true);
                     com.execute(channel, args, event);
                     registerAgainQuest(com, channel, event, args);
                 } catch (Throwable e) {
@@ -126,7 +127,7 @@ public class CommandHandler {
      */
     public void handleQuests(MessageReceivedEvent event) {
         if (hasQuest(event)) {
-            QUESTS.get(event).update(event);
+            QUESTS.get(event).forEach(quest -> quest.update(event));
         }
     }
 

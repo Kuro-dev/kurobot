@@ -1,6 +1,7 @@
 package org.kurodev.discord.message.quest;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.kurodev.discord.message.command.Preparable;
 
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ import java.util.function.Function;
  *
  * @author kuro
  **/
-public abstract class Quest {
+public abstract class Quest implements Preparable {
     public static final BiConsumer<Quest, MessageReceivedEvent> REFRESH_TIMER_ON_UPDATE =
             (quest, guildMessageReceivedEvent) -> quest.refresh();
     private final int maxAge;
@@ -30,6 +31,7 @@ public abstract class Quest {
      */
     private BiConsumer<Quest, MessageReceivedEvent> onUpdate;
     private LocalDateTime timeStamp = LocalDateTime.now();
+
     /**
      * @param maxAge Maximum age of this quest (default 3)
      * @param unit   Timeunit of the maximum age of the quest (default {@link TimeUnit#MINUTES minutes})
@@ -50,6 +52,10 @@ public abstract class Quest {
                 return updateQuest.apply(event);
             }
         };
+    }
+
+    @Override
+    public void prepare() {
     }
 
     public boolean isFinished() {
@@ -101,8 +107,10 @@ public abstract class Quest {
     }
 
     /**
-     * @param event The message that triggered the given quest
-     * @return true if the quest is finished after receiving said message. false if the quest should not be counted as
+     * @param event The message that triggered the given quest,
+     *              will always be in the same channel, by the same user
+     * @return true if the quest is finished after receiving said message.
+     * false if the quest should not be counted as
      * completed yet.
      */
     protected abstract boolean process(MessageReceivedEvent event);

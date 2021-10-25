@@ -110,6 +110,7 @@ public abstract class GenericCommand implements Command {
      * @param q     The quest to register.
      */
     protected final void registerQuest(MessageReceivedEvent event, Quest q) {
+        q.prepare();
         CommandHandler.QUESTS.register(event, q);
     }
 

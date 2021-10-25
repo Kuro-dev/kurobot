@@ -2,28 +2,28 @@ package org.kurodev.discord.message.quest;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * @author kuro
  **/
 public class QuestHandler {
-    private final Map<UserData, Quest> quests = new HashMap<>();
+    private final Map<UserData, List<Quest>> quests = new HashMap<>();
 
-    public Map<UserData, Quest> getQuests() {
+    public Map<UserData, List<Quest>> getQuests() {
         return quests;
     }
 
     public void register(MessageReceivedEvent event, Quest q) {
-        quests.put(UserData.of(event), q);
+        quests.computeIfAbsent(UserData.of(event), userData -> new ArrayList<>()).add(q);
     }
 
     public void purgeExpiredQuests() {
-        quests.forEach((data, quest) -> {
-            if (quest.isExpired() || quest.isFinished()) {
-                quests.remove(data);
-            }
+        quests.forEach((data, quests) -> {
+            quests.removeIf(quest -> quest.isExpired() || quest.isFinished());
         });
     }
 
@@ -31,19 +31,16 @@ public class QuestHandler {
         return get(data) != null;
     }
 
-    public Quest get(UserData data) {
-        Quest out = quests.get(data);
+    public List<Quest> get(UserData data) {
+        var out = quests.get(data);
         if (out != null) {
-            if (out.isExpired()) {
-                quests.remove(data);
-            } else {
-                return out;
-            }
+            purgeExpiredQuests();
+            return out;
         }
         return null;
     }
 
-    public Quest get(MessageReceivedEvent event) {
+    public List<Quest> get(MessageReceivedEvent event) {
         return get(UserData.of(event));
     }
 }
