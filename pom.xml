@@ -6,7 +6,7 @@
 
     <groupId>org.kurodev</groupId>
     <artifactId>Kuro-Bot</artifactId>
-    <version>1.9.0</version>
+    <version>1.9.1</version>
 
 
     <properties>
