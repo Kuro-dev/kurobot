@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command;
+package org.kurodev.discord.message;
 
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -10,6 +10,9 @@ import org.apache.commons.cli.DefaultParser;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
+import org.kurodev.discord.message.command.AutoRegister;
+import org.kurodev.discord.message.command.Command;
+import org.kurodev.discord.message.command.Reactable;
 import org.kurodev.discord.message.command.enums.CommandState;
 import org.kurodev.discord.message.command.generic.HelpCommand;
 import org.kurodev.discord.message.command.generic.ShowActiveQuestsCommand;
@@ -47,6 +50,9 @@ public class CommandHandler {
         return commands;
     }
 
+    /**
+     * Instantiates all Commands that need additional Context and do not have a default Constructor.
+     */
     public void prepare(Runnable additionalShutDownContext) {
         logger.info("initializing commands");
         final TextSampleHandler insults = new TextSampleHandler(Paths.get(Main.SETTINGS.getSetting(Setting.INSULT_FILE)));
@@ -63,6 +69,9 @@ public class CommandHandler {
         initialize();
     }
 
+    /**
+     * Uses Reflection magic to automatically load up Commands with {@link AutoRegister} annotation
+     */
     private void loadAutoRegisteredCommands() {
         int autowired = 0;
         logger.info("Loading autowired commands");
@@ -70,7 +79,7 @@ public class CommandHandler {
         var commands = reflections.getSubTypesOf(Command.class);
         for (Class<? extends Command> com : commands) {
             if (com.isAnnotationPresent(AutoRegister.class)) {
-                if (com.getAnnotationsByType(AutoRegister.class)[0].included())
+                if (com.getAnnotationsByType(AutoRegister.class)[0].load())
                     for (Constructor<?> constructor : com.getConstructors()) {
                         if (constructor.getParameterCount() == 0) {
                             try {

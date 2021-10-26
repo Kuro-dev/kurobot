@@ -1,4 +1,4 @@
-package org.kurodev.discord.message.command;
+package org.kurodev.discord.message;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
 import org.kurodev.discord.DiscordBot;
-import org.kurodev.discord.message.State;
+import org.kurodev.discord.message.command.Command;
 import org.kurodev.discord.message.command.generic.console.ConsoleCommandHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
