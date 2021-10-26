@@ -10,7 +10,7 @@ import org.kurodev.discord.message.command.AutoRegister;
 /**
  * @author kuro
  **/
-@AutoRegister(included = false)
+@AutoRegister(load = false)
 public class LeaveCommand extends VoiceCommand {
     public LeaveCommand() {
         super("leave", Permission.VOICE_CONNECT);

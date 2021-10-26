@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.discord.message.CommandHandler;
 
 /**
  * If the command can support reactions, simply make it implement this interface, the rest will happen automatically.

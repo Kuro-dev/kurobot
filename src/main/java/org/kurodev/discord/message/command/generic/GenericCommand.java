@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
 import org.kurodev.discord.message.command.Command;
-import org.kurodev.discord.message.command.CommandHandler;
+import org.kurodev.discord.message.CommandHandler;
 import org.kurodev.discord.message.command.enums.CommandState;
 import org.kurodev.discord.message.command.enums.CommandType;
 import org.kurodev.discord.message.quest.Quest;
