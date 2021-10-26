@@ -10,8 +10,8 @@ import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
-import org.kurodev.discord.message.command.Command;
 import org.kurodev.discord.message.CommandHandler;
+import org.kurodev.discord.message.command.Command;
 import org.kurodev.discord.message.command.enums.CommandState;
 import org.kurodev.discord.message.command.enums.CommandType;
 import org.kurodev.discord.message.quest.Quest;
@@ -42,6 +42,8 @@ public abstract class GenericCommand implements Command {
     public GenericCommand(String command, CommandType type, Permission... neededPermissions) {
         this.command = command;
         this.type = type;
+        this.neededPermissions.add(Permission.MESSAGE_WRITE);
+        this.neededPermissions.add(Permission.MESSAGE_READ);
         if (neededPermissions.length > 0)
             this.neededPermissions.addAll(Arrays.asList(neededPermissions));
     }

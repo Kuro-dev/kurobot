@@ -1,5 +1,8 @@
 package org.kurodev.discord.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.annotation.Nullable;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -17,11 +20,13 @@ import java.util.stream.Collectors;
  * @author kuro
  **/
 public class UrlRequest {
-    public HttpsURLConnection getHttpsClient(String url) throws Exception {
+    private static final Logger logger = LoggerFactory.getLogger(UrlRequest.class);
+
+    public HttpURLConnection getHttpsClient(String url) throws Exception {
         return getHttpsClient(url, null);
     }
 
-    public HttpsURLConnection getHttpsClient(String url, Map<String, String> parameters) throws Exception {
+    public HttpURLConnection getHttpsClient(String url, Map<String, String> parameters) throws Exception {
         if (parameters != null) {
             String paramString = parameters.entrySet().stream().map(e -> e.getKey() + "=" + e.getValue()).collect(Collectors.joining("&"));
             if (!paramString.isEmpty()) {
@@ -50,7 +55,7 @@ public class UrlRequest {
         sc.init(null, trustAllCerts, new java.security.SecureRandom());
         HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
         // Security section END
-        HttpsURLConnection client = (HttpsURLConnection) new URL(url).openConnection();
+        HttpURLConnection client = (HttpURLConnection) new URL(url).openConnection();
         //add request header
         client.setRequestProperty("User-Agent",
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0");
@@ -72,11 +77,16 @@ public class UrlRequest {
     }
 
     @Nullable
+    public String get(String url) {
+        return get(url, null);
+    }
+
+    @Nullable
     public String get(String url, Map<String, String> parameters) {
         try {
             return get(getHttpsClient(url, parameters));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Something went wrong during URL request", e);
         }
         return null;
     }

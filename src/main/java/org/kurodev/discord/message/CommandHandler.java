@@ -178,6 +178,7 @@ public class CommandHandler {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {
         List<Command> commands = this.commands.stream().filter(Command::hasReactAction).collect(Collectors.toList());
         event.getUser();
