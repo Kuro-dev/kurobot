@@ -21,7 +21,7 @@ public interface Command extends Preparable {
     String IDENTIFIER = "!k";
 
 
-    default void prepare() throws Exception {
+    default void prepare() {
 
     }
 

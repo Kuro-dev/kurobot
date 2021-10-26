@@ -46,7 +46,7 @@ public class Main {
     public static void main(String[] args) throws LoginException, InterruptedException, IOException, ParseException {
 
         CommandLineParser parser = new DefaultParser();
-        CommandLine arguments = parser.parse(ARGUMENTS, args);
+        CommandLine arguments = parser.parse(ARGUMENTS, args, true);
         logger.info(TITLE + "-" + VERSION);
         logger.info(getApplicationArgumentsAsString());
         loadSettings();

@@ -16,10 +16,12 @@ public enum Setting {
     MEME_SUBMISSIONS("submission_memes", "./memeSubmissions"),
     MEME_VOTE_FILE("meme_votes_file", "./memeVotes.json"),
     RPS_Outcomes_File("rps_outcomes", "./RPSOutcomes.json"),
-    BOT_NAME("botName","Kuro-Bot"),
-    TOKEN("token", "");
+    BOT_NAME("botName", "Kuro-Bot"),
+    TOKEN("token", ""),
+    ;
 
     private final String key;
+
     private final String defaultVal;
 
     Setting(String key, String defaultVal) {

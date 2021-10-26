@@ -10,6 +10,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
+import org.kurodev.discord.message.command.enums.CommandState;
 import org.kurodev.discord.message.command.generic.HelpCommand;
 import org.kurodev.discord.message.command.generic.ShowActiveQuestsCommand;
 import org.kurodev.discord.message.command.generic.admin.ExitCommand;
@@ -59,20 +60,7 @@ public class CommandHandler {
         commands.add(new ShowActiveQuestsCommand(QUESTS));
         loadAutoRegisteredCommands();
         logger.info("Loaded a total of {} commands", commands.size());
-        List<Command> failed = new ArrayList<>();
-        for (Command command : commands) {
-            try {
-                command.prepare();
-            } catch (Exception e) {
-                logger.error("Failed to initialize command \"" + command.getCommand() + "\"", e);
-                failed.add(command);
-            }
-        }
-        if (!failed.isEmpty())
-            logger.info("Failed to initialize the following commands:");
-        for (Command command : failed) {
-            logger.info(command.getCommand());
-        }
+        initialize();
     }
 
     private void loadAutoRegisteredCommands() {
@@ -102,6 +90,23 @@ public class CommandHandler {
             }
         }
         logger.info("Autowired {} commands", autowired);
+    }
+
+    private void initialize() {
+        logger.info("Initializing Commands");
+        for (Command command : commands) {
+            command.prepare();
+        }
+        List<Command> failed = commands.stream()
+                .filter(command -> command.getState() == CommandState.FAILED)
+                .collect(Collectors.toList());
+        logger.info("Successfully initialized {} commands", commands.size() - failed.size());
+        if (!failed.isEmpty()) {
+            logger.warn("Failed to initialize the following commands:");
+            for (Command command : failed) {
+                logger.warn(command.getCommand());
+            }
+        }
     }
 
     public void handle(String command, MessageReceivedEvent event, String[] strArgs) {

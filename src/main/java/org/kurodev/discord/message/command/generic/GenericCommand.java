@@ -56,15 +56,15 @@ public abstract class GenericCommand implements Command {
     }
 
     @Override
-    public final void prepare() throws Exception {
+    public final void prepare() {
         setState(CommandState.INITIALIZING);
         try {
             prepare(args);
+            setState(CommandState.ONLINE);
         } catch (Exception e) {
             setState(CommandState.FAILED);
-            throw e;
+            logger.error("Failed to initialize " + this, e);
         }
-        setState(CommandState.ONLINE);
     }
 
     protected void prepare(Options args) throws Exception {

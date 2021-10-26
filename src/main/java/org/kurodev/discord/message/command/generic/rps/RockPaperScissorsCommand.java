@@ -59,15 +59,15 @@ public class RockPaperScissorsCommand extends GenericCommand {
         args.addOption("l", "list", false, "List all possible choices");
         Option choice = new Option("c", "choice", true, "The choice for this game");
         args.addOption(choice);
-        logger.info("Checking files");
+        logger.debug("Checking files");
         final Path file = Paths.get(Main.SETTINGS.getSetting(Setting.RPS_Outcomes_File));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         if (!Files.exists(file)) {
-            logger.info("creating {}", file.getFileName());
+            logger.debug("creating {}", file.getFileName());
             String json = gson.toJson(CONDITION_LIST);
             Files.writeString(file, json);
         } else {
-            logger.info("Parsing RPSCondition data");
+            logger.debug("Parsing RPSCondition data");
             Type listType = new TypeToken<ArrayList<RPSCondition>>() {
             }.getType();
             List<RPSCondition> list = gson.fromJson(new InputStreamReader(Files.newInputStream(file)), listType);
