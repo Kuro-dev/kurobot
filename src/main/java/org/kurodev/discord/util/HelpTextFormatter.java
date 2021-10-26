@@ -21,10 +21,11 @@ public class HelpTextFormatter {
         final String delimiter = "-".repeat(pufferLength - BUFFER);
 
         out.append(delimiter).append("Commands").append(delimiter).append("\n");
-        commands.stream().filter(command -> !command.needsAdmin() && (showAll || command.supportsChannel(type))).forEach(command -> {
-            String name = command.getCommand();
-            out.append(name).append(createPuffer(name, pufferLength)).append("- ").append(command.getDescription()).append("\n");
-        });
+        commands.stream().filter(command -> !command.needsAdmin() && ((showAll || command.isListed()) && command.supportsChannel(type))).
+                forEach(command -> {
+                    String name = command.getCommand();
+                    out.append(name).append(createPuffer(name, pufferLength)).append("- ").append(command.getDescription()).append("\n");
+                });
         if (invokerIsAdmin && type == ChannelType.PRIVATE) {
             out.append(delimiter).append("Admin Commands").append(delimiter).append("\n");
             commands.stream().filter(Command::needsAdmin).forEach(command -> {
