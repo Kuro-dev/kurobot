@@ -2,23 +2,20 @@ package org.kurodev.discord.message.quest;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author kuro
  **/
 public class QuestHandler {
-    private final Map<UserData, List<Quest>> quests = new HashMap<>();
+    private final Map<UserData, Set<Quest>> quests = new HashMap<>();
 
-    public Map<UserData, List<Quest>> getQuests() {
+    public Map<UserData, Set<Quest>> getQuests() {
         return quests;
     }
 
     public void register(MessageReceivedEvent event, Quest q) {
-        quests.computeIfAbsent(UserData.of(event), userData -> new ArrayList<>()).add(q);
+        quests.computeIfAbsent(UserData.of(event), userData -> new HashSet<>()).add(q);
     }
 
     public void purgeExpiredQuests() {
@@ -31,7 +28,7 @@ public class QuestHandler {
         return get(data) != null;
     }
 
-    public List<Quest> get(UserData data) {
+    public Set<Quest> get(UserData data) {
         var out = quests.get(data);
         if (out != null) {
             purgeExpiredQuests();
@@ -40,7 +37,7 @@ public class QuestHandler {
         return null;
     }
 
-    public List<Quest> get(MessageReceivedEvent event) {
+    public Set<Quest> get(MessageReceivedEvent event) {
         return get(UserData.of(event));
     }
 }

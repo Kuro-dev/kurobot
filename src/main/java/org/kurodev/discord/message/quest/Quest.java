@@ -5,6 +5,7 @@ import org.kurodev.discord.message.command.Preparable;
 
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -104,6 +105,19 @@ public abstract class Quest implements Preparable {
      */
     public void setOnUpdate(@Nullable BiConsumer<Quest, MessageReceivedEvent> onUpdate) {
         this.onUpdate = onUpdate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Quest quest = (Quest) o;
+        return Objects.equals(title, quest.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title);
     }
 
     /**
