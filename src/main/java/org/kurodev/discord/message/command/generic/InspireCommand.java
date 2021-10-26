@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
+import org.kurodev.discord.message.command.AutoRegister;
 import org.kurodev.discord.message.command.generic.GenericCommand;
 import org.kurodev.config.Setting;
 import org.kurodev.discord.util.UrlRequest;
@@ -16,6 +17,7 @@ import java.util.Map;
 /**
  * @author kuro
  **/
+@AutoRegister
 public class InspireCommand extends GenericCommand {
     private static final Map<String, String> PARAMS = new HashMap<>();
     private static final String URL = "https://inspirobot.me/api";

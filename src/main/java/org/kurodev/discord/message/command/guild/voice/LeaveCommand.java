@@ -5,10 +5,12 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
+import org.kurodev.discord.message.command.AutoRegister;
 
 /**
  * @author kuro
  **/
+@AutoRegister(included = false)
 public class LeaveCommand extends VoiceCommand {
     public LeaveCommand() {
         super("leave", Permission.VOICE_CONNECT);
@@ -21,7 +23,7 @@ public class LeaveCommand extends VoiceCommand {
 
     @Override
     protected void executeInternally(TextChannel channel, CommandLine args, @NotNull MessageReceivedEvent event) {
-        if (getVoiceChannel(event) == null|| getVoiceChannel(event).getMembers().contains(event.getGuild().getSelfMember())) {
+        if (getVoiceChannel(event) == null || getVoiceChannel(event).getMembers().contains(event.getGuild().getSelfMember())) {
             channel.sendMessage("Not connected to any voice channels").queue();
         } else {
             channel.sendMessage("Disconnecting").queue();

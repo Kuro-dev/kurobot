@@ -8,11 +8,12 @@ import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.discord.DiscordBot;
+import org.kurodev.discord.message.command.AutoRegister;
 import org.kurodev.discord.util.Admins;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
-
+@AutoRegister
 public class ShowAdminsCommand extends AdminCommand {
     private static final Pattern isNumber = Pattern.compile("\\d+");
     private final Admins admins = Main.ADMINS;

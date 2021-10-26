@@ -7,12 +7,14 @@ import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
+import org.kurodev.discord.message.command.AutoRegister;
 
 import java.io.IOException;
 
 /**
  * @author kuro
  **/
+@AutoRegister
 public class InfoCommand extends AdminCommand {
     public InfoCommand() {
         super("Info");

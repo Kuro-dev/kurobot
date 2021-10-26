@@ -8,7 +8,7 @@ import org.kurodev.discord.message.command.generic.GenericCommand;
 import org.kurodev.discord.util.PermissionRequest;
 
 import java.io.IOException;
-
+@AutoRegister
 public class TestCommand extends GenericCommand {
     public TestCommand() {
         super("test");

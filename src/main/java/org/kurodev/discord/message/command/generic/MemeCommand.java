@@ -13,6 +13,7 @@ import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
+import org.kurodev.discord.message.command.AutoRegister;
 import org.kurodev.discord.message.command.Reactable;
 import org.kurodev.discord.util.Cache;
 import org.kurodev.discord.vote.Score;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 /**
  * @author kuro
  **/
+@AutoRegister
 public class MemeCommand extends GenericCommand implements Reactable {
     private static final Pattern IS_NUMERIC_REG = Pattern.compile("\\d+");
     private final Path memeFolder = Paths.get(Main.SETTINGS.getSetting(Setting.MEME_FOLDER));

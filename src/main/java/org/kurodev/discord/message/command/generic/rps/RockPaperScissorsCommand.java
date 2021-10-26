@@ -10,6 +10,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
+import org.kurodev.discord.message.command.AutoRegister;
 import org.kurodev.discord.message.command.generic.GenericCommand;
 import org.kurodev.config.Setting;
 import org.kurodev.discord.util.MarkDown;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 /**
  * @author kuro
  **/
+@AutoRegister
 public class RockPaperScissorsCommand extends GenericCommand {
     private static final List<RPSCondition> CONDITION_LIST = new ArrayList<>();
 

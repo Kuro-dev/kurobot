@@ -7,6 +7,7 @@ import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
+import org.kurodev.discord.message.command.AutoRegister;
 import org.kurodev.discord.util.Util;
 
 import java.io.File;
@@ -17,6 +18,7 @@ import java.nio.file.Paths;
 /**
  * @author kuro
  **/
+@AutoRegister
 public class MemeSubmissionCommand extends SubmissionCommand {
 
     public MemeSubmissionCommand() {

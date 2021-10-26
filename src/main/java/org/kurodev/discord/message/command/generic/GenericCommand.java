@@ -68,7 +68,6 @@ public abstract class GenericCommand implements Command {
     }
 
     protected void prepare(Options args) throws Exception {
-
     }
 
     protected String getSetting(Setting setting) {

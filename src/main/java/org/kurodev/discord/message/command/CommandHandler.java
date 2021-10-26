@@ -11,24 +11,23 @@ import org.jetbrains.annotations.NotNull;
 import org.kurodev.Main;
 import org.kurodev.config.Setting;
 import org.kurodev.discord.message.command.generic.HelpCommand;
-import org.kurodev.discord.message.command.generic.InspireCommand;
-import org.kurodev.discord.message.command.generic.MemeCommand;
 import org.kurodev.discord.message.command.generic.ShowActiveQuestsCommand;
-import org.kurodev.discord.message.command.generic.admin.*;
+import org.kurodev.discord.message.command.generic.admin.ExitCommand;
+import org.kurodev.discord.message.command.generic.admin.ReloadSettingsCommand;
+import org.kurodev.discord.message.command.generic.admin.RestartComputerCommand;
 import org.kurodev.discord.message.command.generic.admin.force.ForceAddInsultCommand;
-import org.kurodev.discord.message.command.generic.admin.force.ForceAddMemeCommand;
-import org.kurodev.discord.message.command.generic.rps.RockPaperScissorsCommand;
 import org.kurodev.discord.message.command.generic.submission.InsultSubmissionCommand;
-import org.kurodev.discord.message.command.generic.submission.MemeSubmissionCommand;
 import org.kurodev.discord.message.command.guild.RandomLineCommand;
-import org.kurodev.discord.message.command.guild.voice.LeaveCommand;
 import org.kurodev.discord.message.quest.Quest;
 import org.kurodev.discord.message.quest.QuestHandler;
 import org.kurodev.discord.util.handlers.TextSampleHandler;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,24 +49,16 @@ public class CommandHandler {
     public void prepare(Runnable additionalShutDownContext) {
         logger.info("initializing commands");
         final TextSampleHandler insults = new TextSampleHandler(Paths.get(Main.SETTINGS.getSetting(Setting.INSULT_FILE)));
-        commands.add(new InfoCommand());
         commands.add(new ExitCommand(additionalShutDownContext));
         commands.add(new RestartComputerCommand(additionalShutDownContext));
         commands.add(new ForceAddInsultCommand(insults));
-        commands.add(new ForceAddMemeCommand());
-        commands.add(new CheckSubmissionsCommand());
         commands.add(new ReloadSettingsCommand(commands));
         commands.add(new HelpCommand(commands));
-        commands.add(new MemeCommand());
         commands.add(new RandomLineCommand("insult", insults));
         commands.add(new InsultSubmissionCommand(insults));
-        commands.add(new MemeSubmissionCommand());
-        commands.add(new InspireCommand());
-        commands.add(new LeaveCommand());
-        commands.add(new RockPaperScissorsCommand());
         commands.add(new ShowActiveQuestsCommand(QUESTS));
-        commands.add(new ShowAdminsCommand());
-        commands.add(new TestCommand());
+        loadAutoRegisteredCommands();
+        logger.info("Loaded a total of {} commands", commands.size());
         List<Command> failed = new ArrayList<>();
         for (Command command : commands) {
             try {
@@ -82,7 +73,35 @@ public class CommandHandler {
         for (Command command : failed) {
             logger.info(command.getCommand());
         }
-        logger.info("initializing commands - DONE");
+    }
+
+    private void loadAutoRegisteredCommands() {
+        int autowired = 0;
+        logger.info("Loading autowired commands");
+        Reflections reflections = new Reflections("org.kurodev.discord.message.command");
+        var commands = reflections.getSubTypesOf(Command.class);
+        for (Class<? extends Command> com : commands) {
+            if (com.isAnnotationPresent(AutoRegister.class)) {
+                if (com.getAnnotationsByType(AutoRegister.class)[0].included())
+                    for (Constructor<?> constructor : com.getConstructors()) {
+                        if (constructor.getParameterCount() == 0) {
+                            try {
+                                Command obj = (Command) constructor.newInstance();
+                                boolean anyMatch = this.commands.stream().anyMatch(command -> command.getClass() == obj.getClass());
+                                if (!anyMatch) {
+                                    this.commands.add(obj);
+                                    autowired++;
+                                } else {
+                                    logger.info("autowired command {} was already registered.", obj);
+                                }
+                            } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                                logger.error("Failed to instantiate \"" + com + "\"", e);
+                            }
+                        }
+                    }
+            }
+        }
+        logger.info("Autowired {} commands", autowired);
     }
 
     public void handle(String command, MessageReceivedEvent event, String[] strArgs) {
