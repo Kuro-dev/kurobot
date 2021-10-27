@@ -24,6 +24,7 @@ import org.kurodev.discord.message.command.generic.submission.InsultSubmissionCo
 import org.kurodev.discord.message.command.guild.RandomLineCommand;
 import org.kurodev.discord.message.quest.Quest;
 import org.kurodev.discord.message.quest.QuestHandler;
+import org.kurodev.discord.util.MarkDown;
 import org.kurodev.discord.util.handlers.TextSampleHandler;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
@@ -143,14 +144,15 @@ public class CommandHandler {
             trigger, CommandLine args) {
         Quest q = Quest.simpleInstance(event -> {
             try {
-                if ("again".equals(event.getMessage().getContentDisplay()))
+                if ("again".equalsIgnoreCase(event.getMessage().getContentDisplay()))
                     com.execute(channel, args, trigger);
             } catch (IOException e) {
                 channel.sendMessage("Oops, something went wrong\n").queue();
             }
             return false;
         });
-        q.setTitle("\"again\" repeat quest");
+        q.setTitle("\"again\" repeat quest for " +
+                MarkDown.CODE.wrap(trigger.getMessage().getContentDisplay()));
         q.setOnUpdate(Quest.REFRESH_TIMER_ON_UPDATE);
         QUESTS.register(trigger, q);
     }
