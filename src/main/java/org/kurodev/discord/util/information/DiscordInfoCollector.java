@@ -1,18 +1,10 @@
 package org.kurodev.discord.util.information;
 
 import org.kurodev.discord.DiscordBot;
-import org.kurodev.discord.message.command.Command;
+import org.kurodev.discord.message.State;
 
-import java.util.List;
-
-public class DiscordInfoCollector {
+public record DiscordInfoCollector(DiscordBot bot) {
     private static DiscordInfoCollector instance;
-    private final DiscordBot bot;
-
-    private DiscordInfoCollector(DiscordBot bot) {
-
-        this.bot = bot;
-    }
 
     public static void createInstance(DiscordBot bot) {
         if (instance != null) {
@@ -26,7 +18,10 @@ public class DiscordInfoCollector {
     }
 
     public DiscordInfo collect() {
-        List<Command> commands = bot.getMessageEventHandler().getCommandHandler().getCommands();
-        return new DiscordInfo(commands);
+        return new DiscordInfo(bot);
+    }
+
+    public boolean isOnline() {
+        return bot.getMessageEventHandler().getState() == State.ONLINE;
     }
 }

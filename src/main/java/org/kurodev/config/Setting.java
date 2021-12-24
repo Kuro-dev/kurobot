@@ -18,6 +18,7 @@ public enum Setting {
     RPS_Outcomes_File("rps_outcomes", "./RPSOutcomes.json"),
     BOT_NAME("botName", "Kuro-Bot"),
     TOKEN("token", ""),
+    SCRIPT_LOCATION("script_location","./scripts")
     ;
 
     private final String key;

@@ -1,5 +1,6 @@
 package org.kurodev.discord.message.command;
 
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -13,6 +14,7 @@ import org.kurodev.discord.message.command.enums.CommandState;
 import org.kurodev.discord.message.command.enums.CommandType;
 
 import java.io.IOException;
+import java.util.EnumSet;
 
 /**
  * @author kuro
@@ -88,4 +90,8 @@ public interface Command extends Preparable {
     default boolean supportsChannel(ChannelType type) {
         return getType().supports(type);
     }
+
+    EnumSet<Permission> getPermissions();
+
+    String getFailReason();
 }

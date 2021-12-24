@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.kurodev.Main;
 import org.kurodev.discord.message.command.Preparable;
+import org.kurodev.discord.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,21 +26,6 @@ public class ConsoleCommandHandler implements Preparable {
 
     public ConsoleCommandHandler() {
         isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
-    }
-
-    private static List<String> partitionString(String string, final int partitionSize) {
-        List<String> parts = new ArrayList<>();
-        StringBuilder part = new StringBuilder(2000);
-        final int newLine = "\n".length();
-        string.lines().forEachOrdered(s -> {
-            if (part.length() + s.length() + newLine >= partitionSize) {
-                parts.add(part.toString());
-                part.delete(0, part.length());
-            }
-            part.append(s).append("\n");
-        });
-        parts.add(part.toString());
-        return parts;
     }
 
     public boolean check(MessageReceivedEvent event) {
@@ -77,7 +63,7 @@ public class ConsoleCommandHandler implements Preparable {
     }
 
     private void sendResponse(MessageChannel channel, String response, int exitCode) {
-        List<String> brokenDownResponse = partitionString(response, 1990);
+        List<String> brokenDownResponse = Util.partitionString(response, 1990);
         for (String string : brokenDownResponse) {
             channel.sendMessage("```\n").append(string).append("```").queue();
         }

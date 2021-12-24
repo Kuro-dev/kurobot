@@ -46,7 +46,7 @@ public class MessageEventHandler extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        if (state != State.RUNNING) {
+        if (state != State.ONLINE) {
             return;
         }
         if (event.getAuthor().isBot()) {
@@ -77,7 +77,7 @@ public class MessageEventHandler extends ListenerAdapter {
 
     @Override
     public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {
-        if (state != State.RUNNING) {
+        if (state != State.ONLINE) {
             return;
         }
         commandHandler.onMessageReactionAdd(event);
@@ -97,7 +97,7 @@ public class MessageEventHandler extends ListenerAdapter {
 
     @Override
     public void onMessageReactionRemove(@NotNull MessageReactionRemoveEvent event) {
-        if (state != State.RUNNING) {
+        if (state != State.ONLINE) {
             return;
         }
         commandHandler.onGuildMessageReactionRemove(event);
@@ -109,7 +109,7 @@ public class MessageEventHandler extends ListenerAdapter {
         initialize();
         jda.getPresence().setActivity(Activity.of(Activity.ActivityType.LISTENING, "!k help"));
         setName(jda);
-        setState(State.RUNNING);
+        setState(State.ONLINE);
     }
 
     private void setName(JDA jda) {

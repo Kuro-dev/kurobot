@@ -33,6 +33,7 @@ public abstract class GenericCommand implements Command {
     private final Options args = new Options();
     private final String command;
     private final CommandType type;
+    private String failReason = null;
     private CommandState state = CommandState.OFFLINE;
 
     public GenericCommand(String command, Permission... neededPermissions) {
@@ -56,11 +57,17 @@ public abstract class GenericCommand implements Command {
     }
 
     @Override
+    public EnumSet<Permission> getPermissions() {
+        return neededPermissions;
+    }
+
+    @Override
     public final void prepare() {
         setState(CommandState.INITIALIZING);
         try {
             prepare(args);
-            setState(CommandState.ONLINE);
+            if (state == CommandState.INITIALIZING)
+                setState(CommandState.ONLINE);
         } catch (Exception e) {
             setState(CommandState.FAILED);
             logger.error("Failed to initialize " + this, e);
@@ -122,6 +129,16 @@ public abstract class GenericCommand implements Command {
         state = newState;
     }
 
+    /**
+     * Used to make the command fail gracefully without the need to invoke an exception
+     *
+     * @param reason reason why the initialization failed
+     */
+    protected void setFailed(String reason) {
+        setState(CommandState.FAILED);
+        this.failReason = reason;
+    }
+
     @Override
     public final String getArgumentsAsString() {
         if (args.getOptions().isEmpty()) {
@@ -150,5 +167,10 @@ public abstract class GenericCommand implements Command {
     @Override
     public CommandType getType() {
         return type;
+    }
+
+    @Override
+    public String getFailReason() {
+        return failReason;
     }
 }

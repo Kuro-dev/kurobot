@@ -1,5 +1,6 @@
 package org.kurodev.discord.util.information;
 
+import net.dv8tion.jda.api.Permission;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.kurodev.discord.message.command.Command;
@@ -7,6 +8,7 @@ import org.kurodev.discord.message.command.enums.CommandState;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.List;
 
 public class CommandInformation {
@@ -17,9 +19,11 @@ public class CommandInformation {
     private final boolean needsAdmin;
     private final boolean hasReactAction;
     private final List<CommandArg> args;
+    private final EnumSet<Permission> requiredPerms;
 
     public CommandInformation(Command command) {
         this.command = command.getCommand();
+        this.requiredPerms = command.getPermissions();
         state = command.getState();
         args = convertArgs(command.getOptions());
         desc = command.getDescription();
@@ -71,5 +75,9 @@ public class CommandInformation {
 
     public List<CommandArg> getArgs() {
         return args;
+    }
+
+    public EnumSet<Permission> getRequiredPerms() {
+        return requiredPerms;
     }
 }

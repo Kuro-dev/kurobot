@@ -8,7 +8,7 @@ public class WebserverMain implements Runnable {
 
     @Override
     public void run() {
-        Class<?>[] classes = {RestController.class, WebConfig.class};
+        Class<?>[] classes = {DiscordInfoApi.class, WebConfig.class};
         webApp = SpringApplication.run(classes, new String[0]);
     }
 

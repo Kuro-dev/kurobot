@@ -20,6 +20,10 @@ public class MyStreamReader implements Runnable, Consumer<String> {
         this.msg = msg;
     }
 
+    public StringBuilder getMsg() {
+        return msg;
+    }
+
     public void setMsg(@NotNull StringBuilder msg) {
         this.msg = msg;
     }

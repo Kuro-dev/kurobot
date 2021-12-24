@@ -105,6 +105,7 @@ public class CommandHandler {
             logger.warn("Failed to initialize the following commands:");
             for (Command command : failed) {
                 logger.warn(command.getCommand());
+                logger.warn(command.getFailReason());
             }
         }
     }

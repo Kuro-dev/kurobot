@@ -114,6 +114,11 @@
             <artifactId>spring-boot-maven-plugin</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.6.2</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
